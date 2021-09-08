@@ -10,7 +10,7 @@ from loss_functions import mse, mse_prime
 
 
 #Configuration
-PATH = "../data/Finova2_combined_butter.npy"
+PATH = "../data/train.npy"
 EPOCHS2TRAIN = 50
 BATCHSIZE = 4
 TRAINON = 500 # or 'all'
