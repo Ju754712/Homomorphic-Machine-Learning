@@ -123,7 +123,7 @@ def convolution_kernel(input, weights, output, kernel, layer_depth, strides, dil
 
     # s_input = cuda.shared.array(shape=TPB)
     s_weights = cuda.shared.array(shape=kernel, dtype=float64)
-    s_weights = weights[:,d,k]
+    # s_weights = weights[:,d,k]
 
     #Absolute postion of thread in grid
     x = cuda.threadIdx.x
