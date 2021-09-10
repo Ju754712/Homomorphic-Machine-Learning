@@ -145,7 +145,7 @@ def convolution_kernel(input, weights, bias, output, kernel, layer_depth, stride
         i += 1
 
 
-def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
+def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block):
     input_length, input_depth = input.shape[0], input.shape[1]
     output_length = floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1
     output = np.zeros((output_length, layer_depth, input_depth))
