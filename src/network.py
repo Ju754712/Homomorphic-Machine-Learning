@@ -50,15 +50,16 @@ class Network:
             batches = int(samples/batch_size)
             bar = Bar('Processing Batch', max=batches)
             while j < batches:
+                time1 = time.time()
                 k = 0
                 error = 0
                 while k < batch_size:
                     output = x_train[j*batch_size+k]
                     for layer in self.layers:
-                        time1 = time.time()
+                   
                         output = layer.forward_propagation(output)
-                        time2 = time.time()
-                        print("Finished Layer in ", time2-time1)
+                    
+                    
 
                     # compute loss (for display purpose only)
                     err += self.loss(y_train[j*batch_size+k], output)
@@ -72,6 +73,8 @@ class Network:
                 for layer in reversed(self.layers):
                     error = layer.backward_propagation(error, learning_rate)
                 bar.next()
+                time2 = time.time()
+                print("batch processed in " time2-time1)
                 j+=1
             bar.finish()
             i+=1
