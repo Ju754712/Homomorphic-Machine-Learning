@@ -74,7 +74,7 @@ class Network:
                     error = layer.backward_propagation(error, learning_rate)
                 bar.next()
                 time2 = time.time()
-                print("batch processed in " time2-time1)
+                print("batch processed in ", time2-time1)
                 j+=1
             bar.finish()
             i+=1
