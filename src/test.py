@@ -32,4 +32,4 @@ time3 = time.time()
 print(time2-time1)
 print(time3-time2)
 
-print(output, output2)
+print(output-output2)
