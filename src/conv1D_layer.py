@@ -134,8 +134,8 @@ def convolution_kernel(input, weights, bias, output, kernel, layer_depth, stride
             tmp = weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
             output[i,k] += tmp               
         j +=1
-    if d == 0:
-        output[i,k] += bias[k]
+    # if d == 0:
+    #     output[i,k] += bias[k]
 
 
 def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
