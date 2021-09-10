@@ -156,9 +156,8 @@ def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilati
 
     output_global_mem = cuda.to_device(output)
 
-    tpb = 32
     bpg =  (input_depth, layer_depth)
-    convolution_kernel[bpg,tpb](input_global_mem, weights_global_mem, bias_global_mem, output_global_mem, kernel, layer_depth, strides, dilation, z_padding, padding)
+    convolution_kernel[bpg,threads_per_block](input_global_mem, weights_global_mem, bias_global_mem, output_global_mem, kernel, layer_depth, strides, dilation, z_padding, padding)
     output_d = output_global_mem.copy_to_host()
     output = np.sum(output_d, axis=2) + bias
     return output
