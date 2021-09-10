@@ -4,7 +4,7 @@ import time
 
 from conv1D_layer import convolution, convolution_cuda
 
-input_length = 100
+input_length = 10
 input_depth = 4
 kernel = 3
 layer_depth = 8
@@ -32,4 +32,4 @@ time3 = time.time()
 print(time2-time1)
 print(time3-time2)
 
-print(output[0], output2[0])
+print(output, output2)
