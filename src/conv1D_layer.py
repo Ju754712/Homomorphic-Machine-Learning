@@ -130,7 +130,7 @@ def convolution_kernel(input, weights, bias, output, kernel, layer_depth, stride
     offset = i*strides-padding
     j = 0
     while j < kernel:
-        if((offset+j*dilation)/(z_padding+1) in range(input.shape[0])):
+        if((offset+j*dilation)/(z_padding+1) < input_shape[0] and (offset+j*dilation)%(z_padding+1) == 0): #in range(input.shape[0])
             tmp = weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
             output[i,k] += tmp               
         j +=1
