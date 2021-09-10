@@ -5,9 +5,9 @@ import time
 from conv1D_layer import convolution, convolution_cuda
 
 input_length = 10000
-input_depth = 16
+input_depth = 128
 kernel = 3
-layer_depth = 32
+layer_depth = 128
 strides = 1
 dilation = 1
 padding = 0
@@ -26,7 +26,7 @@ output2 = convolution(input, weights, bias,  kernel, layer_depth, strides, dilat
 time1 = time.time()
 output2 = convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
 time2 = time.time()
-output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 128)
+output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 64)
 time3 = time.time()
 
 print(time2-time1)
