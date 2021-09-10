@@ -5,9 +5,9 @@ import time
 from conv1D_layer import convolution, convolution_cuda
 
 input_length = 100
-input_depth = 4
+input_depth = 1
 kernel = 3
-layer_depth = 8
+layer_depth = 1
 strides = 1
 dilation = 1
 padding = 0
