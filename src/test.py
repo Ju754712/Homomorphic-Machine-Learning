@@ -7,7 +7,7 @@ from conv1D_layer import convolution, convolution_cuda
 input_length = 10000
 input_depth = 1
 kernel = 3
-layer_depth = 1
+layer_depth = 8
 strides = 1
 dilation = 1
 padding = 0
