@@ -1,9 +1,9 @@
 from layer import Layer
 from scipy import signal
 import numpy as np
-from numba import njit
+from numba import njit, cuda
 from math import floor, ceil 
-from time import sleep
+import time
 
 ## Math behind this layer can found at : 
 ## https://medium.com/@2017csm1006/forward-and-backpropagation-in-convolutional-neural-network-4dfa96d7b37e
@@ -112,6 +112,49 @@ def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z
         i += 1
 
     return output
+
+@cuda.jit
+def convolution_kernel(input, weights, bias, output, kernel, layer_depth, strides, dilation, z_padding, padding):
+    # s_input = cuda.shared.array(shape=TPB)
+    # s_weights = cuda.shared.array(shape=kernel.shape)
+    # s_bias = cuda.shared.array(shape=bias.shape)
+
+    #Absolute postion of thread in grid
+    i = cuda.threadIdx.x
+    d = cuda.blockIdx.x
+    k = cuda.blockIdx.y
+
+    if i >= output.shape[0]:
+        # Quit if x is outside of of valid ouput boundary
+        return
+    offset = i*strides-padding
+    j = 0
+    while j < kernel:
+        if((offset+j*dilation)/(z_padding+1) in range(input.shape[0])):
+            tmp = weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
+            output[i,k] += tmp               
+        j +=1
+    output[i,k] += bias[k]
+
+
+def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
+    input_length, input_depth = input.shape[0], input.shape[1]
+    output_length = floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1
+    output = np.zeros((output_length, layer_depth))
+
+    input_global_mem = cuda.to_device(input)
+    weights_global_mem = cuda.to_device(weights)
+    bias_global_mem = cuda.to_device(bias)
+
+    output_global_mem = cuda.to_device(output)
+
+    tpb = output_length
+    bpg =  (input_depth, layer_depth)
+    convolution_kernel[bpg,tpb](input_global_mem, weights_global_mem, bias_global_mem, output_global_mem, kernel, layer_depth, strides, dilation, z_padding, padding)
+    output = output_global_mem.copy_to_host()
+    
+    return output
+
 
 
 

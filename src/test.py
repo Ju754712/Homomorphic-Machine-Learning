@@ -1,11 +1,33 @@
 from scipy import signal
 import numpy as np
-from conv1D_layer import Conv1DLayer, Conv1DTransposedLayer, convolution, compute_dWeights, compute_in_error
-from activation_layer import ActivationLayer
-from activation_functions import relu, relu_prime
-from fc_layer import FCLayer
-from dropout_layer import DropoutLayer
 import time
-from numba import cuda
 
-print(cuda.gpus)
+from conv1D_layer import convolution, convolution_cuda
+
+input_length = 1000
+input_depth = 16
+kernel = 3
+layer_depth = 32
+strides = 1
+dilation = 1
+padding = 0
+z_padding = 0
+a = 0
+
+
+input = np.random.rand(input_length,input_depth)
+weights = np.random.rand(kernel, input_depth, layer_depth)
+bias = np.random.rand(layer_depth)
+
+output = convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
+output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
+
+
+time1 = time.time()
+output = convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
+time2 = time.time()
+output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
+time3 = time.time()
+
+print(time2-time1)
+print(time3-time2)
