@@ -55,7 +55,10 @@ class Network:
                 while k < batch_size:
                     output = x_train[j*batch_size+k]
                     for layer in self.layers:
+                        time = time.time()
                         output = layer.forward_propagation(output)
+                        time2 = time.time()
+                        print("Finished Layer in ", time2-time)
 
                     # compute loss (for display purpose only)
                     err += self.loss(y_train[j*batch_size+k], output)
