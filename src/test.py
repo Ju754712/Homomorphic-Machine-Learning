@@ -4,7 +4,7 @@ import time
 
 from conv1D_layer import convolution, convolution_cuda
 
-input_length = 1000
+input_length = 75000
 input_depth = 16
 kernel = 3
 layer_depth = 32

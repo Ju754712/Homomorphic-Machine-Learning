@@ -106,9 +106,9 @@ def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z
                     k += 1                    
             j += 1
         k = 0
-        # while k < layer_depth:
-        #     output[i,k] += bias[k]
-        #     k += 1
+        while k < layer_depth:
+            output[i,k] += bias[k]
+            k += 1
         i += 1
 
     return output
@@ -160,7 +160,7 @@ def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilati
     bpg =  (input_depth, layer_depth)
     convolution_kernel[bpg,tpb](input_global_mem, weights_global_mem, bias_global_mem, output_global_mem, kernel, layer_depth, strides, dilation, z_padding, padding)
     output_d = output_global_mem.copy_to_host()
-    output = np.sum(output_d, axis=2)
+    output = np.sum(output_d, axis=2) + bias
     return output
 
 
