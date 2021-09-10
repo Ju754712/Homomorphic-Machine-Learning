@@ -4,11 +4,11 @@ import time
 
 from conv1D_layer import convolution, convolution_cuda
 
-input_length = 10000
-input_depth = 128
+input_length = 100000
+input_depth = 32
 kernel = 3
-layer_depth = 128
-strides = 1
+layer_depth = 32
+strides = 2
 dilation = 1
 padding = 0
 z_padding = 0
