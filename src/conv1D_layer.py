@@ -120,22 +120,29 @@ def convolution_kernel(input, weights, bias, output, kernel, layer_depth, stride
     # s_bias = cuda.shared.array(shape=bias.shape)
 
     #Absolute postion of thread in grid
-    i = cuda.threadIdx.x
+    x = cuda.threadIdx.x
     d = cuda.blockIdx.x
     k = cuda.blockIdx.y
+    tpb = cuda.blockDim.x
 
-    if i >= output.shape[0]:
-        # Quit if x is outside of of valid ouput boundary
-        return
-    offset = i*strides-padding
-    j = 0
-    while j < kernel:
-        if((offset+j*dilation)/(z_padding+1) < input.shape[0] and (offset+j*dilation)%(z_padding+1) == 0): #in range(input.shape[0])
-            tmp = weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
-            output[i,k] += tmp               
-        j +=1
-    if d == 0:
-        output[i,k] += bias[k]
+    thread_offset = -(-output.shape[0]//tpb)
+
+    i = x*thread_offset
+    while i < (x+1)* thread_offset:
+
+        if i >= output.shape[0]:
+            # Quit if x is outside of of valid ouput boundary
+            return
+        offset = i*strides-padding
+        j = 0
+        while j < kernel:
+            if((offset+j*dilation)/(z_padding+1) < input.shape[0] and (offset+j*dilation)%(z_padding+1) == 0): #in range(input.shape[0])
+                tmp = weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
+                output[i,k] += tmp               
+            j +=1
+        if d == 0:
+            output[i,k] += bias[k]
+        i += 1
 
 
 def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
@@ -149,7 +156,7 @@ def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilati
 
     output_global_mem = cuda.to_device(output)
 
-    tpb = output_length
+    tpb = 32
     bpg =  (input_depth, layer_depth)
     convolution_kernel[bpg,tpb](input_global_mem, weights_global_mem, bias_global_mem, output_global_mem, kernel, layer_depth, strides, dilation, z_padding, padding)
     output = output_global_mem.copy_to_host()

@@ -31,3 +31,5 @@ time3 = time.time()
 
 print(time2-time1)
 print(time3-time2)
+
+print(output[0], output2[0])
