@@ -20,10 +20,11 @@ weights = np.random.rand(kernel, input_depth, layer_depth)
 bias = np.random.rand(layer_depth)
 
 output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 32)
+output2 = convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
 
 
 time1 = time.time()
-output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 32)
+output2 = convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a)
 time2 = time.time()
 output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 64)
 time3 = time.time()
