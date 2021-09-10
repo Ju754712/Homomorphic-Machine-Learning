@@ -106,9 +106,9 @@ def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z
                     k += 1                    
             j += 1
         k = 0
-        while k < layer_depth:
-            output[i,k] += bias[k]
-            k += 1
+        # while k < layer_depth:
+        #     output[i,k] += bias[k]
+        #     k += 1
         i += 1
 
     return output
@@ -138,17 +138,17 @@ def convolution_kernel(input, weights, bias, output, kernel, layer_depth, stride
         while j < kernel:
             if((offset+j*dilation)/(z_padding+1) < input.shape[0] and (offset+j*dilation)%(z_padding+1) == 0): #in range(input.shape[0])
                 tmp = weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
-                output[i,k] += tmp               
+                output[i,k,d] += tmp               
             j +=1
-        if d == 0:
-            output[i,k] += bias[k]
+        # if d == 0:
+        #     output[i,k] += bias[k]
         i += 1
 
 
 def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
     input_length, input_depth = input.shape[0], input.shape[1]
     output_length = floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1
-    output = np.zeros((output_length, layer_depth))
+    output = np.zeros((output_length, layer_depth, input_depth))
 
     input_global_mem = cuda.to_device(input)
     weights_global_mem = cuda.to_device(weights)
@@ -159,8 +159,8 @@ def convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilati
     tpb = 32
     bpg =  (input_depth, layer_depth)
     convolution_kernel[bpg,tpb](input_global_mem, weights_global_mem, bias_global_mem, output_global_mem, kernel, layer_depth, strides, dilation, z_padding, padding)
-    output = output_global_mem.copy_to_host()
-    
+    output_d = output_global_mem.copy_to_host()
+    output = np.sum(output_d, axis=2)
     return output
 
 
