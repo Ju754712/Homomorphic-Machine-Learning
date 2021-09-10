@@ -25,7 +25,7 @@ output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, 
 time1 = time.time()
 output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 32)
 time2 = time.time()
-output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 16)
+output2 = convolution_cuda(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a, threads_per_block = 64)
 time3 = time.time()
 
 print(time2-time1)
