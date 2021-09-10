@@ -121,7 +121,7 @@ def convolution_kernel(input, weights, output, kernel, layer_depth, strides, dil
     k = cuda.blockIdx.y
     tpb = cuda.blockDim.x
 
-    # s_input = cuda.shared.array(shape=TPB)
+    s_input = input[:,d]
     s_weights = weights[:,d,k]
 
     #Absolute postion of thread in grid
@@ -142,7 +142,7 @@ def convolution_kernel(input, weights, output, kernel, layer_depth, strides, dil
         j = 0
         while j < kernel:
             if((offset+j*dilation)/(z_padding+1) < input.shape[0] and (offset+j*dilation)%(z_padding+1) == 0): #in range(input.shape[0])
-                tmp = s_weights[j] * input[int((offset+j*dilation)/(z_padding+1)),d]
+                tmp = s_weights[j] * s_input[int((offset+j*dilation)/(z_padding+1))]
                 output[i,k,d] += tmp               
             j +=1
         i += 1
