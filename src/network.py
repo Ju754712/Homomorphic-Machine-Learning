@@ -50,7 +50,6 @@ class Network:
             batches = int(samples/batch_size)
             bar = Bar('Processing Batch', max=batches)
             while j < batches:
-                time1 = time.time()
                 k = 0
                 error = 0
                 while k < batch_size:
@@ -73,8 +72,6 @@ class Network:
                 for layer in reversed(self.layers):
                     error = layer.backward_propagation(error, learning_rate)
                 bar.next()
-                time2 = time.time()
-                print("batch processed in ", time2-time1)
                 j+=1
             bar.finish()
             i+=1
