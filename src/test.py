@@ -2,7 +2,6 @@ from scipy import signal
 import numpy as np
 import time
 
-from conv1D_layer import convolution, convolution_cuda
 
 input_length = 100000
 input_depth = 32
