@@ -44,6 +44,8 @@ net.use(mse, mse_prime)
 print(x_train.shape)
 net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.1, batch_size = 1)
 
+net.save("mnist")
+
 # test on 3 samples
 out = net.predict(x_test[0:3])
 print("\n")

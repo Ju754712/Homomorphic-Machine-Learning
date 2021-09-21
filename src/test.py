@@ -1,14 +1,21 @@
 import tenseal as ts
-# Setup TenSEAL context
-context = ts.context(
-            ts.SCHEME_TYPE.CKKS,
-            poly_modulus_degree=8192,
-            coeff_mod_bit_sizes=[60, 40, 40, 60]
-          )
+import numpy as np
 
-# plain_vector = [60, 66, 73, 81, 90]
-# encrypted_vector = ts.bfv_vector(context, plain_vector)
+context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=4096, plain_modulus=1032193)
+context.generate_galois_keys()
 
-# add_result = encrypted_vector + [1, 2, 3, 4, 5]
-# print(add_result.decrypt())
 
+plain_vector = [60, 66, 73, 81, 90]
+
+encrypted_vector = ts.bfv_vector(context, plain_vector)
+
+weights = np.array([-50,-50,-50,-50,-50])
+bias = np.random.rand(2)
+
+result = encrypted_vector.dot(weights) 
+print(result.decrypt())
+
+
+weights = np.random.rand(5, 5) - 0.5
+
+print(weights)
