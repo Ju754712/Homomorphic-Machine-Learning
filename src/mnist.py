@@ -3,8 +3,8 @@ import numpy as np
 from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
-from activation_functions import tanh, tanh_prime
-from loss_functions import mse, mse_prime
+from activation_functions import tanh, tanh_prime, sigmoid, sigmoid_prime
+from loss_functions import mse, mse_prime, bce, bce_prime
 
 from keras.datasets import mnist
 from keras.utils import np_utils
@@ -36,13 +36,13 @@ net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
 net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(tanh, tanh_prime))
+net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
 # train on 1000 samples
 # as we didn't implemented mini-batch GD, training will be pretty slow if we update at each iteration on 60000 samples...
-net.use(mse, mse_prime)
+net.use(bce, bce_prime)
 print(x_train.shape)
-net.fit(x_train[0:10000], y_train[0:10000], epochs=50, learning_rate=0.1, batch_size = 1)
+net.fit(x_train[0:500], y_train[0:500], epochs=50, learning_rate=0.1, batch_size = 1)
 
 net.save("mnist")
 

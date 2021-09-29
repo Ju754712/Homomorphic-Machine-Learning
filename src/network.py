@@ -42,8 +42,8 @@ class Network:
         samples = len(x_train)
 
         # training loop
-        i = 0
-        while i < epochs:
+        i = 1
+        while i <= epochs:
             print("Epoch ",i)
             err = 0
             j = 0
@@ -55,16 +55,12 @@ class Network:
                 while k < batch_size:
                     output = x_train[j*batch_size+k]
                     for layer in self.layers:
-                   
                         output = layer.forward_propagation(output)
-                    
-                    
-
-                    # compute loss (for display purpose only)
+                        # compute loss (for display purpose only)
                     err += self.loss(y_train[j*batch_size+k], output)
                     # Compute Gradient
                     error += self.loss_prime(y_train[j*batch_size+k], output)
-
+                    # print("True: ", y_train[j*batch_size+k], ", Pred: ", output, ", Loss: ", self.loss(y_train[j*batch_size+k], output), ", output_error: ", self.loss_prime(y_train[j*batch_size+k], output))
                     k+=1
                 # Average Gradient
                 error = error/batch_size
@@ -80,7 +76,7 @@ class Network:
 
             # calculate average error on all samples
             err /= samples
-            print('epoch %d/%d   error=%f' % (i+1, epochs, err))
+            print('epoch %d/%d   error=%f' % (i-1, epochs, err))
 
     def showcase(self):
         for layer in self.layers:

@@ -1,6 +1,6 @@
 from layer import Layer
-from schemes.bfv import mul_plain, add_plain
 import numpy as np
+from schemes.more import MoreScheme
 
 # inherit from base class Layer
 class FCLayer(Layer):
@@ -35,9 +35,15 @@ class BFV_FCLayer(Layer):
         self.weights = np.random.rand(input_size, output_size) - 0.5
         self.bias = np.random.rand(1, output_size) -0.5
 
-    def forward_propagation(self, input_data):
+    def forward_propagation(self, input_vector):
         # Decomposition of dot product, where addition and multiplication are exchanged with plain arithmetics for bfv
-        output
+        i = 0
+        enc_channels = []
+        while i < output_size:
+            y = input_vector.dot(weights[:,i])
+            enc_channels.append(y)
+        self.output = ts.BFVVector.pack_vectors(enc_channels)
+
 
     def backward_propagation(self, output_error, learning_rate):
         input_error = np.dot(output_error, self.weights.T)
@@ -48,6 +54,24 @@ class BFV_FCLayer(Layer):
         self.weights -= learning_rate * weights_error
         self.bias -= learning_rate * output_error
         return input_error
+
+class MORE_FCLayer(Layer):
+    def __init__(self, input_size, output_size, more):
+        self.weights = np.zeros((input_size, output_size), dtype = object)  
+        self.bias = np.zeros((1, output_size), dtype = object)   
+    def forward_propagation(self, input_data):
+        self.input = input_data
+        self.output = np.zeros((1,self.weights.shape[1]),dtype=object)
+        i = 0
+        while i < self.weights.shape[1]:
+            j = 0 
+            while j < self.input.shape[1]:
+                self.output[0,i] += np.matmul(self.input[0,j], self.weights[j,i])
+                j+=1
+            self.output[0,i] += self.bias[0,i]
+            i+=1
+        return self.output
+
 
 
 def dot_wb(input, weights, bias):
