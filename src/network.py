@@ -3,7 +3,7 @@ from progress.bar import Bar
 import time
 import pickle
 import traceback
-
+import random
 
 class Network:
     def __init__(self):
@@ -37,13 +37,21 @@ class Network:
         return result
 
     # train the network
-    def fit(self, x_train, y_train, epochs, batch_size, learning_rate):
+    def fit(self, x_train, y_train, epochs, batch_size, learning_rate, shuffle = True, adaptive=False):
         # sample dimension first
         samples = len(x_train)
 
         # training loop
         i = 1
         while i <= epochs:
+            if shuffle:
+                idxs = [i for i in range(len(x_train))]
+                random.shuffle(idxs)
+                x_train = x_train[idxs]
+                y_train = y_train[idxs]
+            if adaptive:
+                learning_rate = learning_rate*(1-adaptive)
+                print(learning_rate)
             print("Epoch ",i)
             err = 0
             j = 0

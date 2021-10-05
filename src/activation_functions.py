@@ -1,4 +1,7 @@
 import numpy as np
+from scipy.linalg import expm
+from mpmath import *
+mp.dps=300
 
 # activation function and its derivative
 def tanh(x):
@@ -24,3 +27,43 @@ def sigmoid(x):
 def sigmoid_prime(x):
     f = sigmoid(x)
     return f * (1-f)
+
+def sigmoid_ckks(x):
+    # We use the polynomial approximation of degree 3
+    # sigmoid(x) = 0.5 + 0.197 * x - 0.004 * x^3
+    # from https://eprint.iacr.org/2018/462.pdf
+    # which fits the function pretty well in the range [-5,5]
+    return x.polyval([0.5, 0.197 , 0 , 0.004])
+
+def sigmoid_prime_ckks(x):
+    return x.polyval([0.196,0,-0.012])
+
+def sigmoid_more(x):
+    ind = list(np.ndenumerate(x))
+    i = 0
+    while i < len(ind):
+        index = ind[i][0]
+        l,v = np.linalg.eig(-x[index])
+        l_f = np.diag(np.exp(l))
+        c_exp = np.matmul(v,np.matmul(l_f, np.linalg.inv(v)))
+        idn = np.identity(2)
+        r = np.matmul(idn, np.linalg.inv(idn+c_exp))
+        x[index] = r
+        i+=1
+    return x
+
+def sigmoid_prime_more(x):
+    f = sigmoid_more(x)
+    ind = list(np.ndenumerate(x))
+    i = 0
+
+    while i < len(ind):
+        index = ind[i][0]
+        print(index)
+        x = np.identity(2)-f[index]
+        print(f[index], x)
+        f[index] = np.matmul(f[index],x)
+        i += 1
+    return f
+
+

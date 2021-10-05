@@ -23,10 +23,10 @@ def heart_disease_data():
     data = data.dropna()
     # drop some features
     data = data.drop(columns=["education", "currentSmoker", "BPMeds", "diabetes", "diaBP", "BMI"])
-    print(data['TenYearCHD'].value_counts())
     # balance data
     grouped = data.groupby('TenYearCHD')
     data = grouped.apply(lambda x: x.sample(grouped.size().min(), random_state=73).reset_index(drop=True))
+    print(data['TenYearCHD'].value_counts())
     # extract labels
     # y = torch.tensor(data["TenYearCHD"].values).float().unsqueeze(1)
     y = np.array(data["TenYearCHD"].values, dtype=float)[:,None, None]
