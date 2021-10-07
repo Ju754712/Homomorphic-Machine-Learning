@@ -9,13 +9,14 @@ from activation_functions import sigmoid, sigmoid_prime, tanh, tanh_prime
 
 import tenseal as ts
 from schemes.more import MoreScheme
+import csv
 
 # Generate data 
 
 x_train, y_train, x_test, y_test = heart_disease_data()
 input_size, output_size = x_train.shape[2], y_train.shape[2]
 
-import csv
+
 
 with open('lin_reg.csv', 'w', newline='') as csvfile:
     fieldnames = ['PlainOutput', 'BFVOutput', 'CKKSOutput', 'MOREOutput', 'BFVOutput_Enc', 'CKKSOutput_Enc', 'MOREOutput_Enc', 'Plain_Time', 'BFV_Time', 'CKKS_Time', 'MORE_Time', 'BFV_Enc_Time', 'CKKS_Enc_Time', 'MORE_Enc_Time']
@@ -45,7 +46,7 @@ with open('lin_reg.csv', 'w', newline='') as csvfile:
     context_ckks.global_scale = 2**21
 
     # More scheme
-
+    print('TTTESST')
     more = MoreScheme(N=40000)
 
     # Iterate over whole data set for K iterations
