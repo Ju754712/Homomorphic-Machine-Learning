@@ -27,6 +27,8 @@ def sigmoid(x):
 def sigmoid_prime(x):
     f = sigmoid(x)
     return f * (1-f)
+def sigmoid_bfv(x):
+    return x.polyval([0.5, 0.197 , 0 , 0.004])
 
 def sigmoid_ckks(x):
     # We use the polynomial approximation of degree 3
@@ -34,6 +36,9 @@ def sigmoid_ckks(x):
     # from https://eprint.iacr.org/2018/462.pdf
     # which fits the function pretty well in the range [-5,5]
     return x.polyval([0.5, 0.197 , 0 , 0.004])
+
+def sigmoid_prime_bfv(x):
+    return x.polyval([0.196,0,-0.012])
 
 def sigmoid_prime_ckks(x):
     return x.polyval([0.196,0,-0.012])

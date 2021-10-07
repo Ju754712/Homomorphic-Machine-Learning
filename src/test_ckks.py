@@ -92,3 +92,11 @@ weights_error = np.dot(input, output_error)
 print(weights_error)
 weights_error = input_vector*enc_o
 print(weights_error.decrypt())
+
+
+    # The symmetric encryption creates smaller contexts than the public key ones.
+    # Decreasing the length of the coefficient modulus decreases the size of the context but also the depth of available multiplications.
+    # Decreasing the coefficient modulus sizes reduces the context size, but impacts the precision as well (for CKKS).
+    # Galois keys increase the context size only for public contexts (without the secret key). Send them only when you need to perform ciphertext rotations on the other end.
+    # Relinearization keys increase the context size only for public contexts. Send them only when you need to perform multiplications on ciphertexts on the other end.
+    # When we send the secret key, the Relinearization/Galois key can be regenerated on the other end without sending them.
