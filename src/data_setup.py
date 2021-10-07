@@ -19,6 +19,7 @@ def split_train_test(x, y, test_ratio=0.1):
 
 def heart_disease_data():
     data = pd.read_csv("./data/framingham.csv")
+    print('test')
     # drop rows with missing values
     data = data.dropna()
     # drop some features
