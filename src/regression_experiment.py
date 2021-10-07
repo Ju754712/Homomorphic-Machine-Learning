@@ -17,13 +17,13 @@ x_train, y_train, x_test, y_test = heart_disease_data()
 input_size, output_size = x_train.shape[2], y_train.shape[2]
 
 
-
+print('T')
 with open('lin_reg.csv', 'w', newline='') as csvfile:
     fieldnames = ['PlainOutput', 'BFVOutput', 'CKKSOutput', 'MOREOutput', 'BFVOutput_Enc', 'CKKSOutput_Enc', 'MOREOutput_Enc', 'Plain_Time', 'BFV_Time', 'CKKS_Time', 'MORE_Time', 'BFV_Enc_Time', 'CKKS_Enc_Time', 'MORE_Enc_Time']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     writer.writeheader()
-
+    print("Test")
 
     ## Define Cryptosystems
 
