@@ -2,6 +2,7 @@
 import pandas as pd
 import random
 from time import time
+import torch
 import numpy as np
 
 # those are optional and are not necessary for training
@@ -18,9 +19,7 @@ def split_train_test(x, y, test_ratio=0.1):
 
 
 def heart_disease_data():
-    print('test')
     data = pd.read_csv("./data/framingham.csv")
-    print('test')
     # drop rows with missing values
     data = data.dropna()
     # drop some features
@@ -71,5 +70,5 @@ def random_data(m=1024, n=2):
     x_test = torch.randn(m // 2, n)
     y_train = (x_train[:, 0] >= x_train[:, 1]).float().unsqueeze(0).t()
     y_test = (x_test[:, 0] >= x_test[:, 1]).float().unsqueeze(0).t()
-    return x_train, y_train, x_test, y_test
+    return np.expand_dims(x_train.cpu().detach().numpy(), axis=1), np.expand_dims(y_train.cpu().detach().numpy(), axis=1), np.expand_dims(x_test.cpu().detach().numpy(), axis=1), np.expand_dims(y_test.cpu().detach().numpy(), axis=1)
 

@@ -120,9 +120,9 @@ class FCLayer(Layer):
         # dBias = output_error
 
         # update parameters
-        # self.weights -= learning_rate * weights_error
-        # self.bias -= learning_rate * output_error
-        return input_error, weights_error
+        self.weights -= learning_rate * weights_error
+        self.bias -= learning_rate * output_error
+        return input_error
     def backward_propagation_ckks(self, output_error, learning_rate):
         input_error = np.zeros(self.input.shape, dtype = object)
         weights_error = np.zeros(self.weights_ckks.shape, dtype = object)

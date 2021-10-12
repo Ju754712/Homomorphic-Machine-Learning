@@ -37,7 +37,7 @@ class Network:
         return result
 
     # train the network
-    def fit(self, x_train, y_train, epochs, batch_size, learning_rate, shuffle = True, adaptive=False):
+    def fit(self, x_train, y_train, epochs, batch_size, learning_rate, shuffle = False, adaptive=False):
         # sample dimension first
         samples = len(x_train)
 
@@ -68,7 +68,6 @@ class Network:
                     err += self.loss(y_train[j*batch_size+k], output)
                     # Compute Gradient
                     error += self.loss_prime(y_train[j*batch_size+k], output)
-                    # print("True: ", y_train[j*batch_size+k], ", Pred: ", output, ", Loss: ", self.loss(y_train[j*batch_size+k], output), ", output_error: ", self.loss_prime(y_train[j*batch_size+k], output))
                     k+=1
                 # Average Gradient
                 error = error/batch_size
