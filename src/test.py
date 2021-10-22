@@ -1,10 +1,19 @@
-import csv
+from schemes.more import MoreScheme
+import numpy as np
+from mpmath import *
+from activation_functions import tanh_more, tanh, sigmoid, sigmoid_more
+# mp.dps=300000
+a =  3
+more = MoreScheme(1000)
+c=more.encrypt(a)
 
-with open('names.csv', 'w', newline='') as csvfile:
-    fieldnames = ['first_name', 'last_name']
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+c_a = np.zeros((1,1), dtype = object)
+c_a[0,0] = c
 
-    writer.writeheader()
-    writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
-    writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
-    writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+r = tanh_more(c_a)
+s = sigmoid_more(c_a)
+print(more.decrypt(r[0,0]))
+print(tanh(a))
+
+# print(more.decrypt(s[0,0]))
+# print(sigmoid(a))

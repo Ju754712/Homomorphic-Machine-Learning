@@ -2,3 +2,4 @@ data/
 src/__pycache__/
 src/schemes/__pycache__
 node_modules
+src/csv

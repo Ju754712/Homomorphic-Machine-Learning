@@ -6,7 +6,8 @@ class MoreScheme:
         self.N = N        
         det = 0
         while det == 0:    
-            k = np.random.randint(self.N, size=(2,2))
+            # k = np.random.randint(self.N, size=(2,2))
+            k = np.random.rand(2,2)
             det = np.linalg.det(k)
         self.key = k
         print("Generated key for N = ", self.N)
