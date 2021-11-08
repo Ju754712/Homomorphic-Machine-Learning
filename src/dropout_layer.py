@@ -14,6 +14,13 @@ class DropoutLayer(Layer):
         self.mask = np.random.binomial(1,1-self.rate,input.shape) / (1-self.rate)
         return self.mask * input 
 
+    def forward_propagation_more(self, input):
+        print(input.shape)
+        self.mask = np.random.binomial(1,1-self.rate,input.shape) / (1-self.rate)
+        print(self.mask.shape)
+        return self.mask * input 
+        
+
     # computes dE/dW, dE/dB for a given output_error=dE/dY. Returns input_error=dE/dX.
     def backward_propagation(self, output_error, learning_rate):
         return self.mask * output_error 

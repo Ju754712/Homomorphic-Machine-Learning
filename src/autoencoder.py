@@ -10,14 +10,15 @@ from loss_functions import mse, mse_prime
 
 
 #Configuration
-PATH = "../data/train.npy"
+PATH = "./src/data/train.npy"
 EPOCHS2TRAIN = 50
 BATCHSIZE = 4
-TRAINON = 500 # or 'all'
+TRAINON = 999 # or 'all'
 
 #Load Input 
 data = np.load(PATH, mmap_mode='r')
-train_data = data[0:TRAINON]
+print(data.shape)
+train_data = data
 test_data = data[TRAINON:TRAINON+10]
 
 
@@ -31,19 +32,14 @@ net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
 net.add(Conv1DTransposedLayer(input_shape = (37500,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
 net.add(ActivationLayer(activation=relu, activation_prime=relu_prime))
 net.add(DropoutLayer(rate=0.2))
-net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
+net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=1, strides=2, padding='same', a=1))
 net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
 
 #train
 net.use(loss=mse, loss_prime=mse_prime)
 net.fit(train_data, train_data, epochs=EPOCHS2TRAIN, batch_size = BATCHSIZE, learning_rate=0.2)
-out = net.predict(test_data)
-
-for i in range(len(out)):
-    print(mse(out[i], test_data[i]))
-
-net.save("test")
 
 
-#i:  149995  k:  0  j:  6  d:  0  input_ind:  74999
+net.save("src/params/autoencoder")
+
 

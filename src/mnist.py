@@ -1,9 +1,9 @@
-import numpy as np
+
 
 from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
-from activation_functions import tanh, tanh_prime, sigmoid, sigmoid_prime, square, square_prime
+from activation_functions import tanh, tanh_prime, sigmoid, sigmoid_prime, square, square_prime,tanh_more, tanh_prime_more
 from loss_functions import mse, mse_prime, bce, bce_prime
 
 from keras.datasets import mnist
@@ -30,23 +30,44 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 # Network
+# net = Network()
+# net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+# net.add(ActivationLayer(tanh, tanh_prime))
+# net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+# net.add(ActivationLayer(tanh, tanh_prime))
+# net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+# net.add(ActivationLayer(tanh, tanh_prime))
+# # train on 1000 samples
+# net.use(mse, mse_prime)
+# print(x_train.shape)
+# net.fit(x_train, y_train, epochs=10, learning_rate=0.1, batch_size = 8)
+
+# net.save("mnist_tanh")
+
+# net = Network()
+# net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+# net.add(ActivationLayer(sigmoid, sigmoid_prime))
+# net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+# net.add(ActivationLayer(sigmoid, sigmoid_prime))
+# net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+# net.add(ActivationLayer(sigmoid, sigmoid_prime))
+
+# net.use(bce, bce_prime)
+
+# net.fit(x_train, y_train, epochs=10, learning_rate=0.1, batch_size = 8)
+
+# net.save("mnist_sigmoid")
+
 net = Network()
 net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
 net.add(ActivationLayer(square, square_prime))
 net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
 net.add(ActivationLayer(square, square_prime))
 net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(square, square_prime))
-# train on 1000 samples
-# as we didn't implemented mini-batch GD, training will be pretty slow if we update at each iteration on 60000 samples...
-net.use(mse, mse_prime)
-print(x_train.shape)
-net.fit(x_train[0:1000], y_train[0:1000], epochs=20, learning_rate=0.1, batch_size = 1)
+net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
-net.save("mnist")
+net.use(bce, bce_prime)
 
-# test on 3 samples
+net.fit(x_train[0:10000], y_train[0:10000], epochs=20, learning_rate=0.1, batch_size = 8)
 
-out = net.predict(x_test[0:100])
-correct = np.abs(out-y_test[0:100]) < 0.5
-print(np.mean(correct.astype(float)))
+net.save("mnist_square")

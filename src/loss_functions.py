@@ -19,3 +19,9 @@ def bce_prime(y_true, y_pred):
     loss = y_true*(y_pred-1)+(1-y_true)*y_pred
     loss /= y_true.size
     return loss
+
+def mse_more(y_true, y_pred):
+    return 0
+
+def mse_prime_more(y_true, y_pred):
+    return 2/y_true.size*(y_pred-y_true)

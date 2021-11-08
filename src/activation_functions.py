@@ -1,7 +1,9 @@
 import numpy as np
 from scipy.linalg import expm
 from mpmath import *
+from progress.bar import Bar
 mp.dps=300000000
+from numba import njit
 
 # activation function and its derivative
 ## Hyperbolic Tangens
@@ -17,31 +19,55 @@ def tanh_ckks(x):
 
 def tanh_prime_ckks(x):
     return x
-
+@njit
 def tanh_more(x):
     ind = list(np.ndenumerate(x))
-    r = np.zeros(x.shape, dtype=object)
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
     i = 0
     while i < len(ind):
         index = ind[i][0]
-        l,v = np.linalg.eig(-2*x[index])
-        l_f = np.diag(np.exp(l))
-        c_exp = np.matmul(v,np.matmul(l_f, np.linalg.inv(v)))
-        idn = np.identity(2)
-        inv = idn+c_exp
-        if np.linalg.det(inv) == 0:
-            r = "overflow"
-        else:
-            r[index] = np.matmul(2*idn, np.linalg.inv(idn+c_exp))-idn
+        try:
+            l,v = np.linalg.eig(-2*x[(index[0],index[1])])
+            l_f = np.diag(np.exp(l))
+            c_exp = matmul(v,matmul(l_f, np.linalg.inv(v)))
+            idn = np.identity(2)
+            inv = idn+c_exp
+            if np.linalg.det(inv) == 0:
+                r[(index[0],index[1])] = idn*0 # "overflow"
+            else:
+                r[(index[0],index[1])] = matmul(2*idn, np.linalg.inv(idn+c_exp))-idn
+        except np.linalg.LinAlgError:
+            r[(index[0],index[1])] = idn*0
+
         i+=1
     return r
-
-def tanh_prime_more(x):
-    return x
 ## ReLU
 
 def relu(x):
     return np.maximum(0,x)
+
+def relu_approx(x):
+    #return -0.012*x**2 + 0.394
+    return x**2 + x
+@njit
+def relu_more(x):
+    ind = list(np.ndenumerate(x))
+    i = 0
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
+    while i < len(ind):
+        index = ind[i][0]
+        q = matmul(x[(index[0],index[1])], x[(index[0], index[1])])
+        l,v = np.linalg.eig(q)
+
+        l_f = np.diag(np.sqrt(l))
+        c= matmul(v,matmul(l_f, np.linalg.inv(v)))
+
+        r[(index[0],index[1])] = 1/2*(x[(index[0],index[1])]+c)
+        i +=1
+    return r
+
+
+
 
 def relu_prime(x):
     x[x<=0] = 0
@@ -83,7 +109,7 @@ def sigmoid_more(x):
         idn = np.identity(2)
         inv = idn+c_exp
         if np.linalg.det(inv) == 0:
-            r = "overflow"
+            r[index] = idn*0
         else:
             r[index] = np.matmul(idn, np.linalg.inv(inv))
         i+=1
@@ -134,3 +160,12 @@ def square_more(x):
 
 def square_prime_more(x):
     return 2*x
+
+@njit
+def matmul(x,y):
+    r = np.zeros((x.shape[0], y.shape[1]))
+    for i in range(r.shape[0]):
+        for j in range(r.shape[1]):
+            for k in range(x.shape[1]):
+                r[i,j] += x[i,k]*y[k,j]
+    return r

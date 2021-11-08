@@ -165,9 +165,9 @@ class FCLayer(Layer):
                 j += 1
             i += 1
 
-        # self.weights_more -= learning_rate * weights_error
-        # self.bias_more -= learning_rate * output_error
-        return input_error, weights_error
+        self.weights_more -= learning_rate * weights_error
+        self.bias_more -= learning_rate * output_error
+        return input_error
 
 
 
