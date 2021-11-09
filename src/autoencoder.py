@@ -32,8 +32,9 @@ net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
 net.add(Conv1DTransposedLayer(input_shape = (37500,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
 net.add(ActivationLayer(activation=relu, activation_prime=relu_prime))
 net.add(DropoutLayer(rate=0.2))
-net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=1, strides=2, padding='same', a=1))
+net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
 net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
+net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
 
 #train
 net.use(loss=mse, loss_prime=mse_prime)

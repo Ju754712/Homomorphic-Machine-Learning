@@ -36,7 +36,7 @@ def tanh_more(x):
                 r[(index[0],index[1])] = idn*0 # "overflow"
             else:
                 r[(index[0],index[1])] = matmul(2*idn, np.linalg.inv(idn+c_exp))-idn
-        except np.linalg.LinAlgError:
+        except:
             r[(index[0],index[1])] = idn*0
 
         i+=1
@@ -55,14 +55,18 @@ def relu_more(x):
     i = 0
     r = np.zeros((x.shape[0],x.shape[1],2,2))
     while i < len(ind):
-        index = ind[i][0]
-        q = matmul(x[(index[0],index[1])], x[(index[0], index[1])])
-        l,v = np.linalg.eig(q)
+        try:
+            index = ind[i][0]
+            q = matmul(x[(index[0],index[1])], x[(index[0], index[1])])
+            l,v = np.linalg.eig(q)
 
-        l_f = np.diag(np.sqrt(l))
-        c= matmul(v,matmul(l_f, np.linalg.inv(v)))
+            l_f = np.diag(np.sqrt(l))
+            c= matmul(v,matmul(l_f, np.linalg.inv(v)))
 
-        r[(index[0],index[1])] = 1/2*(x[(index[0],index[1])]+c)
+            r[(index[0],index[1])] = 1/2*(x[(index[0],index[1])]+c)
+        except: 
+            idn = np.identity(2)
+            r[(index[0],index[1])] = idn*0
         i +=1
     return r
 
