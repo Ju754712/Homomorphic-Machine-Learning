@@ -70,6 +70,7 @@ class Conv1DLayer(Layer):
     # returns output for a given input
     def forward_propagation(self, input):
         self.input = input
+        self.output = np.zeros((floor((input.shape[0]+2*self.p+(input.shape[0]-1)*0+0-(self.kernel+(self.kernel-1)*(1-1)))/self.strides)+1,self.layer_depth))
         self.output = convolution(input = self.input, weights = self.weights, bias = self.bias, layer_depth = self.layer_depth, kernel = self.kernel, strides = self.strides, dilation = 1, z_padding = 0, padding = self.padding, a = 0) 
         return self.output
     
@@ -161,7 +162,7 @@ class Conv1DTransposedLayer(Layer):
     # returns output for a given input
     def forward_propagation(self, input):
         self.input = input
-        self.output = np.zeros((floor((input.shape[0]+2*self.padding+(input.shape[0]-1)*self.z_padding+self.a-(self.kernel+(self.kernel-1)*(self.dilation-1)))/self.strides)+1,self.layer_depth))
+        self.output = np.zeros((floor((input.shape[0]+2*self.p+(input.shape[0]-1)*self.z_padding+self.a-(self.kernel+(self.kernel-1)*(1-1)))/1)+1,self.layer_depth))
         convolution_cuda(input = self.input, output=self.output, weights = self.weights, bias = self.bias,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
         return self.output
     def forward_propagation_bfv(self, input):
