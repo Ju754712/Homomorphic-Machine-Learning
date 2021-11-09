@@ -1,7 +1,7 @@
 from layer import Layer
 from scipy import signal
 import numpy as np
-from numba import njit, jit
+from numba import njit, cuda
 from numba.types import pyobject
 from math import floor, ceil 
 import time
@@ -161,7 +161,8 @@ class Conv1DTransposedLayer(Layer):
     # returns output for a given input
     def forward_propagation(self, input):
         self.input = input
-        self.output= convolution(input = self.input, weights = self.weights, bias = self.bias,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
+        self.output = np.zeros((floor((input.shape[0]+2*self.padding+(input.shape[0]-1)*self.z_padding+self.a-(self.kernel+(self.kernel-1)*(self.dilation-1)))/self.strides)+1,self.layer_depth))
+        convolution_cuda(input = self.input, output=self.output, weights = self.weights, bias = self.bias,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
         return self.output
     def forward_propagation_bfv(self, input):
         self.input = input
@@ -211,6 +212,31 @@ def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z
         i += 1
 
     return output
+@cuda.jit
+def convolution_cuda(input, output, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
+    i = 0
+    while i < output.shape[0]:                   
+        offset = i*strides-padding  
+        j = 0
+        while j < kernel:
+            if((offset+j*dilation)/(z_padding+1) in range(input.shape[0])):
+                k = 0
+                while k < layer_depth:
+                    d = 0
+                    while d < input.shape[1]:
+                        output[i,k] += weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
+                        d += 1
+                    k += 1                    
+            j += 1
+        k = 0
+        while k < layer_depth:
+            output[i,k] += bias[k]
+            k += 1
+        i += 1
+
+    return output
+
+
 
 def convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
     input_length = input.shape[0]
