@@ -53,7 +53,7 @@ if __name__ == "__main__":
     PATH = "./src/data/train.npy"
     ERROR_SAVE_NAME = "./src"
     EXP = 'Finova2'
-    EPOCHS2TRAIN = 1
+    EPOCHS2TRAIN = 50
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
@@ -117,8 +117,6 @@ if __name__ == "__main__":
     net.save("./src/params/autoencoder")
     # model = keras.models.load_model('/hpcwork/mu637455/Code/Autoencoder/')
 
-    res = net.predict(data[0:1])
-    print(np.mean(data[0]),res[0])
     # err_data = [] # error array
     # pred = [] # predictions array  
 
