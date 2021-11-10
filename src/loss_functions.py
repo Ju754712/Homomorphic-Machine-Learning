@@ -4,7 +4,10 @@ from mpmath import *
 mp.dps=300000
 # loss function and its derivative
 def mse(y_true, y_pred):
-    return np.mean(np.power(y_true-y_pred, 2));
+    try:
+        return np.mean(np.power(y_true-y_pred, 2))
+    except:
+        return 0
     
 
 def mse_prime(y_true, y_pred):

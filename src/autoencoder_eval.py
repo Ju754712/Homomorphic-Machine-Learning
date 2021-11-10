@@ -39,7 +39,7 @@ net_more.layers[-1].encrypt_params_more(more)
 net_more.add(ActivationLayer(activation=relu_more, activation_prime=relu_prime))
 
 #Remove Decoder Levels
-for i in reversed(range(5,10)):
+for i in reversed(range(5,11)):
     net_plain.remove(i)
 #Remove Dropout Layer
 net_plain.remove(2)
@@ -67,7 +67,7 @@ for i in range(len(more_output)):
 for i in range(len(more_output_dec)):
     # Compute MSE
     more_output_dec[i] = np.nan_to_num(more_output_dec[i])
-    print(mse(more_output_dec[i]-plain_output[i]))
+    print(mse(plain_output[i], more_output_dec[i]))
 
 
 
@@ -124,8 +124,6 @@ for i in range(len(more_output)):
             enc[j,k] = more.decrypt(more_output[i][j,k])
     more_output_dec.append(enc)
 
-for i in range(len(more_output)):
-    np.nan_to_num(more_output_dec[i])
-    print(np.average(more_output_dec[i]-plain_output[i]))
-    print(np.max(more_output_dec[i]-plain_output[i]))
-    print(more_output_dec[i][0:10][0:10])
+for i in range(len(more_output_dec)):
+    more_output_dec = np.nan_to_num(more_output_dec[i])
+    print(mse(plain_output[i], more_output_dec[i]))
