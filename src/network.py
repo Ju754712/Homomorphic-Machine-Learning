@@ -31,10 +31,12 @@ class Network:
         for i in range(samples):
             # forward propagation
             output = input_data[i]
+            # bar = Bar('Processing plain data', max=len(self.layers))
             for layer in self.layers:
+                # bar.next()
                 output = layer.forward_propagation(output)
             result.append(output)
-
+            # bar.finish()
         return result
 
     def predict_more(self, input_data):
@@ -46,14 +48,14 @@ class Network:
         for i in range(samples):
             # forward propagation
             output = input_data[i]
-            bar = Bar('Processing encrypted data', max=len(self.layers))
+            # bar = Bar('Processing encrypted data', max=len(self.layers))
             for layer in self.layers:
-                bar.next()           
+                # bar.next()           
                 output = layer.forward_propagation_more(output)
 
             result.append(output)
 
-            bar.finish()
+            # bar.finish()
         return result
 
     # train the network
