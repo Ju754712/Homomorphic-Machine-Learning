@@ -74,7 +74,7 @@ for i in range(0,5):
 dec_plain.remove(2)
 
 
-with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
+with open('autoencoder_more.csv', 'w', newline='') as csvfile:
     fieldnames = ['encoder_time_for_encryption', 'encoder_time_for_evaluation_plain', 'encoder_time_for_evaluation_more', 'encoder_time_for_decryption', 'encoding_accuracy', 'decoder_time_for_encryption', 'decoder_time_for_evaluation_plain', 'decoder_time_for_evaluation_more', 'decoder_time_for_decryption', 'decoding_accuracy_plain', 'decoding_accuracy_more']
      
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
