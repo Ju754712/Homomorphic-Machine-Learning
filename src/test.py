@@ -1,7 +1,23 @@
-from numpy.linalg.linalg import multi_dot
-from schemes.more import MoreScheme
 import numpy as np
-from activation_functions import relu, relu_approx
+PATH = "../src/data/train.npy"
+# ERROR_SAVE_NAME = "../CAE/sr"
+# EXP = 'Finova2'
+# EPOCHS2TRAIN = 50
+# BATCHSIZE = 4
+# FEATURE = "combined"
+# TRAINON = 100 # or 'all'
+# MODE = 'splits'# 'splits' or 'trainon'
+# SAVE = False
 
-import tenseal as ts
+# data = np.load(PATH, mmap_mode='r') # load data
+
+
+# data = data[4000]
+# with open('./src/data/train.npy', 'wb') as f:
+
+#     np.save(f, data)
+
+data = np.load(PATH, mmap_mode='r')
+
+print(data.shape)
 

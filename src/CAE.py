@@ -50,18 +50,19 @@ def get_model(inputshape, lr=0.0001):
 
 if __name__ == "__main__":
 
-    PATH = "./src/data/train.npy"
-    ERROR_SAVE_NAME = "./src"
+    PATH = "../CAE/Arrays_AE/Finova2_combined_butter.npy"
+    ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
     EPOCHS2TRAIN = 50
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
-    TRAINON = 'all' # or 'all'
+    TRAINON = 3000 # or 'all'
     MODE = 'splits'# 'splits' or 'trainon'
     SAVE = False
 
     data = np.load(PATH, mmap_mode='r') # load data
+    print(data.shape)
     if TRAINON == 'all':
         TRAINON = data.shape[0] 
     arraylen = data.shape[1]   
