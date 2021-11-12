@@ -50,7 +50,7 @@ def get_model(inputshape, lr=0.0001):
 
 if __name__ == "__main__":
 
-    PATH = "../CAE/Arrays_AE/Finova2_combined_butter.npy"
+    PATH = "./src/data/train.npy"
     ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
     EPOCHS2TRAIN = 50
