@@ -1,5 +1,5 @@
 import numpy as np
-PATH = "../src/data/train.npy"
+PATH = "./src/data/train.npy"
 # ERROR_SAVE_NAME = "../CAE/sr"
 # EXP = 'Finova2'
 # EPOCHS2TRAIN = 50
