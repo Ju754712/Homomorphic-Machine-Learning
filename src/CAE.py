@@ -57,7 +57,7 @@ if __name__ == "__main__":
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
-    TRAINON = 3000 # or 'all'
+    TRAINON = 'all' # or 'all'
     MODE = 'splits'# 'splits' or 'trainon'
     SAVE = False
 
