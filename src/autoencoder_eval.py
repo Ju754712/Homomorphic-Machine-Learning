@@ -100,7 +100,7 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
 
         encoder_output_decryption_time = time2-time1
 
-        encoding_accuracy = mse(encoding_plain[0], encoding_more[1])
+        encoding_accuracy = mse(encoding_plain[0], encoding_more[0])
 
         time1 = time.time()
         for k in range(encoding_more[0].shape[0]):
