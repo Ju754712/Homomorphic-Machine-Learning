@@ -119,6 +119,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time2 = time.time()
         decoding_more_enc = autodecoder_more.predict_more(encoding_more_enc)
         time3 = time.time()
+        decoding_more_enc =np.nan_to_num(decoding_more_enc)
 
         decoder_plain_time = time2-time1
         decoder_more_time = time3-time2
@@ -133,7 +134,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time2 = time.time()
 
         decoder_output_decryption_time = time2-time1
-        decoding_more[0] = np.nan_to_num(decoding_more[0])
+
         decoding_accuracy_plain = mse(x_test[i], decoding_plain[0])
 
         decoding_accuracy_more = mse(x_test[i], decoding_more[0])
