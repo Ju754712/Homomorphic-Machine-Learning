@@ -103,6 +103,7 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
         encoding_accuracy = mse(encoding_plain[0], encoding_more[0])
 
         time1 = time.time()
+        encoding_more_enc = np.zeros((encoding_more.shape[0],encoding_more.shape[1], encoding_more.shape[2],2,2))
         for k in range(encoding_more[0].shape[0]):
             for j in range(encoding_more[0].shape[1]):
                 encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
