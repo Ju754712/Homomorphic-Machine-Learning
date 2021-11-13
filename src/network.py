@@ -35,6 +35,7 @@ class Network:
             for layer in self.layers:
                 # bar.next()
                 output = layer.forward_propagation(output)
+                
             result.append(output)
             # bar.finish()
         return result

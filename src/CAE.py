@@ -53,11 +53,11 @@ if __name__ == "__main__":
     PATH = "./src/data/train.npy"
     ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
-    EPOCHS2TRAIN = 50
+    EPOCHS2TRAIN = 2
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
-    TRAINON = 'all' # or 'all'
+    TRAINON = 10 # or 'all'
     MODE = 'splits'# 'splits' or 'trainon'
     SAVE = False
 
