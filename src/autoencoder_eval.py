@@ -64,6 +64,8 @@ for i in reversed(range(0,5)):
     autodecoder_plain.remove(0)
 autodecoder_plain.remove(2)
 
+print(autoencoder_plain.layers)
+print(autodecoder_plain.layers)
 with open('autoencoder_more.csv', 'w', newline='') as csvfile:
     fieldnames = ['encoding_accuracy', 'decoding_accuracy_plain', 'decoding_accuracy_more', 'decoding_accuracy', 'encoder_input_encryption_time', 'encoder_plain_time', 'encoder_more_time', 'encoder_output_decryption_time', 'decoder_input_encryption_time', 'decoder_plain_time', 'decoder_more_time', 'decoder_output_decryption_time' ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -98,8 +100,8 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
 
         time2 = time.time()
 
+        encoding_more[0] = np.nan_to_num(encoding_more[0])
         encoder_output_decryption_time = time2-time1
-
         encoding_accuracy = mse(encoding_plain[0], encoding_more[0])
 
         time1 = time.time()
@@ -113,7 +115,7 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
         decoder_input_encryption_time = time2-time1
 
         time1 = time.time()
-        decoding_plain = autodecoder_plain.predict(x_test)
+        decoding_plain = autodecoder_plain.predict(encoding_plain)
         time2 = time.time()
         decoding_more_enc = autodecoder_more.predict_more(encoding_more_enc)
         time3 = time.time()
@@ -131,10 +133,9 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
         time2 = time.time()
 
         decoder_output_decryption_time = time2-time1
-
+        decoding_more[0] = np.nan_to_num(decoding_more[0])
         decoding_accuracy_plain = mse(x_test[i], decoding_plain[0])
-        print(x_test[i].shape, decoding_plain[0].shape)
-        print(decoding_accuracy_plain)
+
         decoding_accuracy_more = mse(x_test[i], decoding_more[0])
         decoding_accuracy = mse(decoding_plain[0], decoding_more[0])
         time_k = time.time()
