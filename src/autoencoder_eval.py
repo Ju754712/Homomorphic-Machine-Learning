@@ -94,7 +94,7 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
         encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
         for k in range(encoding_more_enc[0].shape[0]):
             for j in range(encoding_more_enc[0].shape[1]):
-                encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0,k,j])
+                encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
 
         time2 = time.time()
 
@@ -125,7 +125,7 @@ with open('autoencoder_more.csv', 'w', newline='') as csvfile:
         decoding_more = np.zeros((1,decoding_more_enc[0].shape[0], decoding_more_enc.shape[1]))
         for k in range(decoding_more_enc[0].shape[0]):
             for j in range(decoding_more_enc[0].shape[1]):
-                decoding_more[0,k,j] = more.decrypt(decoding_more_enc[0,k,j])
+                decoding_more[0,k,j] = more.decrypt(decoding_more_enc[0][k,j])
 
         time2 = time.time()
 
