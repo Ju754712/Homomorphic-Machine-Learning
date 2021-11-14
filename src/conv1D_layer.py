@@ -85,7 +85,7 @@ class Conv1DLayer(Layer):
 
     def forward_propagation_more(self, input):
         self.input = input
-        self.output = convolution_more(input = self.input, weights = self.weights_more, bias = self.bias_more, layer_depth = self.layer_depth, kernel = self.kernel, strides = self.strides, dilation = 1, z_padding = 0, padding = self.padding, a = 0) 
+        self.output = convolution_more(input = self.input, weights = self.weights, bias = self.bias, layer_depth = self.layer_depth, kernel = self.kernel, strides = self.strides, dilation = 1, z_padding = 0, padding = self.padding, a = 0) 
         return self.output
     
 
@@ -173,7 +173,7 @@ class Conv1DTransposedLayer(Layer):
         return self.output
     def forward_propagation_more(self, input):
         self.input = input
-        self.output= convolution_more(input = self.input, weights = self.weights_more, bias = self.bias_more,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
+        self.output= convolution_more(input = self.input, weights = self.weights, bias = self.bias,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
         return self.output
 
     # computes dE/dW, dE/dB for a given output_error=dE/dY. Returns input_error=dE/dX.
@@ -239,6 +239,7 @@ def convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilati
 @njit
 def convolution_more(input, weights, bias, kernel, layer_depth, strides, dilation, z_padding, padding, a):
     input_length = input.shape[0]
+    idn = np.identity(2)
     output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth,2,2))
     i = 0    
     while i < output.shape[0]:                   
@@ -250,13 +251,13 @@ def convolution_more(input, weights, bias, kernel, layer_depth, strides, dilatio
                 while k < layer_depth:
                     d = 0
                     while d < input.shape[1]:
-                        output[i,k] += matmul(weights[j,d,k], input[int((offset+j*dilation)/(z_padding+1)),d])
+                        output[i,k] += weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
                         d += 1
                     k += 1                    
             j += 1
         k = 0
         while k < layer_depth:
-            output[i,k] += bias[k]
+            output[i,k] += bias[k]*idn
             k += 1
         i += 1
 

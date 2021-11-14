@@ -61,8 +61,6 @@ for i in reversed(range(0,5)):
     autodecoder_plain.remove(0)
 autodecoder_plain.remove(2)
 
-print(autoencoder_plain.layers)
-print(autodecoder_plain.layers)
 with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     fieldnames = ['encoding_accuracy', 'decoding_accuracy_plain', 'decoding_accuracy_more', 'decoding_accuracy', 'encoder_input_encryption_time', 'encoder_plain_time', 'encoder_more_time', 'encoder_output_decryption_time', 'decoder_input_encryption_time', 'decoder_plain_time', 'decoder_more_time', 'decoder_output_decryption_time' ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
