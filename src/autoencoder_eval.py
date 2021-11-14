@@ -59,6 +59,8 @@ autodecoder_more.add(autodecoder_plain.layers[8])
 autodecoder_more.layers[-1].encrypt_params_more(more)
 # Add Tanh Activation Layer
 autodecoder_more.add(ActivationLayer(activation=tanh_more, activation_prime=tanh_prime))
+autodecoder_more.add(autodecoder_plain.layers[10])
+autodecoder_more.layers[-1].encrypt_params_more(more)
 
 for i in reversed(range(0,5)):
     autodecoder_plain.remove(0)
@@ -134,7 +136,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time2 = time.time()
 
         decoder_output_decryption_time = time2-time1
-
+        print(decoding_more[0].shape, decoding_plain[0].shape)
         decoding_accuracy_plain = mse(x_test[i], decoding_plain[0])
 
         decoding_accuracy_more = mse(x_test[i], decoding_more[0])
@@ -144,7 +146,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
         
 
-
+# No need to encrypt weights
 
 
 
