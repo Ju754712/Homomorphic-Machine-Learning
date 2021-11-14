@@ -66,7 +66,9 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     writer.writeheader()
+    bar = Bar("Processing...", max = x_test.shape[0])
     for i in range(x_test.shape[0]):
+        bar.next()
         time_d = time.time()
         #Encryption
         x_test_more = np.zeros((1,x_test.shape[1], x_test.shape[2],2,2))
@@ -137,7 +139,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time_k = time.time()
         print(time_k-time_d)
         writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
-        
+    bar.finish()
 
 # No need to encrypt weights
 
