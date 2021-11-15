@@ -211,6 +211,33 @@ def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z
         i += 1
 
     return output
+    
+# Backup for Transposed
+
+# def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
+#     input_length = input.shape[0]
+#     output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth))
+#     i = 0
+#     while i < output.shape[0]:                   
+#         offset = i*strides-padding  
+#         j = 0
+#         while j < kernel:
+#             if((offset+j*dilation)/(z_padding+1) in range(input.shape[0])):
+#                 k = 0
+#                 while k < layer_depth:
+#                     d = 0
+#                     while d < input.shape[1]:
+#                         output[i,k] += weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
+#                         d += 1
+#                     k += 1                    
+#             j += 1
+#         k = 0
+#         while k < layer_depth:
+#             output[i,k] += bias[k]
+#             k += 1
+#         i += 1
+
+#     return output
 
 def convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
     input_length = input.shape[0]
@@ -220,7 +247,7 @@ def convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilati
         offset = i*strides-padding  
         j = 0
         while j < kernel:
-            if((offset+j*dilation)/(z_padding+1) in range(input.shape[0])):
+            if((offset+(j-1)*dilation)/(z_padding+1) in range(input.shape[0])):
                 k = 0
                 while k < layer_depth:
                     d = 0
@@ -246,7 +273,7 @@ def convolution_more(input, weights, bias, kernel, layer_depth, strides, dilatio
         offset = i*strides-padding  
         j = 0
         while j < kernel:
-            if((offset+j*dilation)/(z_padding+1) in range(input.shape[0])):
+            if((offset+(j-1)*dilation)/(z_padding+1) in range(input.shape[0])):
                 k = 0
                 while k < layer_depth:
                     d = 0
