@@ -95,26 +95,16 @@ if __name__ == "__main__":
     net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
     net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
 
-    print(net.layers[0].weights.shape, net.layers[0].bias.shape)
     net.layers[0].weights = weights[0]
     net.layers[0].bias = weights[1]
-    print(net.layers[0].weights.shape, net.layers[0].bias.shape)
-    print(net.layers[3].weights.shape, net.layers[3].bias.shape)
     net.layers[3].weights = weights[2]
     net.layers[3].bias = weights[3]
-    print(net.layers[3].weights.shape, net.layers[3].bias.shape)
-    print(net.layers[5].weights.shape, net.layers[5].bias.shape)
-    net.layers[5].weights = weights[4].transpose(0,2,1)
+    net.layers[5].weights = np.flip(weights[4].transpose(0,2,1),0)
     net.layers[5].bias = weights[5]
-    print(net.layers[5].weights.shape, net.layers[5].bias.shape)
-    print(net.layers[8].weights.shape, net.layers[8].bias.shape)
-    net.layers[8].weights = weights[6].transpose(0,2,1)
+    net.layers[8].weights = np.flip(weights[6].transpose(0,2,1),0)
     net.layers[8].bias = weights[7]
-    print(net.layers[8].weights.shape, net.layers[8].bias.shape)
-    print(net.layers[10].weights.shape, net.layers[10].bias.shape)
-    net.layers[10].weights = weights[8].transpose(0,2,1)
+    net.layers[10].weights = np.flip(weights[8].transpose(0,2,1),0)
     net.layers[10].bias = weights[9]
-    print(net.layers[10].weights.shape, net.layers[10].bias.shape)
     net.save("./src/params/autoencoder")
     # model = keras.models.load_model('/hpcwork/mu637455/Code/Autoencoder/')
 
