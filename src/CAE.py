@@ -53,13 +53,13 @@ if __name__ == "__main__":
     PATH = "./src/data/train.npy"
     ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
-    EPOCHS2TRAIN = 50
+    EPOCHS2TRAIN = 1
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
-    TRAINON = 'all' # or 'all'
+    TRAINON = 8 # or 'all'
     MODE = 'splits'# 'splits' or 'trainon'
-    SAVE = False
+    SAVE = True
 
     data = np.load(PATH, mmap_mode='r') # load data
     print(data.shape)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         ],
     )      
     if SAVE == True:
-        model.save('/hpcwork/mu637455/Code/Autoencoder/')
+        model.save('./src/keras_model/Autoencoder')
     weights = model.get_weights()
 
     net = Network()

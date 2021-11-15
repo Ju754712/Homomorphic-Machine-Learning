@@ -11,9 +11,9 @@ from loss_functions import mse, mse_prime
 
 #Configuration
 PATH = "./src/data/train.npy"
-EPOCHS2TRAIN = 1
+EPOCHS2TRAIN = 30
 BATCHSIZE = 4
-TRAINON = 999 # or 'all'
+TRAINON = 400 # or 'all'
 
 #Load Input 
 data = np.load(PATH, mmap_mode='r')
@@ -37,8 +37,8 @@ net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
 net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
 
 #train
-# net.use(loss=mse, loss_prime=mse_prime)
-# net.fit(train_data, train_data, epochs=EPOCHS2TRAIN, batch_size = BATCHSIZE, learning_rate=0.2)
+net.use(loss=mse, loss_prime=mse_prime)
+net.fit(train_data, train_data, epochs=EPOCHS2TRAIN, batch_size = BATCHSIZE, learning_rate=0.2)
 
 
 net.save("src/params/autoencoder")

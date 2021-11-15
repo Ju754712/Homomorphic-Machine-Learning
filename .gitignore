@@ -4,3 +4,4 @@ src/schemes/__pycache__
 node_modules
 src/csv
 src/params
+src/keras_model
