@@ -131,18 +131,19 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time2 = time.time()
 
         decoder_output_decryption_time = time2-time1
-        print(x_test[i].shape, decoding_plain[0].shape)
         decoding_accuracy_plain = mse(x_test[i], decoding_plain[0])
 
         decoding_accuracy_more = mse(x_test[i], decoding_more[0])
         decoding_accuracy = mse(decoding_plain[0], decoding_more[0])
+        print(x_test[i])
+        print(decoding_plain[0])
         time_k = time.time()
         print(time_k-time_d)
         writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
     bar.finish()
 
-# No need to encrypt weights
-
+# Check if params are transfered correctly (does number fit and so on)
+# make prediction with keras and costum and compare
 
 
        
