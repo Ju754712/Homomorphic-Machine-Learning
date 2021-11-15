@@ -5,7 +5,8 @@ mp.dps=300000
 # loss function and its derivative
 def mse(y_true, y_pred):
     try:
-        return np.mean(np.power(y_true-y_pred, 2))
+        x = np.mean(np.power(y_true-y_pred, 2))
+        return x
     except:
         return 0
     
