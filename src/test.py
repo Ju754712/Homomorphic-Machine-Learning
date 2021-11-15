@@ -71,4 +71,6 @@ for a in range(1):
     print(pred_keras[0][0])
     print(pred_costum[0][0])
 
+# Check whole net pls
+
 
