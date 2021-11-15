@@ -18,7 +18,7 @@ TRAINON = 400 # or 'all'
 #Load Input 
 data = np.load(PATH, mmap_mode='r')
 print(data.shape)
-train_data = data
+train_data = data[0:TRAINON]
 test_data = data[TRAINON:TRAINON+10]
 
 
