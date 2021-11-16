@@ -50,9 +50,11 @@ class Network:
             output = input_data[i]
             # bar = Bar('Processing encrypted data', max=len(self.layers))
             for layer in self.layers:
-                # bar.next()           
+                # bar.next()
+                time1= time.time()           
                 output = layer.forward_propagation_more(output)
-
+                time2 = time.time()
+                print(time2-time1)
             result.append(output)
 
             # bar.finish()

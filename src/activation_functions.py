@@ -53,6 +53,7 @@ def relu_approx(x):
 def relu_more(x):
     ind = list(np.ndenumerate(x))
     i = 0
+    idn = np.identity(2)
     r = np.zeros((x.shape[0],x.shape[1],2,2))
     while i < len(ind):
         try:
@@ -65,7 +66,6 @@ def relu_more(x):
 
             r[(index[0],index[1])] = 1/2*(x[(index[0],index[1])]+c)
         except: 
-            idn = np.identity(2)
             r[(index[0],index[1])] = idn*0
         i +=1
     return r
