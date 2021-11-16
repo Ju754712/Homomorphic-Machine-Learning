@@ -71,7 +71,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time1 = time.time()
         for k in range(x_test[i].shape[0]):
             for j in range(x_test[i].shape[1]):
-                x_test_more[i,k,j] = more.encrypt(x_test[i,k,j])
+                x_test_more[0,k,j] = more.encrypt(x_test[i,k,j])
         time2 = time.time()
 
         encoder_input_encryption_time = time2-time1
