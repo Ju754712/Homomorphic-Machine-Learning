@@ -118,7 +118,10 @@ class Conv1DTransposedLayer(Layer):
             self.padding = 0
         else: 
             self.padding = padding
-        self.p = kernel-self.padding-1
+        if strides == 1:
+            self.p = kernel-self.padding-1
+        else:
+            self.p = kernel-self.padding
         self.z_padding = strides - 1
         self.weights = np.random.rand(kernel, self.input_shape[1], layer_depth) - 0.5
         self.bias = np.random.rand(layer_depth) - 0.5
@@ -276,14 +279,15 @@ def convolution_more(input, weights, bias,  kernel, layer_depth, strides, dilati
 
 @njit
 def trans_convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
-    input_length = input.shape[0]
-    output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth))
+    output = np.zeros((input.shape[0]*(z_padding+1),layer_depth))
     i = 0
-    while i < output.shape[0]:                 
+    while i < output.shape[0]:    
+        # print('Ouput ', i, "by")             
         offset = i*strides-padding
         j = 0
         while j < kernel:
-            if((offset+(j)*dilation-1)/(z_padding+1) in range(input.shape[0])):
+            if((offset+(j)*dilation)/(z_padding+1) in range(input.shape[0])):
+                # print("weight ", j, " times input ", int((offset+j*dilation)/(z_padding+1)))
                 k = 0
                 while k < layer_depth:
                     d = 0
@@ -302,14 +306,15 @@ def trans_convolution(input, weights, bias,  kernel, layer_depth, strides, dilat
     return output
 
 def trans_convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
-    input_length = input.shape[0]
-    output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth))
+    output = np.zeros((input.shape[0]*(z_padding+1),layer_depth))
     i = 0
-    while i < output.shape[0]:                 
+    while i < output.shape[0]:    
+        # print('Ouput ', i, "by")             
         offset = i*strides-padding
         j = 0
         while j < kernel:
-            if((offset+(j)*dilation-1)/(z_padding+1) in range(input.shape[0])):
+            if((offset+(j)*dilation)/(z_padding+1) in range(input.shape[0])):
+                # print("weight ", j, " times input ", int((offset+j*dilation)/(z_padding+1)))
                 k = 0
                 while k < layer_depth:
                     d = 0
@@ -329,15 +334,16 @@ def trans_convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, 
 
 @njit
 def trans_convolution_more(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
-    input_length = input.shape[0]
-    output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth,2,2))
     idn = np.identity(2)
+    output = np.zeros((input.shape[0]*(z_padding+1),layer_depth,2,2))
     i = 0
-    while i < output.shape[0]:                 
+    while i < output.shape[0]:    
+        # print('Ouput ', i, "by")             
         offset = i*strides-padding
         j = 0
         while j < kernel:
-            if((offset+(j)*dilation-1)/(z_padding+1) in range(input.shape[0])):
+            if((offset+(j)*dilation)/(z_padding+1) in range(input.shape[0])):
+                # print("weight ", j, " times input ", int((offset+j*dilation)/(z_padding+1)))
                 k = 0
                 while k < layer_depth:
                     d = 0
@@ -349,7 +355,7 @@ def trans_convolution_more(input, weights, bias,  kernel, layer_depth, strides, 
             j += 1
         k = 0
         while k < layer_depth:
-            output[i,k] += bias[k]*idn
+            output[i,k] += idn*bias[k]
             k += 1
         i += 1
 

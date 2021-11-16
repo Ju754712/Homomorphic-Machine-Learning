@@ -26,7 +26,7 @@ model = keras.Sequential(
     [
         layers.Input(shape=(arraylen,1)),
         layers.Conv1DTranspose(
-            filters=1, kernel_size=5, padding="same", strides=2
+            filters=1, kernel_size=5, padding="same", strides=1
         )        
 
     ]
@@ -39,7 +39,7 @@ model.layers[0].set_weights([weight,bias])
 weights = model.get_weights()
 #change kernel back
 net = Network()
-net.add(Conv1DTransposedLayer(input_shape = (6,1) , kernel = 5, layer_depth = 1, strides=2, padding = 'same', a=1))
+net.add(Conv1DTransposedLayer(input_shape = (6,1) , kernel = 5, layer_depth = 1, strides=1, padding = 'same', a=1))
 
 
 
