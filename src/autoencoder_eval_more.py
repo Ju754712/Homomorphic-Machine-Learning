@@ -35,12 +35,10 @@ autoencoder_more.add(autoencoder_plain.layers[3])
 # Add Activation layer
 autoencoder_more.add(ActivationLayer(activation=relu_more, activation_prime=relu_prime))
 
-print(autoencoder_plain.layers)
 
-for i in reversed(range(5,11)):
+for i in reversed(range(4,8)):
     autoencoder_plain.remove(i)
-autoencoder_plain.remove(2)
-
+print(autoencoder_plain.layers)
 
 autodecoder_plain = Network()
 autodecoder_plain.load("./src/params/autoencoder")
@@ -59,9 +57,9 @@ autodecoder_more.add(autodecoder_plain.layers[8])
 autodecoder_more.add(ActivationLayer(activation=tanh_more, activation_prime=tanh_prime))
 autodecoder_more.add(autodecoder_plain.layers[10])
 
-for i in reversed(range(0,5)):
+for i in reversed(range(0,3)):
     autodecoder_plain.remove(0)
-autodecoder_plain.remove(2)
+print(autodecoder_plain.layers)
 
 with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     fieldnames = ['encoding_accuracy', 'decoding_accuracy_plain', 'decoding_accuracy_more', 'decoding_accuracy', 'encoder_input_encryption_time', 'encoder_plain_time', 'encoder_more_time', 'encoder_output_decryption_time', 'decoder_input_encryption_time', 'decoder_plain_time', 'decoder_more_time', 'decoder_output_decryption_time' ]
