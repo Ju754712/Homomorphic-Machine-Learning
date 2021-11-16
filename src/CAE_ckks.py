@@ -6,12 +6,28 @@ from matplotlib import pyplot as plt
 import pickle
 import tensorflow as tf
 
+import tenseal as ts
+
 
 from network import Network
 from activation_layer import ActivationLayer
 from conv1D_layer import Conv1DLayer, Conv1DTransposedLayer
 from dropout_layer import DropoutLayer
-from activation_functions import tanh, tanh_prime, relu, relu_prime
+from activation_functions import square, square_prime, tanh, tanh_prime
+
+from keras.models import Sequential
+from keras.layers import Dense
+
+# Custom activation function
+from keras.layers import Activation
+from keras import backend as K
+from keras.utils.generic_utils import get_custom_objects
+
+
+def square_activation(x):
+    return x*x
+
+
 
 
 def embedd_step(data_test, model, clear=True):
@@ -25,14 +41,14 @@ def get_model(inputshape, lr=0.0001):
         [
             layers.Input(shape=(arraylen,1)),
             layers.Conv1D(
-                filters=32, kernel_size=7, padding="same", strides=2, activation="relu"
+                filters=32, kernel_size=7, padding="same", strides=2, activation='square_activation'
             ),
             layers.Dropout(rate=0.2),
             layers.Conv1D(
-                filters=16, kernel_size=7, padding="same", strides=2, activation="relu"
+                filters=16, kernel_size=7, padding="same", strides=2, activation="square_activation"
             ),
             layers.Conv1DTranspose(
-                filters=16, kernel_size=7, padding="same", strides=2, activation="relu"
+                filters=16, kernel_size=7, padding="same", strides=2, activation="square_activation"
             ),
             layers.Dropout(rate=0.2),
             layers.Conv1DTranspose(
@@ -51,13 +67,14 @@ def get_trained_model():
     [
         layers.Input(shape=(arraylen,1)),
         layers.Conv1D(
-            filters=32, kernel_size=7, padding="same", strides=2, activation="relu"
+            filters=32, kernel_size=7, padding="same", strides=2, activation='square_activation'
         ),
+        
         layers.Conv1D(
-            filters=16, kernel_size=7, padding="same", strides=2, activation="relu"
+            filters=16, kernel_size=7, padding="same", strides=2, activation="square_activation"
         ),
         layers.Conv1DTranspose(
-            filters=16, kernel_size=7, padding="same", strides=2, activation="relu"
+            filters=16, kernel_size=7, padding="same", strides=2, activation="square_activation"
         ),
         layers.Conv1DTranspose(
             filters=32, kernel_size=7, padding="same", strides=2, activation="tanh"
@@ -68,15 +85,15 @@ def get_trained_model():
     return model
 
 if __name__ == "__main__":
-
+    get_custom_objects().update({'square_activation': Activation(square_activation)})
     PATH = "./src/data/train.npy"
     ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
-    EPOCHS2TRAIN = 50
+    EPOCHS2TRAIN = 1
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
-    TRAINON = 'all' # or 'all'
+    TRAINON = 4 # or 'all'
     MODE = 'splits'# 'splits' or 'trainon'
     SAVE = True
 
@@ -103,13 +120,13 @@ if __name__ == "__main__":
 
     net = Network()
     net.add(Conv1DLayer(input_shape = data[0].shape, kernel=7, layer_depth = 32, strides = 2, padding ='same'))
-    net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
+    net.add(ActivationLayer(activation = square, activation_prime = square_prime))
     net.add(Conv1DLayer(input_shape = (75000,32), kernel = 7, layer_depth = 16, strides = 2, padding = 'same'))
-    net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
+    net.add(ActivationLayer(activation = square, activation_prime = square))
     net.add(Conv1DTransposedLayer(input_shape = (37500,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
-    net.add(ActivationLayer(activation=relu, activation_prime=relu_prime))
+    net.add(ActivationLayer(activation=square, activation_prime=square_prime))
     net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
-    net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
+    net.add(ActivationLayer(activation=tanh, activation_prime=tanh))
     net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
 
     trained_model = get_trained_model()
@@ -131,20 +148,19 @@ if __name__ == "__main__":
     net.layers[8].bias = weights[9]
 
     if SAVE == True:
-        model.save('./src/keras_model/Autoencoder')
-        net.save("./src/params/autoencoder")
-        print('Saved')
+        model.save('./src/keras_model/Autoencoder_ckks')
+        net.save("./src/params/autoencoder_ckks")
     # model = keras.models.load_model('/hpcwork/mu637455/Code/Autoencoder/')
 
     # err_data = [] # error array
     # pred = [] # predictions array  
 
-    # for a in range(1):
-    #     tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), trained_model) 
-    #     cos = net.predict(data[a, :, :].reshape((1,arraylen,1)))
+    for a in range(1):
+        tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), trained_model) 
+        cos = net.predict(data[a, :, :].reshape((1,arraylen,1)))
 
-    #     print(tmp[0].shape)
-    #     print(cos[0].shape)
+        print(tmp[0][0:10])
+        print(cos[0][0:10])
 
     # plt.plot(err_data)
     # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
@@ -155,5 +171,12 @@ if __name__ == "__main__":
     # pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
     # pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
 
+
+
+
+
+    ## Encryption Parameters
+
+    # controls precision of the fractional part
 
 
