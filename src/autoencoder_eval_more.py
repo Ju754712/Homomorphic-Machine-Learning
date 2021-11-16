@@ -31,7 +31,7 @@ autoencoder_more.add(autoencoder_plain.layers[0])
 autoencoder_more.add(ActivationLayer(activation=relu_more, activation_prime=relu_prime))
 # No Dropout Layer
 # Add and encrypt second Conv Layer
-autoencoder_more.add(autoencoder_plain.layers[3])
+autoencoder_more.add(autoencoder_plain.layers[2])
 # Add Activation layer
 autoencoder_more.add(ActivationLayer(activation=relu_more, activation_prime=relu_prime))
 
@@ -47,15 +47,15 @@ autodecoder_more = Network()
 
 
 # Add and encrypt first Transposed Conv Layer
-autodecoder_more.add(autodecoder_plain.layers[5])
+autodecoder_more.add(autodecoder_plain.layers[4])
 # Add Activation Layer
 autodecoder_more.add(ActivationLayer(activation=relu_more, activation_prime=relu_prime))
 # No Dropout Layer
 # Add and encrypt second Transposed Conv Layer
-autodecoder_more.add(autodecoder_plain.layers[8])
+autodecoder_more.add(autodecoder_plain.layers[6])
 # Add Tanh Activation Layer
 autodecoder_more.add(ActivationLayer(activation=tanh_more, activation_prime=tanh_prime))
-autodecoder_more.add(autodecoder_plain.layers[10])
+autodecoder_more.add(autodecoder_plain.layers[8])
 
 for i in reversed(range(0,3)):
     autodecoder_plain.remove(0)
