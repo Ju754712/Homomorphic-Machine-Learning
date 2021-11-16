@@ -17,7 +17,7 @@ more = MoreScheme(2)
 
 PATH = "./src/data/train.npy"
 data = np.load(PATH, mmap_mode='r')
-x_test = data[0:1]
+x_test = data[0:100]
 
 
 autoencoder_plain = Network()
@@ -66,7 +66,6 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     bar = Bar("Processing...", max = x_test.shape[0])
     for i in range(x_test.shape[0]):
         bar.next()
-        time_d = time.time()
         #Encryption
         x_test_more = np.zeros((1,x_test.shape[1], x_test.shape[2],2,2))
         time1 = time.time()
@@ -132,10 +131,6 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         decoding_accuracy_more = mse(x_test[i], decoding_more[0])
         decoding_accuracy = mse(decoding_plain[0], decoding_more[0])
-        print(x_test[i])
-        print(decoding_plain[0])
-        time_k = time.time()
-        print(time_k-time_d)
         writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
     bar.finish()
 

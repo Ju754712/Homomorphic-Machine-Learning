@@ -32,13 +32,9 @@ class Network:
             # forward propagation
             output = input_data[i]
             # bar = Bar('Processing plain data', max=len(self.layers))
-            print("Plain ")
             for layer in self.layers:
                 # bar.next()
-                time1 = time.time()
                 output = layer.forward_propagation(output)
-                time2 = time.time()
-                print(time2-time1)
             result.append(output)
             # bar.finish()
         return result
@@ -53,13 +49,9 @@ class Network:
             # forward propagation
             output = input_data[i]
             # bar = Bar('Processing encrypted data', max=len(self.layers))
-            print("Encrypted ")
             for layer in self.layers:
-                # bar.next()
-                time1= time.time()           
+                # bar.next()        
                 output = layer.forward_propagation_more(output)
-                time2 = time.time()
-                print(time2-time1)
             result.append(output)
 
             # bar.finish()
