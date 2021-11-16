@@ -35,6 +35,8 @@ autoencoder_more.add(autoencoder_plain.layers[3])
 # Add Activation layer
 autoencoder_more.add(ActivationLayer(activation=relu_more, activation_prime=relu_prime))
 
+print(autoencoder_plain.layers)
+
 for i in reversed(range(5,11)):
     autoencoder_plain.remove(i)
 autoencoder_plain.remove(2)
