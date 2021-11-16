@@ -24,13 +24,13 @@ def tanh_more(x):
     ind = list(np.ndenumerate(x))
     r = np.zeros((x.shape[0],x.shape[1],2,2))
     i = 0
+    idn = np.identity(2)
     while i < len(ind):
         index = ind[i][0]
         try:
             l,v = np.linalg.eig(-2*x[(index[0],index[1])])
             l_f = np.diag(np.exp(l))
             c_exp = matmul(v,matmul(l_f, np.linalg.inv(v)))
-            idn = np.identity(2)
             inv = idn+c_exp
             if np.linalg.det(inv) == 0:
                 r[(index[0],index[1])] = idn*0 # "overflow"
