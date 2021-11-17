@@ -96,6 +96,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         encoding_more[0] = np.nan_to_num(encoding_more[0])
         encoder_output_decryption_time = time2-time1
         encoding_accuracy = mse(encoding_plain[0], encoding_more[0])
+        print(encoding_accuracy)
 
         time1 = time.time()
         encoding_more_enc = np.zeros((encoding_more.shape[0],encoding_more.shape[1], encoding_more.shape[2],2,2))
