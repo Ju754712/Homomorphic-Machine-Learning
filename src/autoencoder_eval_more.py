@@ -132,6 +132,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         decoding_accuracy_more = mse(x_test[i], decoding_more[0])
         decoding_accuracy = mse(decoding_plain[0], decoding_more[0])
+        print(decoding_accuracy, decoding_accuracy_plain, decoding_accuracy_more)
         writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
     bar.finish()
 
