@@ -77,7 +77,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         encoder_input_encryption_time = time2-time1
 
         time1 = time.time()
-        print(x_test[i,:,:].reshape((1,arraylength,1)).shape)
+
         encoding_plain = autoencoder_plain.predict(x_test[i,:,:].reshape((1,arraylength,1)))
         time2 = time.time()
         encoding_more_enc = autoencoder_more.predict_more(x_test_more)
