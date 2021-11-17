@@ -57,7 +57,7 @@ autodecoder_more.add(autodecoder_plain.layers[8])
 
 for i in reversed(range(0,4)):
     autodecoder_plain.remove(0)
-
+arraylength = x_test.shape[1]
 with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     fieldnames = ['encoding_accuracy', 'decoding_accuracy_plain', 'decoding_accuracy_more', 'decoding_accuracy', 'encoder_input_encryption_time', 'encoder_plain_time', 'encoder_more_time', 'encoder_output_decryption_time', 'decoder_input_encryption_time', 'decoder_plain_time', 'decoder_more_time', 'decoder_output_decryption_time' ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -78,7 +78,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         time1 = time.time()
         print(x_test.shape)
-        encoding_plain = autoencoder_plain.predict(x_test)
+        encoding_plain = autoencoder_plain.predict(x_test[i,:,:].reshape((1,arraylength,1)))
         time2 = time.time()
         encoding_more_enc = autoencoder_more.predict_more(x_test_more)
         time3 = time.time()
