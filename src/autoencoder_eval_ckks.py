@@ -22,7 +22,7 @@ autoencoder_plain.load("./src/params/autoencoder_ckks")
 
 autoencoder_ckks = Network()
 
-for i in range(len(autoencoder_plain.layers)):
+for i in range(len(autoencoder_plain.layers)-1):
     autoencoder_plain.remove(-1)
 print(autoencoder_plain.layers)
 # Add first Conv Layer
