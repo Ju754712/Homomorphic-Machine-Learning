@@ -42,7 +42,7 @@ context = ts.context(
     poly_modulus_degree=8192,
     coeff_mod_bit_sizes=[31, bits_scale, bits_scale, bits_scale, bits_scale, bits_scale, bits_scale, 31]
 )
-
+print("yes")
 #set the scale
 context.global_scale = pow(2, bits_scale)
 
