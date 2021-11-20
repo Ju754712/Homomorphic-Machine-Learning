@@ -35,6 +35,7 @@ autoencoder_ckks.add(autoencoder_plain.layers[0])
 # controls precision of the fractional part
 bits_scale = 26
 print("Hello there")
+print(ts)
 # Create TenSEAL context
 context = ts.context(
     ts.SCHEME_TYPE.CKKS,
