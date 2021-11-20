@@ -80,7 +80,7 @@ class Conv1DLayer(Layer):
 
     def forward_propagation_ckks(self, input):
         self.input = input
-        self.output = convolution_ckks(input = self.input, weights = self.weights_ckks, bias = self.bias_ckks, layer_depth = self.layer_depth, kernel = self.kernel, strides = self.strides, dilation = 1, z_padding = 0, padding = self.padding, a = 0) 
+        self.output = convolution_ckks(input = self.input, weights = self.weights, bias = self.bias, layer_depth = self.layer_depth, kernel = self.kernel, strides = self.strides, dilation = 1, z_padding = 0, padding = self.padding, a = 0) 
         return self.output
 
     def forward_propagation_more(self, input):
@@ -172,7 +172,7 @@ class Conv1DTransposedLayer(Layer):
         return self.output
     def forward_propagation_ckks(self, input):
         self.input = input
-        self.output= trans_convolution_ckks(input = self.input, weights = self.weights_ckks, bias = self.bias_ckks,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
+        self.output= trans_convolution_ckks(input = self.input, weights = self.weights, bias = self.bias,  kernel = self.kernel, layer_depth = self.layer_depth, strides = 1, dilation = 1, z_padding = self.z_padding, padding = self.p, a = self.a)
         return self.output
     def forward_propagation_more(self, input):
         self.input = input
@@ -233,7 +233,7 @@ def convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilati
                 while k < layer_depth:
                     d = 0
                     while d < input.shape[1]:
-                        output[i,k] += weights[j,d,k].dot(input[int((offset+j*dilation)/(z_padding+1)),d])
+                        output[i,k] += weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
                         d += 1
                     k += 1                    
             j += 1
@@ -320,7 +320,7 @@ def trans_convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, 
                     d = 0
                     while d < input.shape[1]:
                         
-                        output[i,k] += weights[j,d,k].dot(input[int((offset+j*dilation)/(z_padding+1)),d])
+                        output[i,k] += weights[j,d,k] * input[int((offset+j*dilation)/(z_padding+1)),d]
                         d += 1
                     k += 1                    
             j += 1

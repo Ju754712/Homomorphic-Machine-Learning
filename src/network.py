@@ -57,6 +57,24 @@ class Network:
             # bar.finish()
         return result
 
+    def predict_ckks(self, input_data):
+        # sample dimension first
+        samples = len(input_data)
+        result = []
+
+        # run network over all samples
+        for i in range(samples):
+            # forward propagation
+            output = input_data[i]
+            # bar = Bar('Processing encrypted data', max=len(self.layers))
+            for layer in self.layers:
+                # bar.next()        
+                output = layer.forward_propagation_ckks(output)
+            result.append(output)
+
+            # bar.finish()
+        return result
+
     # train the network
     def fit(self, x_train, y_train, epochs, batch_size, learning_rate, shuffle = False, adaptive=False):
         # sample dimension first
