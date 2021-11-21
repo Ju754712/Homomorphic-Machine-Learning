@@ -70,7 +70,7 @@ for i in range(y_train.shape[0]):
 
 net.use(mse, mse_prime_more)
 print("Training")
-net.fit_more(x_train_enc, y_train_enc, epochs=20, learning_rate=0.1, more=more, batch_size = 1)
+net.fit_more(x_train_enc, y_train_enc, epochs=2, learning_rate=0.1, more=more, batch_size = 1)
 for i in range(3):
     net.layers[2*i].decrypt_params_more(more)
 net.save("mnist_square")
