@@ -27,7 +27,9 @@ for i in range(4):
     autodecoder_plain.add(autoencoder_plain.layers[i])
     autodecoder_square.add(autoencoder_square.layers[i])
     autodecoder_plain.add(autoencoder_plain.layers[i])
-
+print(autoencoder_plain.layers)
+print(autoencoder_square.layers)
+print(autoencoder_alt.layers)
 for i in range(4,9):
     autoencoder_plain.remove(-1)
     autoencoder_square.remove(-1)
