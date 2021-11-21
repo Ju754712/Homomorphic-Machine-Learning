@@ -117,13 +117,11 @@ class FCLayer(Layer):
         return input_error, weights_error
     
     def backward_propagation_more(self, output_error, learning_rate):
-        print(self.input[0,0])
-        print(output_error[0,0])
-        print(learning_rate)
         input_error, weights_more, bias_more = backward_more(self.input, self.weights_more, self.bias_more, output_error, learning_rate)
     
         self.weights_more = weights_more
         self.bias_more = bias_more
+        print(input_error[0,0])
         return input_error
 
 
@@ -143,7 +141,6 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
     weights_error = np.zeros(weights_more.shape)
     input_transpose = np.transpose(input, (1,0,2,3))
     weights_more_trans = np.transpose(weights_more,(1,0,2,3))
-    print(input_error.shape, weights_error.shape, input_transpose.shape, weights_more_trans.shape)
     i = 0
     while i < weights_more_trans.shape[1]:
         j = 0
