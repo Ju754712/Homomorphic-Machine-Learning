@@ -142,8 +142,8 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
     weights_error = np.zeros(weights_more.shape)
     input_transpose = np.transpose(input, (1,0,2,3))
     weights_more_trans = np.transpose(weights_more,(1,0,2,3))
-    weights_new = weights_more
-    bias_new = bias_more
+    weights_new = np.array(weights_more)
+    bias_new = np.array(bias_more)
     i = 0
     while i < weights_more_trans.shape[1]:
         j = 0
