@@ -39,7 +39,7 @@ def mse_more(y_true, y_pred):
 
         i+=1
     return r
-@njit
+
 def mse_prime_more(y_true, y_pred):
     print(y_true.shape, y_pred.shape)
     ind = list(np.ndenumerate(y_pred))
