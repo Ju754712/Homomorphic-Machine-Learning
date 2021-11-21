@@ -155,7 +155,6 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
             weights_error[i,j] += matmul(input_transpose[i,0], output_error[0,j])
             weights_more[i,j] -= learning_rate *weights_error[i,j]
             i += 1
-        print(output_error[0,j])
         bias_more[0,j] -=learning_rate*output_error[0,j]
         
         j += 1

@@ -44,7 +44,7 @@ def tanh_more(x):
     return r
 ## ReLU
 def tanh_prime_more(x):
-    t = tanh_more
+    t = tanh_more(x)
     ind = list(np.ndenumerate(x))
     r = np.zeros((x.shape[0],x.shape[1],2,2))
     i = 0
