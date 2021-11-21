@@ -53,9 +53,8 @@ def tanh_prime_more(x):
         index = ind[i][0]
         
         try:
-            print(t[(index[0],index[1])])
+            
             r[(index[0],index[1])] = idn - matmul(t[(index[0],index[1])],t[(index[0],index[1])])
-            print(idn - matmul(t[(index[0],index[1])],t[(index[0],index[1])]))
         except:
             r[(index[0],index[1])] = idn*0
 
