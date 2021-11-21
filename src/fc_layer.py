@@ -117,10 +117,11 @@ class FCLayer(Layer):
         return input_error, weights_error
     
     def backward_propagation_more(self, output_error, learning_rate):
-        input_error, weights_more, bias_more = backward_more(self.input, self.weights_more, self.bias_more, output_error, learning_rate)
-    
-        self.weights_more = weights_more
-        self.bias_more = bias_more
+        input_error, weights_new, bias_new = backward_more(self.input, self.weights_more, self.bias_more, output_error, learning_rate)
+        print(self.weights_more[0,0])
+        self.weights_more = weights_new
+        print(self.weights_more[0,0])
+        self.bias_more = bias_new
         return input_error
 
 
@@ -140,6 +141,8 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
     weights_error = np.zeros(weights_more.shape)
     input_transpose = np.transpose(input, (1,0,2,3))
     weights_more_trans = np.transpose(weights_more,(1,0,2,3))
+    weights_new = weights_more
+    bias_new = bias_more
     i = 0
     while i < weights_more_trans.shape[1]:
         j = 0
@@ -153,14 +156,13 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
         i = 0
         while i < weights_error.shape[0]:
             weights_error[i,j] += matmul(input_transpose[i,0], output_error[0,j])
-            print(weights_error[i,j])
-            weights_more[i,j] -= learning_rate *weights_error[i,j]
+            weights_new[i,j] -= learning_rate *weights_error[i,j]
             i += 1
-        bias_more[0,j] -=learning_rate*output_error[0,j]
+        bias_new[0,j] -=learning_rate*output_error[0,j]
         
         j += 1
 
-    return input_error, weights_more, bias_more
+    return input_error, weights_new, bias_new
         
 
 
