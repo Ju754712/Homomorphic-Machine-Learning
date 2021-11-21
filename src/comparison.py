@@ -41,11 +41,11 @@ encoding_plain = autoencoder_plain.predict(data[0:1,0:120,:].reshape(1,120,1))
 encoding_square = autoencoder_square.predict(data[0:1,0:120,:].reshape(1,120,1))
 encoding_alt = autoencoder_alt.predict(data[0:1,0:120,:].reshape(1,120,1))
 
-encoding_accuracy_plain = mse(data[0][0:120,:], encoding_plain[0])
+encoding_accuracy_square = mse(encoding_plain[0], encoding_square[0])
 
-print(data[0][0:120,:].shape)
-print(encoding_plain[0].shape)
-print(encoding_accuracy_plain)
+encoding_accuracy_alt = mse(encoding_plain[0], encoding_alt[0])
+
+print(encoding_accuracy_square, encoding_accuracy_alt)
 
 
 
