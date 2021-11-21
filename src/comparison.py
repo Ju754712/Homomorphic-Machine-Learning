@@ -23,7 +23,7 @@ autoencoder_plain.load("src/params/autoencoder_test")
 autoencoder_square.load("src/params/autoencoder_ckks_square")
 autoencoder_alt.load("src/params/autoencoder_ckks_alt")
 
-for i in range(4):
+for i in range(4,9):
     autodecoder_plain.add(autoencoder_plain.layers[i])
     autodecoder_square.add(autoencoder_square.layers[i])
     autodecoder_alt.add(autoencoder_alt.layers[i])
