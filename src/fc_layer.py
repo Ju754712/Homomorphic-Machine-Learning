@@ -156,7 +156,7 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
             weights_more[i,j] -= learning_rate *weights_error[i,j]
             i += 1
         print(bias_more)
-        bias_more[1,j] -=learning_rate*output_error[1,j]
+        bias_more[0,j] -=learning_rate*output_error[1,j]
         print(bias_more)
         j += 1
 
