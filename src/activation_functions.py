@@ -60,6 +60,7 @@ def tanh_prime_more(x):
             r[(index[0],index[1])] = idn*0
 
         i+=1
+        print(r[(index[0],index[1])])
         
     return r
 
