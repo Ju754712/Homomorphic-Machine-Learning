@@ -25,7 +25,7 @@ from keras.utils.generic_utils import get_custom_objects
 
 
 def square_activation(x):
-    return x*x
+    return x*x+x
 
 def sigmoid_approx_activation(x):
     return -0.004 * x**3 + 0.197*x +0.5
@@ -152,8 +152,8 @@ if __name__ == "__main__":
     net.layers[8].bias = weights[9]
 
     if SAVE == True:
-        model.save('./src/keras_model/Autoencoder_ckks_square')
-        net.save("./src/params/autoencoder_ckks_square")
+        model.save('./src/keras_model/Autoencoder_ckks_alt')
+        net.save("./src/params/autoencoder_ckks_alt")
 
 
 
