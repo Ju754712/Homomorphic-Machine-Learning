@@ -20,8 +20,8 @@ autodecoder_square = Network()
 autodecoder_alt = Network()
 
 autoencoder_plain.load("src/params/autoencoder_test")
-autoencoder_square.load("src/params/autoencoder_square")
-autoencoder_alt.load("src/params/autoencoder_alt")
+autoencoder_square.load("src/params/autoencoder_ckks_square")
+autoencoder_alt.load("src/params/autoencoder_ckks_alt")
 
 for i in range(4):
     autodecoder_plain.add(autoencoder_plain.layers[i])
