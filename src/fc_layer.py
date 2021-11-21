@@ -133,7 +133,7 @@ def matmul(x,y):
             for k in range(x.shape[1]):
                 r[i,j] += x[i,k]*y[k,j]
     return r
-@njit
+# @njit
 def backward_more(input, weights_more, bias_more,output_error, learning_rate):
     input_error = np.zeros(input.shape)
     weights_error = np.zeros(weights_more.shape)
@@ -155,7 +155,9 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
             weights_error[i,j] += matmul(input_transpose[i,0], output_error[0,j])
             weights_more[i,j] -= learning_rate *weights_error[i,j]
             i += 1
+        print(bias_more)
         bias_more[1,j] -=learning_rate*output_error[1,j]
+        print(bias_more)
         j += 1
 
     return input_error, weights_more, bias_more
