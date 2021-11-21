@@ -11,6 +11,10 @@ import tenseal as ts
 
 from progress.bar import Bar
 
+PATH = "./src/data/train.npy"
+
+data = np.load(PATH, mmap_mode='r') 
+
 autoencoder_plain = Network()
 autoencoder_square = Network()
 autoencoder_alt = Network()
@@ -27,20 +31,19 @@ for i in range(4,9):
     autodecoder_plain.add(autoencoder_plain.layers[i])
     autodecoder_square.add(autoencoder_square.layers[i])
     autodecoder_alt.add(autoencoder_alt.layers[i])
-print(autoencoder_plain.layers)
-print(autoencoder_square.layers)
-print(autoencoder_alt.layers)
+
 for i in range(4,9):
     autoencoder_plain.remove(-1)
     autoencoder_square.remove(-1)
     autoencoder_alt.remove(-1)
 
-print(autoencoder_plain.layers)
-print(autoencoder_square.layers)
-print(autoencoder_alt.layers)
+encoding_plain = autoencoder_plain.predict(data[0:1,0:120,:].reshape(1,120,1))
+encoding_square = autoencoder_square.predict(data[0:1,0:120,:].reshape(1,120,1))
+encoding_alt = autoencoder_alt.predict(data[0:1,0:120,:].reshape(1,120,1))
 
-print(autodecoder_plain.layers)
-print(autodecoder_square.layers)
-print(autodecoder_alt.layers)
+encoding_accuracy_plain = mse(data[0][0:120,:], encoding_plain[0])
+
+print(encoding_accuracy_plain)
+
 
 
