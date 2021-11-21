@@ -21,6 +21,7 @@ def tanh_prime_ckks(x):
     return x
 @njit
 def tanh_more(x):
+
     ind = list(np.ndenumerate(x))
     r = np.zeros((x.shape[0],x.shape[1],2,2))
     i = 0
@@ -42,6 +43,21 @@ def tanh_more(x):
         i+=1
     return r
 ## ReLU
+def tanh_prime_more(x):
+    t = tanh_more
+    ind = list(np.ndenumerate(x))
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
+    i = 0
+    idn = np.identity(2)
+    while i < len(ind):
+        index = ind[i][0]
+        try:
+            r[(index[0],index[1])] = idn - matmul(t[(index[0],index[1])],t[(index[0],index[1])])
+        except:
+            r[(index[0],index[1])] = idn*0
+
+        i+=1
+    return r
 
 def relu(x):
     return np.maximum(0,x)

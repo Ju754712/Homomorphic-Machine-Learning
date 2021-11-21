@@ -2,6 +2,7 @@ from layer import Layer
 import numpy as np
 from mpmath import *
 mp.dps=300000
+from numba import njit
 
 # inherit from base class Layer
 class ActivationLayer(Layer):

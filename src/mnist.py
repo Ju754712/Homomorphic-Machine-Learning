@@ -3,8 +3,8 @@
 from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
-from activation_functions import tanh, tanh_prime
-from loss_functions import mse, mse_prime, bce, bce_prime
+from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more
+from loss_functions import mse, mse_prime, bce, bce_prime, mse_prime_more
 
 from keras.datasets import mnist
 from keras.utils import np_utils
@@ -32,11 +32,11 @@ y_test = np_utils.to_categorical(y_test)
 Network
 net = Network()
 net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-net.add(ActivationLayer(tanh, tanh_prime))
+net.add(ActivationLayer(tanh_more, tanh_prime_more))
 net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-net.add(ActivationLayer(tanh, tanh_prime))
+net.add(ActivationLayer(tanh_more, tanh_prime_more))
 net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(tanh, tanh_prime))
+net.add(ActivationLayer(tanh_more, tanh_prime_more))
 # # train on 1000 samples
 # net.use(mse, mse_prime)
 # print(x_train.shape)
@@ -66,8 +66,8 @@ net.add(ActivationLayer(tanh, tanh_prime))
 # net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
 # net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
-net.use(mse, mse_prime)
+net.use(mse, mse_prime_more)
 
-net.fit(x_train[0:10000], y_train[0:10000], epochs=20, learning_rate=0.1, batch_size = 1)
+net.fit_more(x_train[0:10000], y_train[0:10000], epochs=20, learning_rate=0.1, batch_size = 1)
 
 net.save("mnist_square")

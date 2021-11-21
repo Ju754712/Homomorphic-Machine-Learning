@@ -2,6 +2,7 @@ import numpy as np
 from math import log
 from mpmath import *
 mp.dps=300000
+from numba import njit
 # loss function and its derivative
 def mse(y_true, y_pred):
     try:
@@ -25,7 +26,32 @@ def bce_prime(y_true, y_pred):
     return loss
 
 def mse_more(y_true, y_pred):
-    return 0
+    ind = list(np.ndenumerate(y_pred))
+    r = np.zeros((y_pred.shape[0],y_pred.shape[1],2,2))
+    i = 0
+    idn = np.identity(2)
+    while i < len(ind):
+        index = ind[i][0]
+        try:
+            r[(index[0],index[1])] =  matmul(t[(index[0],index[1])],t[(index[0],index[1])])
+        except:
+            r[(index[0],index[1])] = idn*0
 
+        i+=1
+    return r
+@njit
 def mse_prime_more(y_true, y_pred):
-    return 2/y_true.size*(y_pred-y_true)
+    print(y_true.shape, y_pred.shape)
+    ind = list(np.ndenumerate(y_pred))
+    r = np.zeros((y_pred.shape[0],y_pred.shape[1],2,2))
+    i = 0
+    idn = np.identity(2)
+    while i < len(ind):
+        index = ind[i][0]
+        try:
+            r[(index[0],index[1])] = 2/len(ind)*(y_pred[(index[0],index[1])]-y_true[(index[0],index[1])])
+        except:
+            r[(index[0],index[1])] = idn*0
+
+        i+=1
+    return r
