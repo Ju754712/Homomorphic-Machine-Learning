@@ -117,7 +117,7 @@ class FCLayer(Layer):
         return input_error, weights_error
     
     def backward_propagation_more(self, output_error, learning_rate):
-        print(output_error.shape)
+        print(output_error[0,0])
         input_error, weights_more, bias_more = backward_more(self.input, self.weights_more, self.bias_more, output_error, learning_rate)
         self.weights_more = weights_more
         self.bias_more = bias_more
