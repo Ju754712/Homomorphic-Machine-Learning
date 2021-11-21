@@ -121,8 +121,6 @@ class FCLayer(Layer):
     
         self.weights_more = weights_more
         self.bias_more = bias_more
-        print(self.weights_more[0,0])
-        print(weights_more[0,0])
         return input_error
 
 
