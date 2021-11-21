@@ -91,12 +91,23 @@ def sigmoid_prime(x):
     f = sigmoid(x)
     return f * (1-f)
 
-def sigmoid_ckks(x):
+def sigmoid_approx(x):
+    return -0.004 * x**3 + 0.197*x +0.5
+
+def sigmoid_approx_ckks(x):
     # We use the polynomial approximation of degree 3
     # sigmoid(x) = 0.5 + 0.197 * x - 0.004 * x^3
     # from https://eprint.iacr.org/2018/462.pdf
     # which fits the function pretty well in the range [-5,5]
-    return x.polyval([0.5, 0.197 , 0 , -0.004])
+    r = np.zeros(x.shape, dtype=object)
+    ind = list(np.ndenumerate(x))
+    i = 0
+    while i < len(ind):
+        index = ind[i][0]
+        r[index] = x[index].polyval([0.5, 0.197 , 0 , -0.004])
+        i+=1
+    return r
+
 
 def sigmoid_prime_ckks(x):
     return x.polyval([0.196,0,-0.012])
@@ -147,7 +158,14 @@ def square_prime_bfv(x):
     return 2*x
 
 def square_ckks(x):
-    return x * x
+    r = np.zeros(x.shape, dtype=object)
+    ind = list(np.ndenumerate(x))
+    i = 0
+    while i < len(ind):
+        index = ind[i][0]
+        r[index] = x[index].square()
+        i+=1
+    return r
 
 def square_prime_bfv(x):
     return 2*x

@@ -222,7 +222,7 @@ def convolution(input, weights, bias,  kernel, layer_depth, strides, dilation, z
 
 def convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
     input_length = input.shape[0]
-    output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth))
+    output = np.zeros((floor((input_length+2*padding+(input_length-1)*z_padding+a-(kernel+(kernel-1)*(dilation-1)))/strides)+1,layer_depth), dtype=object)
     i = 0
     while i < output.shape[0]:                   
         offset = i*strides-padding+1  
@@ -306,7 +306,7 @@ def trans_convolution(input, weights, bias,  kernel, layer_depth, strides, dilat
     return output
 
 def trans_convolution_ckks(input, weights, bias,  kernel, layer_depth, strides, dilation, z_padding, padding, a):
-    output = np.zeros((input.shape[0]*(z_padding+1),layer_depth))
+    output = np.zeros((input.shape[0]*(z_padding+1),layer_depth),dtype=object)
     i = 0
     while i < output.shape[0]:    
         # print('Ouput ', i, "by")             

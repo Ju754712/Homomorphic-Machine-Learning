@@ -68,8 +68,11 @@ class Network:
             output = input_data[i]
             # bar = Bar('Processing encrypted data', max=len(self.layers))
             for layer in self.layers:
+                time1 = time.time()
                 # bar.next()        
                 output = layer.forward_propagation_ckks(output)
+                time2 = time.time()
+                print("Needed ", time2-time1, " secs for Layer: ", layer)
             result.append(output)
 
             # bar.finish()

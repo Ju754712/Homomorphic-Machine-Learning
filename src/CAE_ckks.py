@@ -13,7 +13,7 @@ from network import Network
 from activation_layer import ActivationLayer
 from conv1D_layer import Conv1DLayer, Conv1DTransposedLayer
 from dropout_layer import DropoutLayer
-from activation_functions import square, square_prime, tanh, tanh_prime
+from activation_functions import sigmoid_approx, square, square_prime, tanh, tanh_prime
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -26,6 +26,9 @@ from keras.utils.generic_utils import get_custom_objects
 
 def square_activation(x):
     return x*x
+
+def sigmoid_approx_activation(x):
+    return -0.004 * x**3 + 0.197*x +0.5
 
 
 
@@ -52,7 +55,7 @@ def get_model(inputshape, lr=0.0001):
             ),
             layers.Dropout(rate=0.2),
             layers.Conv1DTranspose(
-                filters=32, kernel_size=7, padding="same", strides=2, activation="tanh"
+                filters=32, kernel_size=7, padding="same", strides=2, activation="sigmoid_approx_activation"
             ),
             layers.Conv1DTranspose(filters=1, kernel_size=7, padding="same"
             )
@@ -77,7 +80,7 @@ def get_trained_model():
             filters=16, kernel_size=7, padding="same", strides=2, activation="square_activation"
         ),
         layers.Conv1DTranspose(
-            filters=32, kernel_size=7, padding="same", strides=2, activation="tanh"
+            filters=32, kernel_size=7, padding="same", strides=2, activation="sigmoid_approx_activation"
         ),
         layers.Conv1DTranspose(filters=1, kernel_size=7, padding="same"
         )
@@ -86,6 +89,7 @@ def get_trained_model():
 
 if __name__ == "__main__":
     get_custom_objects().update({'square_activation': Activation(square_activation)})
+    get_custom_objects().update({'sigmoid_approx_activation': Activation(sigmoid_approx_activation)})
     PATH = "./src/data/train.npy"
     ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
@@ -101,12 +105,12 @@ if __name__ == "__main__":
     print(data.shape)
     if TRAINON == 'all':
         TRAINON = data.shape[0] 
-    arraylen = data.shape[1]   
+    arraylen = 120 
     model = get_model(arraylen)
     model.summary() # generate autoencoder model
     history = model.fit( # train autoencoder 
-    data[0:TRAINON, :, :],
-    data[0:TRAINON, :, :],
+    data[0:TRAINON, 0:arraylen, :],
+    data[0:TRAINON, 0:arraylen, :],
     epochs=EPOCHS2TRAIN,
     batch_size=BATCHSIZE,
     validation_split=0.1,
@@ -119,15 +123,15 @@ if __name__ == "__main__":
     weights = model.get_weights()
 
     net = Network()
-    net.add(Conv1DLayer(input_shape = data[0].shape, kernel=7, layer_depth = 32, strides = 2, padding ='same'))
+    net.add(Conv1DLayer(input_shape = (arraylen,1), kernel=7, layer_depth = 32, strides = 2, padding ='same'))
     net.add(ActivationLayer(activation = square, activation_prime = square_prime))
-    net.add(Conv1DLayer(input_shape = (75000,32), kernel = 7, layer_depth = 16, strides = 2, padding = 'same'))
+    net.add(Conv1DLayer(input_shape = (arraylen/2,32), kernel = 7, layer_depth = 16, strides = 2, padding = 'same'))
     net.add(ActivationLayer(activation = square, activation_prime = square))
-    net.add(Conv1DTransposedLayer(input_shape = (37500,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
+    net.add(Conv1DTransposedLayer(input_shape = (arraylen/4,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
     net.add(ActivationLayer(activation=square, activation_prime=square_prime))
-    net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
-    net.add(ActivationLayer(activation=tanh, activation_prime=tanh))
-    net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
+    net.add(Conv1DTransposedLayer(input_shape=(arraylen/2,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
+    net.add(ActivationLayer(activation=sigmoid_approx, activation_prime=sigmoid_approx))
+    net.add(Conv1DTransposedLayer(input_shape=(arraylen,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
 
     trained_model = get_trained_model()
     trained_model.layers[0].set_weights([weights[0], weights[1]])
@@ -148,28 +152,8 @@ if __name__ == "__main__":
     net.layers[8].bias = weights[9]
 
     if SAVE == True:
-        model.save('./src/keras_model/Autoencoder_ckks')
-        net.save("./src/params/autoencoder_ckks")
-    # model = keras.models.load_model('/hpcwork/mu637455/Code/Autoencoder/')
-
-    # err_data = [] # error array
-    # pred = [] # predictions array  
-
-    for a in range(1):
-        tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), trained_model) 
-        cos = net.predict(data[a, :, :].reshape((1,arraylen,1)))
-
-        print(tmp[0][0:10])
-        print(cos[0][0:10])
-
-    # plt.plot(err_data)
-    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
-    # plt.close()
-    # plt.plot(np.cumsum(err_data))
-    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_cumsum.png')
-    # plt.close()
-    # pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
-    # pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
+        model.save('./src/keras_model/Autoencoder_ckks_square')
+        net.save("./src/params/autoencoder_ckks_square")
 
 
 

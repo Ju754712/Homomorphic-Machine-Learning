@@ -19,7 +19,7 @@ class ActivationLayer(Layer):
         self.input = input_data
         self.output = self.activation(self.input)
         return self.output
-    def forward_propagation_more_encrypted(self, input_data):
+    def forward_propagation_ckks(self, input_data):
         self.input = input_data
         self.output = self.activation(self.input)
         return self.output
