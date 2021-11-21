@@ -4,6 +4,7 @@ import time
 import pickle
 import traceback
 import random
+import numpy as np
 
 class Network:
     def __init__(self):
@@ -127,7 +128,7 @@ class Network:
             err /= samples
             print('epoch %d/%d   error=%f' % (i-1, epochs, err))
 
-    def fit_more(self, x_train, y_train, epochs, batch_size, learning_rate, shuffle = False, adaptive=False):
+    def fit_more(self, x_train, y_train, epochs, batch_size, learning_rate, more, shuffle = False, adaptive=False):
         # sample dimension first
         samples = len(x_train)
 
@@ -152,6 +153,8 @@ class Network:
                 error = 0
                 while k < batch_size:
                     output = x_train[j*batch_size+k]
+                  
+
                     for layer in self.layers:
                         output = layer.forward_propagation_more_encrypted(output)
                         # compute loss (for display purpose only)

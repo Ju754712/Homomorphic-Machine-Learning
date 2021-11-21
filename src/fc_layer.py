@@ -27,6 +27,11 @@ class FCLayer(Layer):
             for j in range(self.weights_more.shape[0]):
                 self.weights_more[j,i] = more.encrypt(self.weights[j,i])
             self.bias_more[0,i] = more.encrypt(self.bias[0,i]) 
+    def decrypt_params_more(self,more): 
+        for i in range(self.weights_more.shape[1]):
+            for j in range(self.weights_more.shape[0]):
+                self.weights[j,i] = more.decrypt(self.weights_more[j,i])
+            self.bias[0,i] = more.decrypt(self.bias_more[0,i]) 
 
     # returns output for a given input
     def forward_propagation(self, input_data):
@@ -134,6 +139,7 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
     weights_error = np.zeros(weights_more.shape)
     input_transpose = np.transpose(input, (1,0,2,3))
     weights_more_trans = np.transpose(weights_more,(1,0,2,3))
+    print(input_error.shape, weights_error.shape, input_transpose.shape, weights_more_trans.shape)
     i = 0
     while i < weights_more_trans.shape[1]:
         j = 0

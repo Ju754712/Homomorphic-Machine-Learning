@@ -43,13 +43,13 @@ def mse_more(y_true, y_pred):
 def mse_prime_more(y_true, y_pred):
     print(y_true.shape, y_pred.shape)
     ind = list(np.ndenumerate(y_pred))
-    r = np.zeros((y_pred.shape[0],y_pred.shape[1],2,2))
+    r = np.zeros(y_pred.shape)
     i = 0
     idn = np.identity(2)
     while i < len(ind):
         index = ind[i][0]
         try:
-            r[(index[0],index[1])] = 2/len(ind)*(y_pred[(index[0],index[1])]-y_true[(index[0],index[1])])
+            r[(index[0],index[1])] = 2/len(ind)*(y_pred[(index[0],index[1])]-y_true[(index[1])])
         except:
             r[(index[0],index[1])] = idn*0
 

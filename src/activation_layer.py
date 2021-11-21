@@ -20,6 +20,10 @@ class ActivationLayer(Layer):
         self.input = input_data
         self.output = self.activation(self.input)
         return self.output
+    def forward_propagation_more_encrypted(self, input_data):
+        self.input = input_data
+        self.output = self.activation(self.input)
+        return self.output
     def forward_propagation_ckks(self, input_data):
         self.input = input_data
         self.output = self.activation(self.input)
@@ -30,7 +34,7 @@ class ActivationLayer(Layer):
     def backward_propagation(self, output_error, learning_rate):
         return self.activation_prime(self.input) * output_error
     def backward_propagation_more(self, output_error, learning_rate):
-        input_error = np.zeros(self.input.shape, dtype = object)
+        input_error = np.zeros((self.input.shape[0],self.input.shape[1],2,2))
         act = self.activation_prime(self.input)
         for i in range(self.input.shape[0]):
             for j in range(self.input.shape[1]):
