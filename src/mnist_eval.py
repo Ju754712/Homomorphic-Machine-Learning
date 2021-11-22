@@ -1,14 +1,15 @@
-import numpy as np
+
 
 from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
-from activation_functions import tanh, tanh_prime, sigmoid, sigmoid_prime, square, square_prime,tanh_more, tanh_prime_more
-from loss_functions import mse, mse_prime, bce, bce_prime, mse_more, mse_prime_more
 from schemes.more import MoreScheme
+from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more
+from loss_functions import mse, mse_prime, bce, bce_prime, mse_prime_more
 
 from keras.datasets import mnist
 from keras.utils import np_utils
+import numpy as np
 
 # load MNIST from server
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -30,32 +31,24 @@ x_test = x_test.astype('float32')
 x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
-x_train = x_train[0:10]
-y_train = y_train[0:10]
-#Build network
+
+x_train = x_train[0:1000]
+y_train = y_train[0:1000]
+
+x_test = x_test[0:100]
+y_test = y_test[0:100]
+
+more = MoreScheme(2)
 
 net = Network()
 net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-net.add(ActivationLayer(tanh_more, tanh_prime_more))
+net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-net.add(ActivationLayer(tanh_more, tanh_prime_more))
+net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(tanh_more, tanh_prime_more))
+net.add(ActivationLayer(tanh, tanh_prime))
+net.load("src/params/mnist_more")
 
-net.use(mse_more, mse_prime_more)
-
-more = MoreScheme(2)
-for i in range(3):
-    net.layers[2*i].encrypt_params_more(more)
-
-x_train_more = np.zeros(x_train.shape, dtype=object)
-y_train_more = np.zeros(y_train.shape, dtype=object)
-
-for i in range(x_train_more.shape[0]):
-    for k in range(x_train_more.shape[1]):
-        for m in range(x_train_more.shape[2]):
-            x_train_more[i,k,m ]= more.encrypt(x_train[i,k,m])
-    for k in range(y_train.shape[1]):
-        y_train_more[i,k] = more.encrypt(y_train[i,k])
-
-net.fit_more(x_train_more, y_train_more, epochs=1, learning_rate=1, batch_size = 1)
+output = net.predict(x_test[0:3])
+print(output)
+print(y_test[0:3])
