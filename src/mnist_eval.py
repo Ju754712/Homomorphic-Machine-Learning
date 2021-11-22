@@ -4,7 +4,7 @@ from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
 from schemes.more import MoreScheme
-from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more
+from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more, sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime
 from loss_functions import mse, mse_prime, bce, bce_prime, mse_prime_more
 
 from keras.datasets import mnist
@@ -40,14 +40,27 @@ y_test = y_test[0:100]
 
 more = MoreScheme(2)
 
-net_tanh = Network()
-net_tanh.load("src/params/mnist_tanh")
+net_sigmoid = Network()
+net_sigmoid.load("src/params/mnist_sigmoid")
 
 
-# for i in range(3):
-#     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
+net_sigmoid_approx = Network()
+net_sigmoid_approx.load("src/params/mnist_sigmoid_approx")
 
-output = net_tanh.predict(x_test)
+net_sigmoid_more = Network()
+net_sigmoid_more.load("src/params/mnist_sigmoid_more")
+
+
+net_sigmoid_approx_more = Network()
+net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx_more")
+
+
+
+for i in range(3):
+    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid, sigmoid_prime)
+    net_sigmoid_approx_more[2*i+1] = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
+
+output = net_sigmoid.predict(x_test)
 
 accuracy = 0
 correct = 0
@@ -64,14 +77,49 @@ for i in range(len(output)):
 print("accuracy: ", accuracy/len(output))
 print("Correct: ", correct, ", incorrect: ", incorrect)
 
-net_sigmoid = Network()
-net_sigmoid.load("src/params/mnist_sigmoid")
+
+# for i in range(3):
+#     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
+
+output = net_sigmoid_approx.predict(x_test)
+
+accuracy = 0
+correct = 0
+incorrect = 0
+for i in range(len(output)):
+    true_value = np.argmax(y_test[i])
+    pred_value = np.argmax(output[i][0])
+    accuracy += mse(y_test[i], output[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
+
+print("accuracy: ", accuracy/len(output))
+print("Correct: ", correct, ", incorrect: ", incorrect)
+
+output = net_sigmoid_more.predict(x_test)
+
+accuracy = 0
+correct = 0
+incorrect = 0
+for i in range(len(output)):
+    true_value = np.argmax(y_test[i])
+    pred_value = np.argmax(output[i][0])
+    accuracy += mse(y_test[i], output[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
+
+print("accuracy: ", accuracy/len(output))
+print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
 # for i in range(3):
 #     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
 
-output = net_sigmoid.predict(x_test)
+output = net_sigmoid_approx_more.predict(x_test)
 
 accuracy = 0
 correct = 0
