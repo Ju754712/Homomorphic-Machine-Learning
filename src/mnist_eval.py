@@ -41,13 +41,11 @@ y_test = y_test[0:100]
 more = MoreScheme(2)
 
 net = Network()
-net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-net.add(ActivationLayer(tanh, tanh_prime))
-net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-net.add(ActivationLayer(tanh, tanh_prime))
-net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(tanh, tanh_prime))
 net.load("src/params/mnist_more")
+
+
+for i in range(3):
+    net.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
 
 output = net.predict(x_test[0:3])
 print(output)
