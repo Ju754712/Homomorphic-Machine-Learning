@@ -42,7 +42,7 @@ def tanh_more(x):
 
         i+=1
     return r
-## ReLU
+@njit
 def tanh_prime_more(x):
     t = tanh_more(x)
     ind = list(np.ndenumerate(x))
@@ -113,6 +113,31 @@ def sigmoid_prime(x):
 def sigmoid_approx(x):
     return -0.004 * x**3 + 0.197*x +0.5
 
+def sigmoid_approx_prime(x):
+    return -0.012*x**2+0.197
+
+@njit
+def sigmoid_approx_more(x):
+    ind = list(np.ndenumerate(x))
+    i = 0
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
+    while i < len(ind):
+        index = ind[i][0]
+        x_square = matmul(x[(index[0], index[1])],x[(index[0], index[1])])
+        r[(index[0], index[1])] = -0.004 * matmul(x_square, x[(index[0], index[1])]) + 0.197 *x_square+0.5
+    return r
+
+@njit
+def sigmoid_approx_prime_more(x):
+    ind = list(np.ndenumerate(x))
+    i = 0
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
+    while i < len(ind):
+        index = ind[i][0]
+        matmul(x[(index[0], index[1])],x[(index[0], index[1])])
+        r[(index[0], index[1])] = -0.012 * matmul(x[(index[0], index[1])],x[(index[0], index[1])]) + 0.197 *x[(index[0], index[1])]
+    return r
+
 def sigmoid_approx_ckks(x):
     # We use the polynomial approximation of degree 3
     # sigmoid(x) = 0.5 + 0.197 * x - 0.004 * x^3
@@ -131,35 +156,36 @@ def sigmoid_approx_ckks(x):
 def sigmoid_prime_ckks(x):
     return x.polyval([0.196,0,-0.012])
 
+@njit
 def sigmoid_more(x):
     ind = list(np.ndenumerate(x))
     i = 0
-    r = np.zeros(x.shape, dtype=object)
+    idn = np.identity(2)
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
     while i < len(ind):
         index = ind[i][0]
-        l,v = np.linalg.eig(-x[index])
+        l,v = np.linalg.eig(-x[(index[0], index[1])])
         l_f = np.diag(np.exp(l))
-        c_exp = np.matmul(v,np.matmul(l_f, np.linalg.inv(v)))
-        idn = np.identity(2)
+        c_exp = matmul(v,matmul(l_f, np.linalg.inv(v)))
+
         inv = idn+c_exp
         if np.linalg.det(inv) == 0:
-            r[index] = idn*0
+            r[(index[0], index[1])] = idn*0
         else:
-            r[index] = np.matmul(idn, np.linalg.inv(inv))
+            r[(index[0], index[1])] = matmul(idn, np.linalg.inv(inv))
         i+=1
     return r
 
+@njit
 def sigmoid_prime_more(x):
     f = sigmoid_more(x)
     ind = list(np.ndenumerate(x))
     i = 0
-
+    idn = np.identity(2)
     while i < len(ind):
         index = ind[i][0]
-        print(index)
-        x = np.identity(2)-f[index]
-        print(f[index], x)
-        f[index] = np.matmul(f[index],x)
+        x = idn-f[(index[0], index[1])]
+        f[(index[0], index[1])] = matmul(f[(index[0], index[1])],x)
         i += 1
     return f
 
