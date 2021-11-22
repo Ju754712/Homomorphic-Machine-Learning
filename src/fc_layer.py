@@ -71,15 +71,7 @@ class FCLayer(Layer):
         return output
     def forward_propagation_more_encrypted(self, input_data):
         self.input = input_data
-        output = np.zeros((1,self.weights_more.shape[1],2,2))
-        i = 0
-        while i < self.weights_more.shape[1]:
-            j = 0 
-            while j < self.input.shape[1]:
-                output[0,i] += matmul(self.input[0,j], self.weights_more[j,i])
-                j+=1
-            output[0,i] += self.bias_more[0,i]
-            i+=1
+        output = forward_more(self.input, self.weights_more, self.bias_more)
         return output
     
     # computes dE/dW, dE/dB for a given output_error=dE/dY. Returns input_error=dE/dX.
@@ -117,14 +109,11 @@ class FCLayer(Layer):
         return input_error, weights_error
     
     def backward_propagation_more(self, output_error, learning_rate):
-        input_error, weights_new, bias_new = backward_more(self.input, self.weights_more, self.bias_more, output_error, learning_rate)
-        print(self.weights_more[0,0])
-        print(weights_new[0,0])
-        self.weights_more = weights_new
+        input_error= backward_more(self.input, self.weights_more, self.bias_more, output_error, learning_rate)
+        # self.weights_more = weights_new
         
-        self.bias_more = bias_new
+        # self.bias_more = bias_new
         return input_error
-
 
 
 
@@ -136,14 +125,25 @@ def matmul(x,y):
             for k in range(x.shape[1]):
                 r[i,j] += x[i,k]*y[k,j]
     return r
-# @njit
+@njit
+def forward_more(input, weights_more, bias_more):
+    output = np.zeros((1,weights_more.shape[1],2,2))
+    i = 0
+    while i < weights_more.shape[1]:
+        j = 0 
+        while j < input.shape[1]:
+            output[0,i] += matmul(input[0,j], weights_more[j,i])
+            j+=1
+        output[0,i] += bias_more[0,i]
+        i+=1
+    return output
+
+@njit
 def backward_more(input, weights_more, bias_more,output_error, learning_rate):
     input_error = np.zeros(input.shape)
     weights_error = np.zeros(weights_more.shape)
     input_transpose = np.transpose(input, (1,0,2,3))
     weights_more_trans = np.transpose(weights_more,(1,0,2,3))
-    weights_new = np.array(weights_more)
-    bias_new = np.array(bias_more)
     i = 0
     while i < weights_more_trans.shape[1]:
         j = 0
@@ -157,17 +157,15 @@ def backward_more(input, weights_more, bias_more,output_error, learning_rate):
         i = 0
         while i < weights_error.shape[0]:
             weights_error[i,j] += matmul(input_transpose[i,0], output_error[0,j])
-            print(learning_rate *weights_error[i,j])
-            weights_new[i,j] -= learning_rate *weights_error[i,j]
+            weights_more[i,j] -= learning_rate *weights_error[i,j]
             
             i += 1
         
-        bias_new[0,j] -=learning_rate*output_error[0,j]
+        bias_more[0,j] -=learning_rate*output_error[0,j]
         
         j += 1
 
-    return input_error, weights_new, bias_new
-        
+    return input_error
 
 
 

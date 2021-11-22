@@ -116,6 +116,7 @@ class Network:
                 error = error/batch_size
                 # backward propagation
                 for layer in reversed(self.layers):
+                    
                     error = layer.backward_propagation(error, learning_rate)
                 bar.next()
                 j+=1
@@ -166,6 +167,7 @@ class Network:
                 error = error * (1/batch_size)
                 # backward propagation
                 for layer in reversed(self.layers):
+                
                     error = layer.backward_propagation_more(error, learning_rate)
                 bar.next()
                 j+=1
