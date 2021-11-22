@@ -57,7 +57,7 @@ net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx_more")
 
 
 for i in range(3):
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(activation=sigmoid, activation=sigmoid_prime)
+    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid, sigmoid_prime)
     net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
 
 output = net_sigmoid.predict(x_test)
