@@ -59,36 +59,36 @@ for i in range(y_train.shape[0]):
         y_train_enc[i,j] = more.encrypt(y_train[i,j])
 
 
-net_sigmoid = Network()
-net_sigmoid.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
-net_sigmoid.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
-net_sigmoid.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
+# net_sigmoid = Network()
+# net_sigmoid.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+# net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
+# net_sigmoid.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+# net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
+# net_sigmoid.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+# net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
 
-net_sigmoid.save("test")
+# net_sigmoid.save("test")
 
-net_sigmoid_more = Network()
-net_sigmoid_more.load("test")
+# net_sigmoid_more = Network()
+# net_sigmoid_more.load("test")
 
-for i in range(3):
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
-    net_sigmoid_more.layers[2*i].encrypt_params_more(more)
-
-
-net_sigmoid.use(mse, mse_prime)
-net_sigmoid_more.use(mse, mse_prime_more)
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
+#     net_sigmoid_more.layers[2*i].encrypt_params_more(more)
 
 
-net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
-net_sigmoid_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
+# net_sigmoid.use(mse, mse_prime)
+# net_sigmoid_more.use(mse, mse_prime_more)
 
-for i in range(3):
-    net_sigmoid_more.layers[2*i].decrypt_params_more(more)
 
-net_sigmoid.save("src/params/mnist_sigmoid")
-net_sigmoid_more.save("src/params/mnist_sigmoid_more")
+# net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
+# net_sigmoid_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
+
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i].decrypt_params_more(more)
+
+# net_sigmoid.save("src/params/mnist_sigmoid")
+# net_sigmoid_more.save("src/params/mnist_sigmoid_more")
 
 net_sigmoid = Network()
 net_sigmoid.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
