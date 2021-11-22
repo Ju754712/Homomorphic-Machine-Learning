@@ -51,8 +51,17 @@ output = net.predict(x_test)
 
 print(y_test[0].shape)
 print(type(output))
+accuracy = 0
+correct = 0
+incorrect = 0
 for i in range(len(output)):
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output[i][0])
-    print("Accuracy: ", mse(y_test[i], output[i][0]))
-    print("True: ", true_value, ", Pred: ", pred_value)
+    accuracy += mse(y_test[i], output[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
+
+print("accuracy: ", accuracy/len(output))
+print("Correct: ", correct, ", incorrect: ", incorrect)
