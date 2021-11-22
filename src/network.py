@@ -165,7 +165,6 @@ class Network:
                     k+=1
                 # Average Gradient
                 error = error * (1/batch_size)
-                print("Back")
                 # backward propagation
                 for layer in reversed(self.layers):
 
