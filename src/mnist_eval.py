@@ -40,17 +40,39 @@ y_test = y_test[0:100]
 
 more = MoreScheme(2)
 
-net = Network()
-net.load("src/params/mnist_more")
+net_tanh = Network()
+net_tanh.load("src/params/mnist_tanh")
 
 
-for i in range(3):
-    net.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
+# for i in range(3):
+#     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
 
-output = net.predict(x_test)
+output = net_tanh.predict(x_test)
 
-print(y_test[0].shape)
-print(type(output))
+accuracy = 0
+correct = 0
+incorrect = 0
+for i in range(len(output)):
+    true_value = np.argmax(y_test[i])
+    pred_value = np.argmax(output[i][0])
+    accuracy += mse(y_test[i], output[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
+
+print("accuracy: ", accuracy/len(output))
+print("Correct: ", correct, ", incorrect: ", incorrect)
+
+net_sigmoid = Network()
+net_sigmoid.load("src/params/mnist_sigmoid")
+
+
+# for i in range(3):
+#     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
+
+output = net_sigmoid.predict(x_test)
+
 accuracy = 0
 correct = 0
 incorrect = 0

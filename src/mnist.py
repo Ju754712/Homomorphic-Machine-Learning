@@ -4,17 +4,23 @@ from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
 from schemes.more import MoreScheme
-from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more
+from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more, sigmoid, sigmoid_prime
 from loss_functions import mse, mse_prime, bce, bce_prime, mse_prime_more
 
 from keras.datasets import mnist
 from keras.utils import np_utils
 import numpy as np
 
+
+EPOCHS = 20
+BATCH_SIZE = 1
+LEARNING_RATE = 0.1
+
+
+
 # load MNIST from server
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-print(x_train.shape)
 
 # training data : 60000 samples
 # reshape and normalize input data
@@ -40,27 +46,6 @@ y_test = y_test[0:100]
 
 more = MoreScheme(2)
 
-net = Network()
-net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-net.add(ActivationLayer(tanh, tanh_prime))
-net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-net.add(ActivationLayer(tanh, tanh_prime))
-net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(tanh, tanh_prime))
-
-net.save("test")
-
-net_more = Network()
-net_more.load("test")
-# # # train on 1000 samples
-
-
-# print(net.layers[2].weights)
-
-for i in range(3):
-    net_more.layers[2*i+1] = ActivationLayer(tanh_more, tanh_prime_more)
-    net_more.layers[2*i].encrypt_params_more(more)
-
 print("Encrypting Input")
 x_train_enc = np.zeros((x_train.shape[0],x_train.shape[1], x_train.shape[2],2,2))
 for i in range(x_train.shape[0]):
@@ -73,25 +58,65 @@ for i in range(y_train.shape[0]):
     for j in range(y_train.shape[1]):
         y_train_enc[i,j] = more.encrypt(y_train[i,j])
 
+net_tanh = Network()
+net_tanh.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+net_tanh.add(ActivationLayer(tanh, tanh_prime))
+net_tanh.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+net_tanh.add(ActivationLayer(tanh, tanh_prime))
+net_tanh.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+net_tanh.add(ActivationLayer(tanh, tanh_prime))
+
+net_tanh.save("test")
+
+# net_tanh_more = Network()
+# net_tanh_more.load("test")
+
+# for i in range(3):
+#     net_tanh_more.layers[2*i+1] = ActivationLayer(tanh_more, tanh_prime_more)
+#     net_tanh_more.layers[2*i].encrypt_params_more(more)
 
 
-net.use(mse, mse_prime)
-net_more.use(mse, mse_prime_more)
+net_tanh.use(mse, mse_prime)
+# net_tanh_more.use(mse, mse_prime_more)
 
 
-# net.fit(x_train, y_train, epochs=20, learning_rate = 0.1, batch_size =1)
-net_more.fit_more(x_train_enc, y_train_enc, epochs=20, learning_rate=0.1, batch_size = 1, more=more)
+net_tanh.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
+# net_tanh_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
 
-for i in range(3):
-    net_more.layers[2*i].decrypt_params_more(more)
+# for i in range(3):
+#     net_tanh_more.layers[2*i].decrypt_params_more(more)
 
-net.save("src/params/mnist_plain")
-net_more.save("src/params/mnist_more")
-# print(net.layers[2].weights)
+net_tanh.save("src/params/mnist_tanh")
+# net_tanh_more.save("src/params/mnist_tanh_more")
+
+net_sigmoid = Network()
+net_sigmoid.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
+net_sigmoid.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
+net_sigmoid.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+net_sigmoid.add(ActivationLayer(sigmoid, sigmoid_prime))
+
+net_sigmoid.save("test")
+
+# net_sigmoid_more = Network()
+# net_sigmoid_more.load("test")
+
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
+#     net_sigmoid_more.layers[2*i].encrypt_params_more(more)
 
 
-output = net_more.predict(x_test[0:3])
-print(output)
-print(y_test[0:3])
+net_sigmoid.use(mse, mse_prime)
+# net_sigmoid_more.use(mse, mse_prime_more)
 
+
+net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
+# net_sigmoid_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
+
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i].decrypt_params_more(more)
+
+net_sigmoid.save("src/params/mnist_sigmoid")
+# net_sigmoid_more.save("src/params/mnist_sigmoid_more")
 
