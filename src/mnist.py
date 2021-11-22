@@ -78,59 +78,20 @@ for i in range(y_train.shape[0]):
 net.use(mse, mse_prime)
 net_more.use(mse, mse_prime_more)
 
-print(net.layers[2].weights[0])
-print(net_more.layers[2].weights[0])
 
-net.fit(x_train, y_train, epochs=20, learning_rate = 0.1, batch_size =1)
+# net.fit(x_train, y_train, epochs=20, learning_rate = 0.1, batch_size =1)
 net_more.fit_more(x_train_enc, y_train_enc, epochs=20, learning_rate=0.1, batch_size = 1, more=more)
 
 for i in range(3):
     net_more.layers[2*i].decrypt_params_more(more)
 
-print(net.layers[2].weights[0])
-print(net_more.layers[2].weights[0])
-print(net.layers[2].bias[0])
-print(net_more.layers[2].bias[0])
-# net.save("mnist_square")
+net.save("src/params/mnist_plain")
+net_more.save("src/params/mnist_more")
 # print(net.layers[2].weights)
 
 
-
-# print("Before: ", net.layers[0].weights[0])
-
-# output_plain = net.layers[0].forward_propagation(x_train[0])
-# error_prime = mse_prime(y_train[0], output_plain)
-# output_error, weights_error = net.layers[0].backward_propagation(error_prime, 0.1)
-
-# print("After Plain: ", net.layers[0].weights[0])
-
-# output_enc = net.layers[0].forward_propagation_more_encrypted(x_train_enc[0])
-# error_prime_enc = mse_prime_more(y_train_enc[0], output_enc)
-# output_error_enc, weights_error_enc = net.layers[0].backward_propagation_more(error_prime_enc, 0.1)
-
-
-# output_more = np.zeros((output_enc.shape[0],output_enc.shape[1]))
-# for i in range(output_enc.shape[0]):
-#     for j in range(output_enc.shape[1]):
-#         output_more[i,j] = more.decrypt(output_enc[i,j])
-
-# error_prime_more = np.zeros((error_prime_enc.shape[0],error_prime_enc.shape[1]))
-# for i in range(error_prime_enc.shape[0]):
-#     for j in range(error_prime_enc.shape[1]):
-#         error_prime_more[i,j] = more.decrypt(error_prime_enc[i,j])
-
-# output_error_more = np.zeros((output_error_enc.shape[0],output_error_enc.shape[1]))
-# for i in range(output_error_enc.shape[0]):
-#     for j in range(output_error_enc.shape[1]):
-#         output_error_more[i,j] = more.decrypt(output_error_enc[i,j])
-
-        
-# weights_error_more = np.zeros((weights_error_enc.shape[0],weights_error_enc.shape[1]))
-# for i in range(weights_error_enc.shape[0]):
-#     for j in range(weights_error_enc.shape[1]):
-#         weights_error_more[i,j] = more.decrypt(weights_error_enc[i,j])
-
-
-# net.layers[0].decrypt_params_more(more)
+output = net_more.predict(x_test[0:3])
+print(output)
+print(y_test[0:3])
 
 
