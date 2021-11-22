@@ -4,8 +4,8 @@ from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
 from schemes.more import MoreScheme
-from activation_functions import tanh, tanh_prime, tanh_more, tanh_prime_more, sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime
-from loss_functions import mse, mse_prime, bce, bce_prime, mse_prime_more
+from activation_functions import sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime
+from loss_functions import mse
 
 from keras.datasets import mnist
 from keras.utils import np_utils
@@ -57,8 +57,8 @@ net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx_more")
 
 
 for i in range(3):
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid, sigmoid_prime)
-    net_sigmoid_approx_more[2*i+1] = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
+    net_sigmoid_more.layers[2*i+1] = ActivationLayer(activation=sigmoid, activation=sigmoid_prime)
+    net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
 
 output = net_sigmoid.predict(x_test)
 
@@ -78,8 +78,6 @@ print("accuracy: ", accuracy/len(output))
 print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
-# for i in range(3):
-#     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
 
 output = net_sigmoid_approx.predict(x_test)
 
@@ -115,9 +113,6 @@ for i in range(len(output)):
 print("accuracy: ", accuracy/len(output))
 print("Correct: ", correct, ", incorrect: ", incorrect)
 
-
-# for i in range(3):
-#     net_tanh.layers[2*i+1] = ActivationLayer(tanh, tanh_prime)
 
 output = net_sigmoid_approx_more.predict(x_test)
 
