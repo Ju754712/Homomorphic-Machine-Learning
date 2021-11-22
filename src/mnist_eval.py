@@ -51,7 +51,7 @@ output = net.predict(x_test)
 
 print(y_test[0].shape)
 print(type(output))
-for i in len(output):
+for i in range(len(output)):
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output[i][0])
     print("Accuracy: ", mse(y_test[i], output[i][0]))
