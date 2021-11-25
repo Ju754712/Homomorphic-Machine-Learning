@@ -5,14 +5,19 @@ mp.dps=300000
 from numba import njit
 # loss function and its derivative
 def mse(y_true, y_pred):
-    x = np.mean(np.nan_to_num(np.power(y_true-y_pred, 2)))
+    try:
+        x = np.mean(np.power(y_true-y_pred, 2))
+    except:
+        x = 0
     return x
     
 
 def mse_prime(y_true, y_pred):
-    x = 2*(y_pred-y_true)/y_true.size
-    r = np.nan_to_num(x)
-    return r
+    try:
+        x = 2*(y_pred-y_true)/y_true.size
+    except:
+        x = np.zeros(y_pred.shape)
+    return x
 
 def bce(y_true, y_pred):
     loss = np.sum(y_true * np.log(y_pred) + (1-y_true)*np.log(1-y_pred))
