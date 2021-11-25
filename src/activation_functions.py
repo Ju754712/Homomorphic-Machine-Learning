@@ -121,10 +121,11 @@ def sigmoid_approx_more(x):
     ind = list(np.ndenumerate(x))
     i = 0
     r = np.zeros((x.shape[0],x.shape[1],2,2))
+    idn = np.identity(2)
     while i < len(ind):
         index = ind[i][0]
         x_square = matmul(x[(index[0], index[1])],x[(index[0], index[1])])
-        r[(index[0], index[1])] = -0.004 * matmul(x_square, x[(index[0], index[1])]) + 0.197 *x_square+0.5
+        r[(index[0], index[1])] = -0.004 * matmul(x_square, x[(index[0], index[1])]) + 0.197 *x_square+0.5*idn
         i+=1
     return r
 
@@ -181,15 +182,16 @@ def sigmoid_more(x):
 @njit
 def sigmoid_prime_more(x):
     f = sigmoid_more(x)
+    r = np.zeros(f.shape)
     ind = list(np.ndenumerate(x))
     i = 0
     idn = np.identity(2)
     while i < len(ind):
         index = ind[i][0]
         x = idn-f[(index[0], index[1])]
-        f[(index[0], index[1])] = matmul(f[(index[0], index[1])],x)
+        r[(index[0], index[1])] = matmul(f[(index[0], index[1])],x)
         i += 1
-    return f
+    return r
 
 ## Square 
 def square(x):

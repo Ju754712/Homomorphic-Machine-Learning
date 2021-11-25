@@ -1,53 +1,46 @@
 import numpy as np
-from tensorflow import keras
+# from tensorflow import keras
 
-import tensorflow as tf
+# import tensorflow as tf
 from activation_layer import ActivationLayer
 from conv1D_layer import Conv1DLayer, Conv1DTransposedLayer
-from activation_functions import tanh, tanh_prime, relu, relu_prime
+from activation_functions import tanh, tanh_prime, relu, relu_prime, sigmoid_approx , sigmoid_approx_prime, sigmoid_approx_more, sigmoid_approx_prime_more, sigmoid, sigmoid_prime, sigmoid_more, sigmoid_prime_more
 from network import Network 
 from tensorflow.keras import layers
 from data_setup import random_data
+from schemes.more import MoreScheme
 
-def embedd_step(data_test, model, clear=True):
-    embedding = model.predict(data_test)
+more = MoreScheme(2)
 
-    return embedding
-DATA_PATH = "./src/data/train.npy"
-ERR_FNCT = tf.keras.losses.MeanSquaredError()
-data = np.load(DATA_PATH, mmap_mode='r') # load data
-# data = np.random.randint(10,size=(1,10,1))
-data = np.array([[[1],[2],[3],[4],[5],[6]]])
+x = np.array([[1]])
+x_enc = np.array([[more.encrypt(1)]])
 
+sigmoidLayer = ActivationLayer(activation=sigmoid, activation_prime=sigmoid_prime)
+sigmoidMore = ActivationLayer(activation=sigmoid_more, activation_prime=sigmoid_prime_more)
 
-arraylen = data.shape[1]  
-#change kernel back
-model = keras.Sequential(
-    [
-        layers.Input(shape=(arraylen,1)),
-        layers.Conv1DTranspose(
-            filters=1, kernel_size=5, padding="same", strides=1
-        )        
+y = sigmoidLayer.forward_propagation(x)
+y_enc = sigmoidMore.forward_propagation_more_encrypted(x_enc)
 
-    ]
-)
+print(y)
+print(more.decrypt(y_enc[0][0]))
 
+y = sigmoidLayer.backward_propagation(x, 1)
+y_enc = sigmoidMore.backward_propagation_more(x_enc,1)
 
-weight = np.array([[[1]],[[2]],[[3]],[[4]],[[5]]])
-bias = np.array([0])
-model.layers[0].set_weights([weight,bias])
-weights = model.get_weights()
-#change kernel back
-net = Network()
-net.add(Conv1DTransposedLayer(input_shape = (6,1) , kernel = 5, layer_depth = 1, strides=1, padding = 'same', a=1))
+print(y)
+print(more.decrypt(y_enc[0][0]))
 
+sigmoidLayer = ActivationLayer(activation=sigmoid_approx, activation_prime=sigmoid_approx_prime)
+sigmoidMore = ActivationLayer(activation=sigmoid_approx_more, activation_prime=sigmoid_approx_prime_more)
 
+y = sigmoidLayer.forward_propagation(x)
+y_enc = sigmoidMore.forward_propagation_more_encrypted(x_enc)
 
-net.layers[0].weights = np.flip(np.transpose(weights[0],(0,2,1)),0)
-net.layers[0].bias = weights[1]
+print(y)
+print(more.decrypt(y_enc[0][0]))
 
-for a in range(1):
-    pred_keras = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model) 
-    pred_costum = net.predict(data[a, :, :].reshape((1,arraylen,1)))
-    print(pred_keras[0])
-    print(pred_costum[0])
+y = sigmoidLayer.backward_propagation(x, 1)
+y_enc = sigmoidMore.backward_propagation_more(x_enc,1)
+
+print(y)
+print(more.decrypt(y_enc[0][0]))
