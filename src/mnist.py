@@ -44,7 +44,7 @@ y_test = np_utils.to_categorical(y_test)
 x_test = x_test[0:100]
 y_test = y_test[0:100]
 
-more = MoreScheme(20000)
+more = MoreScheme(200)
 time1 = time.time()
 print("Encrypting Input")
 x_train_enc = np.zeros((x_train.shape[0],x_train.shape[1], x_train.shape[2],2,2))
