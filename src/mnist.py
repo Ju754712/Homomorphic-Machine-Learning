@@ -77,9 +77,9 @@ net_sigmoid.save("test")
 net_sigmoid_more = Network()
 net_sigmoid_more.load("test")
 
-for i in range(3):
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
-    net_sigmoid_more.layers[2*i].encrypt_params_more(more)
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
+#     net_sigmoid_more.layers[2*i].encrypt_params_more(more)
 
 
 net_sigmoid.use(mse, mse_prime)
@@ -113,9 +113,9 @@ net_sigmoid.save("test")
 net_sigmoid_more = Network()
 net_sigmoid_more.load("test")
 
-for i in range(3):
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
-    net_sigmoid_more.layers[2*i].encrypt_params_more(more)
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
+#     net_sigmoid_more.layers[2*i].encrypt_params_more(more)
 
 
 net_sigmoid.use(mse, mse_prime)
