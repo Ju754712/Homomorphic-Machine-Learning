@@ -94,8 +94,8 @@ time2 = time.time()
 print("Training Sigmoid Plain: ",time2-time1)
 # print("Training Sigmoid More: ",time3-time2)
 
-for i in range(3):
-    net_sigmoid_more.layers[2*i].decrypt_params_more(more)
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i].decrypt_params_more(more)
 
 net_sigmoid.save("src/params/mnist_sigmoid")
 # net_sigmoid_more.save("src/params/mnist_sigmoid_more")
@@ -130,8 +130,8 @@ time2 = time.time()
 print("Training Sigmoid Plain: ",time2-time1)
 # print("Training Sigmoid More: ",time3-time2)
 
-for i in range(3):
-    net_sigmoid_more.layers[2*i].decrypt_params_more(more)
+# for i in range(3):
+#     net_sigmoid_more.layers[2*i].decrypt_params_more(more)
 
 net_sigmoid.save("src/params/mnist_sigmoid_approx")
 # net_sigmoid_more.save("src/params/mnist_sigmoid_approx_more")
