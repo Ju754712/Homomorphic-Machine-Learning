@@ -86,7 +86,7 @@ net_sigmoid.use(mse, mse_prime)
 net_sigmoid_more.use(mse, mse_prime_more)
 
 time1 = time.time()
-net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
+#net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
 time2 = time.time()
 # net_sigmoid_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
 # time3 = time.time()

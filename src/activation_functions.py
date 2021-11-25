@@ -111,10 +111,10 @@ def sigmoid_prime(x):
     return f * (1-f)
 
 def sigmoid_approx(x):
-    return -0.004 * x**3 + 0.197*x +0.5
+    return -0.004 * np.power(x,3) + 0.197*x +0.5
 
 def sigmoid_approx_prime(x):
-    return -0.012*x**2+0.197
+    return -0.012*np.pwer(x,2)+0.197
 
 @njit
 def sigmoid_approx_more(x):
