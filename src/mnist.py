@@ -27,7 +27,7 @@ def encrypt(key, x, N):
     i= 0
     while i < len(ind):
         index = ind[i][0]
-        y = random.randint(floor(N/2),N)
+        y = random.randint(N/2,N)
         m = np.array([[x[index],0],[0,y]])
         r[index] = matmul(key,matmul(m, inv))
     return r
