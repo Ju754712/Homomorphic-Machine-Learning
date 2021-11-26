@@ -91,6 +91,7 @@ print("Encrypting Output")
 output_more= []
 for i in range(len(output_enc)):
     dec = np.zeros(output_enc[i].shape)
+    print(dec.shape)
     for j in range(output_enc[i].shape[0]):
         for k in range(output_enc[i].shape[1]):
             dec[j,k] = more.decrypt(output_enc[i][j,k])
