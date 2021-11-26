@@ -35,8 +35,8 @@ y_test = np_utils.to_categorical(y_test)
 x_train = x_train[0:1000]
 y_train = y_train[0:1000]
 
-x_test = x_test[0:100]
-y_test = y_test[0:100]
+x_test = x_test[0:10000]
+y_test = y_test[0:10000]
 
 more = MoreScheme(2)
 
