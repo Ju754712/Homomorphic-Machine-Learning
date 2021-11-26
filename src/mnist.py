@@ -86,7 +86,7 @@ net_sigmoid.use(mse, mse_prime)
 net_sigmoid_more.use(mse, mse_prime_more)
 
 time1 = time.time()
-#net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
+net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
 time2 = time.time()
 # net_sigmoid_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
 # time3 = time.time()
@@ -122,7 +122,7 @@ net_sigmoid.use(mse, mse_prime)
 net_sigmoid_more.use(mse, mse_prime_more)
 
 time1 = time.time()
-net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
+# net_sigmoid.fit(x_train, y_train, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE)
 time2 = time.time()
 # net_sigmoid_more.fit_more(x_train_enc, y_train_enc, epochs=EPOCHS, learning_rate = LEARNING_RATE, batch_size =BATCH_SIZE, more=more)
 # time3 = time.time()
@@ -133,6 +133,6 @@ print("Training Sigmoid Plain: ",time2-time1)
 # for i in range(3):
 #     net_sigmoid_more.layers[2*i].decrypt_params_more(more)
 
-net_sigmoid.save("src/params/mnist_sigmoid_approx")
+# net_sigmoid.save("src/params/mnist_sigmoid_approx")
 # net_sigmoid_more.save("src/params/mnist_sigmoid_approx_more")
 
