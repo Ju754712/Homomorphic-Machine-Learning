@@ -99,22 +99,22 @@ print("Correct: ", correct, ", incorrect: ", incorrect)
 # print("accuracy: ", accuracy/len(output))
 # print("Correct: ", correct, ", incorrect: ", incorrect)
 
-# output = net_sigmoid_more.predict(x_test)
+output = net_sigmoid_more.predict(x_test)
 
-# accuracy = 0
-# correct = 0
-# incorrect = 0
-# for i in range(len(output)):
-#     true_value = np.argmax(y_test[i])
-#     pred_value = np.argmax(output[i][0])
-#     accuracy += mse(y_test[i], output[i][0])
-#     if true_value == pred_value:
-#         correct +=1
-#     else: 
-#         incorrect +=1
+accuracy = 0
+correct = 0
+incorrect = 0
+for i in range(len(output)):
+    true_value = np.argmax(y_test[i])
+    pred_value = np.argmax(output[i][0])
+    accuracy += mse(y_test[i], output[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
 
-# print("accuracy: ", accuracy/len(output))
-# print("Correct: ", correct, ", incorrect: ", incorrect)
+print("accuracy: ", accuracy/len(output))
+print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
 # output = net_sigmoid_approx_more.predict(x_test)
