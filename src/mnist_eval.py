@@ -119,10 +119,6 @@ for i in range(len(output_more)):
         correct +=1
     else: 
         incorrect +=1
-        print(true_value, pred_value)
-        print(output_more[i])
-        print(output[i])
-        print(y_test[i])
 
 print("accuracy: ", accuracy/len(output_more))
 print("Correct: ", correct, ", incorrect: ", incorrect)
@@ -178,3 +174,7 @@ print("Correct: ", correct, ", incorrect: ", incorrect)
 
 # print("accuracy: ", accuracy/len(output))
 # print("Correct: ", correct, ", incorrect: ", incorrect)
+
+for i in range(10):
+    print(output_more[i])
+    print(output[i])
