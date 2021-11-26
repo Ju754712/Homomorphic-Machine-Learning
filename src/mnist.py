@@ -19,7 +19,7 @@ EPOCHS = 1
 BATCH_SIZE = 1
 LEARNING_RATE = 0.1
 
-@njit 
+# @njit 
 def encrypt(key, x, N):
     r = np.zeros((x.shape[0], x.shape[1], x.shape[2],2,2))
     ind = list(np.ndenumerate(x))
