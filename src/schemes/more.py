@@ -19,3 +19,5 @@ class MoreScheme:
     def decrypt(self, cryptotext):
         p = np.matmul(np.linalg.inv(self.key),np.matmul(cryptotext, self.key))
         return p[0,0]
+
+

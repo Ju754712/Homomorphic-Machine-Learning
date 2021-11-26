@@ -1,4 +1,4 @@
-
+from numba import njit
 
 from network import Network
 from fc_layer import FCLayer
@@ -11,11 +11,36 @@ from keras.datasets import mnist
 from keras.utils import np_utils
 import numpy as np
 import time
+import random
+import random
+from math import floor
 
 EPOCHS = 1
 BATCH_SIZE = 1
 LEARNING_RATE = 0.1
 
+@njit 
+def encrypt(key, x, N):
+    r = np.zeros((x.shape[0], x.shape[1], x.shape[2],2,2))
+    ind = np.ndenumerate(x)
+    inv = np.linalg.inv(key)
+    i= 0
+    while i < len(ind):
+        index = ind[i][0]
+        y = random.randint(floor(N/2),N)
+        m = np.array([[x[index],0],[0,y]])
+        r[index] = matmul(key,matmul(m, inv))
+    return r
+
+
+@njit
+def matmul(x,y):
+    r = np.zeros((x.shape[0], y.shape[1]))
+    for i in range(r.shape[0]):
+        for j in range(r.shape[1]):
+            for k in range(x.shape[1]):
+                r[i,j] += x[i,k]*y[k,j]
+    return r
 
 
 # load MNIST from server
@@ -45,13 +70,10 @@ x_train = x_train[0:60000]
 y_train = y_train[0:60000]
 
 more = MoreScheme(200)
+print(x_train.shape)
 time1 = time.time()
 print("Encrypting Input")
-x_train_enc = np.zeros((x_train.shape[0],x_train.shape[1], x_train.shape[2],2,2))
-for i in range(x_train.shape[0]):
-    for j in range(x_train.shape[1]):
-        for k in range(x_train.shape[2]):
-            x_train_enc[i,j,k] = more.encrypt(x_train[i,j,k])
+x_train_enc = encrypt(more.key, x_train, more.N)
 time2 = time.time()
 print("Encrypting Output")
 y_train_enc = np.zeros((y_train.shape[0],y_train.shape[1],2,2))
