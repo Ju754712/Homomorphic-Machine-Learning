@@ -45,7 +45,7 @@ class FCLayer(Layer):
         return output
     def forward_propagation_more(self, input_data):
         self.input = input_data
-        output = np.zeros((1, self.weights.shape[1]), dtype=object)
+        output = np.zeros((1, self.weights.shape[1],2,2))
         i = 0
         while i < self.weights.shape[1]:
             j = 0 
