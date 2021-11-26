@@ -86,9 +86,7 @@ print("Plain Processing:", time2-time1)
 print("More Processing:", time3-time2)
 print(output_enc[0].shape)
 print(y_test.shape)
-accuracy = 0
-correct = 0
-incorrect = 0
+
 print("Encrypting Output")
 output_more= []
 for i in range(len(output_enc)):
@@ -97,7 +95,9 @@ for i in range(len(output_enc)):
         for k in range(output_enc[i].shape[1]):
             dec[j,k] = more.decrypt(output_enc[i][j,k])
     output_more.append(dec)
-
+accuracy = 0
+correct = 0
+incorrect = 0
 for i in range(len(output)):
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output[i][0])
@@ -109,7 +109,9 @@ for i in range(len(output)):
 
 print("accuracy: ", accuracy/len(output))
 print("Correct: ", correct, ", incorrect: ", incorrect)
-
+accuracy = 0
+correct = 0
+incorrect = 0
 for i in range(len(output_more)):
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output_more[i][0])
