@@ -4,7 +4,7 @@ from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
 from schemes.more import MoreScheme
-from activation_functions import sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime
+from activation_functions import sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime, sigmoid_more, sigmoid_prime_more, sigmoid_approx_more, sigmoid_approx_prime_more
 from loss_functions import mse
 
 from keras.datasets import mnist
@@ -37,8 +37,8 @@ y_test = np_utils.to_categorical(y_test)
 x_train = x_train[0:1000]
 y_train = y_train[0:1000]
 
-x_test = x_test[0:10000]
-y_test = y_test[0:10000]
+x_test = x_test[0:100]
+y_test = y_test[0:100]
 
 more = MoreScheme(2)
 
@@ -54,17 +54,37 @@ net_sigmoid_more.load("src/params/mnist_sigmoid")
 
 
 net_sigmoid_approx_more = Network()
-net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx_more")
+net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx")
 
 
 
 for i in range(3):
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid, sigmoid_prime)
-    net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
+    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
+    net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
+
+print("Encrypting Input")
+x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
+for i in range(x_test.shape[0]):
+    for j in range(x_test.shape[1]):
+        for k in range(x_test.shape[2]):
+            x_test_enc[i,j,k] = more.encrypt(x_test[i,j,k])
+time2 = time.time()
+print("Encrypting Output")
+y_test_enc = np.zeros((y_test.shape[0],y_test.shape[1],2,2))
+for i in range(y_test.shape[0]):
+    for j in range(y_test.shape[1]):
+        y_test_enc[i,j] = more.encrypt(y_test[i,j])
+time3 = time.time()
+
+
 time1 = time.time()
 output = net_sigmoid.predict(x_test)
 time2 = time.time()
-print(time2-time1)
+output_enc = net_sigmoid_more.predict_more(x_test_enc)
+time3 = time.time()
+print("Plain Processing:", time2-time1)
+print("More Processing:", time3-time2)
+print(output_enc.shape)
 accuracy = 0
 correct = 0
 incorrect = 0
