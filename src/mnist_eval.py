@@ -122,6 +122,8 @@ for i in range(len(output_more)):
 
 print("accuracy: ", accuracy/len(output_more))
 print("Correct: ", correct, ", incorrect: ", incorrect)
+print(output[i])
+print(output_more[i])
 
 # output = net_sigmoid_approx.predict(x_test)
 

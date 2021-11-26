@@ -8,6 +8,7 @@ from activation_functions import tanh, tanh_prime, relu, relu_prime, sigmoid_app
 from network import Network 
 from tensorflow.keras import layers
 from data_setup import random_data
+from fc_layer import FCLayer
 from schemes.more import MoreScheme
 
 more = MoreScheme(2)
@@ -15,32 +16,12 @@ more = MoreScheme(2)
 x = np.array([[1]])
 x_enc = np.array([[more.encrypt(1)]])
 
-sigmoidLayer = ActivationLayer(activation=sigmoid, activation_prime=sigmoid_prime)
-sigmoidMore = ActivationLayer(activation=sigmoid_more, activation_prime=sigmoid_prime_more)
-
-y = sigmoidLayer.forward_propagation(x)
-y_enc = sigmoidMore.forward_propagation_more_encrypted(x_enc)
-
-print(y)
-print(more.decrypt(y_enc[0][0]))
-
-y = sigmoidLayer.backward_propagation(x, 1)
-y_enc = sigmoidMore.backward_propagation_more(x_enc,1)
-
-print(y)
-print(more.decrypt(y_enc[0][0]))
-
-sigmoidLayer = ActivationLayer(activation=sigmoid_approx, activation_prime=sigmoid_approx_prime)
-sigmoidMore = ActivationLayer(activation=sigmoid_approx_more, activation_prime=sigmoid_approx_prime_more)
-
-y = sigmoidLayer.forward_propagation(x)
-y_enc = sigmoidMore.forward_propagation_more_encrypted(x_enc)
-
-print(y)
-print(more.decrypt(y_enc[0][0]))
-
-y = sigmoidLayer.backward_propagation(x, 1)
-y_enc = sigmoidMore.backward_propagation_more(x_enc,1)
-
-print(y)
-print(more.decrypt(y_enc[0][0]))
+sigmoidLayer = FCLayer(1, 10)    
+output = sigmoidLayer.forward_propagation(x)
+output_enc = sigmoidLayer.forward_propagation_more(x_enc)
+output_more = np.zeros((output_enc.shape[0],output_enc.shape[1]))
+for i in range(output_enc.shape[0]):
+    for j in range(output_enc.shape[1]):
+        output_more[i,j] = more.decrypt(output_enc[i,j])
+print(output)
+print(output_more)
