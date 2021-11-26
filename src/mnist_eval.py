@@ -37,8 +37,8 @@ y_test = np_utils.to_categorical(y_test)
 x_train = x_train[0:1000]
 y_train = y_train[0:1000]
 
-x_test = x_test[5000:6000]
-y_test = y_test[5000:6000]
+x_test = x_test[6000:7000]
+y_test = y_test[6000:7000]
 
 more = MoreScheme(2)
 
@@ -127,7 +127,7 @@ print("accuracy: ", accuracy/len(output_more))
 print("Correct: ", correct, ", incorrect: ", incorrect)
 print(output[i])
 print(output_more[i])
-
+print(y_test[i])
 # output = net_sigmoid_approx.predict(x_test)
 
 # accuracy = 0
