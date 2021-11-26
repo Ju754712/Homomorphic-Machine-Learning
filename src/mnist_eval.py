@@ -84,7 +84,7 @@ output_enc = net_sigmoid_more.predict_more(x_test_enc)
 time3 = time.time()
 print("Plain Processing:", time2-time1)
 print("More Processing:", time3-time2)
-print(output_enc.shape)
+print(output_enc[0].shape)
 accuracy = 0
 correct = 0
 incorrect = 0
