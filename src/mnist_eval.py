@@ -37,8 +37,8 @@ y_test = np_utils.to_categorical(y_test)
 x_train = x_train[0:1000]
 y_train = y_train[0:1000]
 
-x_test = x_test[4000:5000]
-y_test = y_test[4000:5000]
+x_test = x_test[5000:6000]
+y_test = y_test[5000:6000]
 
 more = MoreScheme(2)
 
@@ -119,6 +119,9 @@ for i in range(len(output_more)):
         correct +=1
     else: 
         incorrect +=1
+        print(output_more[i])
+        print(output[i])
+        y_test[i]
 
 print("accuracy: ", accuracy/len(output_more))
 print("Correct: ", correct, ", incorrect: ", incorrect)
