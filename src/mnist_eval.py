@@ -11,6 +11,8 @@ from keras.datasets import mnist
 from keras.utils import np_utils
 import numpy as np
 
+import time
+
 # load MNIST from server
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -48,7 +50,7 @@ net_sigmoid_approx = Network()
 net_sigmoid_approx.load("src/params/mnist_sigmoid_approx")
 
 net_sigmoid_more = Network()
-net_sigmoid_more.load("src/params/mnist_sigmoid_more")
+net_sigmoid_more.load("src/params/mnist_sigmoid")
 
 
 net_sigmoid_approx_more = Network()
@@ -59,9 +61,10 @@ net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx_more")
 for i in range(3):
     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid, sigmoid_prime)
     net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
-
+time1 = time.time()
 output = net_sigmoid.predict(x_test)
-
+time2 = time.time()
+print(time2-time1)
 accuracy = 0
 correct = 0
 incorrect = 0
