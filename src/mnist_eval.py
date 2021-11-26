@@ -37,8 +37,8 @@ y_test = np_utils.to_categorical(y_test)
 x_train = x_train[0:1000]
 y_train = y_train[0:1000]
 
-x_test = x_test[0:100]
-y_test = y_test[0:100]
+x_test = x_test[0:10000]
+y_test = y_test[0:10000]
 
 more = MoreScheme(2)
 
@@ -84,10 +84,9 @@ output_enc = net_sigmoid_more.predict_more(x_test_enc)
 time3 = time.time()
 print("Plain Processing:", time2-time1)
 print("More Processing:", time3-time2)
-print(output_enc[0].shape)
-print(y_test.shape)
 
-print("Encrypting Output")
+
+print("Decrypting Output")
 output_more= []
 for i in range(len(output_enc)):
     dec = np.zeros((output_enc[i].shape[0], output_enc[i].shape[1]))
@@ -121,7 +120,7 @@ for i in range(len(output_more)):
     else: 
         incorrect +=1
 
-print("accuracy: ", accuracy/len(output))
+print("accuracy: ", accuracy/len(output_more))
 print("Correct: ", correct, ", incorrect: ", incorrect)
 
 # output = net_sigmoid_approx.predict(x_test)
