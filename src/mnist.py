@@ -22,7 +22,7 @@ LEARNING_RATE = 0.1
 @njit 
 def encrypt(key, x, N):
     r = np.zeros((x.shape[0], x.shape[1], x.shape[2],2,2))
-    ind = np.ndenumerate(x)
+    ind = list(np.ndenumerate(x))
     inv = np.linalg.inv(key)
     i= 0
     while i < len(ind):
