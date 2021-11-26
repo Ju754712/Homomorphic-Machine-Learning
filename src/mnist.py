@@ -41,8 +41,8 @@ y_test = np_utils.to_categorical(y_test)
 # x_train = x_train[0:4000]
 # y_train = y_train[0:1000]
 
-x_train = x_train[0:60000]
-y_train = y_train[0:60000]
+x_train = x_train[0:100]
+y_train = y_train[0:100]
 
 # more = MoreScheme(200)
 # time1 = time.time()
