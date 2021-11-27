@@ -149,53 +149,48 @@ om4 = net_sigmoid_more.layers[3].forward_propagation_more_encrypted(om3)
 om5 = net_sigmoid_more.layers[4].forward_propagation_more_encrypted(om4)
 om6 = net_sigmoid_more.layers[4].forward_propagation_more_encrypted(om5)
 
-print(om1[0,0])
-print(om2[0,0])
-print(om3[0,0])
-print(om4[0,0])
-print(om5[0,0])
-print(om6[0,0])
 
 
 
-# ome1 = np.zeros((om1.shape[0],om1.shape[1]))
-# for i in range(om1.shape[0]):
-#     for j in range(om1.shape[1]):
-#         ome1[i,j] = more.decrypt(om1[i,j])
-# ome2 = np.zeros((om2.shape[0],om2.shape[1]))
-# for i in range(om2.shape[0]):
-#     for j in range(om2.shape[1]):
-#         ome2[i,j] = more.decrypt(om2[i,j])
-# ome3 = np.zeros((om3.shape[0],om3.shape[1]))
-# for i in range(om3.shape[0]):
-#     for j in range(om3.shape[1]):
-#         ome3[i,j] = more.decrypt(om3[i,j])
-# ome4 = np.zeros((om4.shape[0],om4.shape[1]))
-# for i in range(om4.shape[0]):
-#     for j in range(om4.shape[1]):
-#         ome4[i,j] = more.decrypt(om4[i,j])
-# ome5 = np.zeros((om5.shape[0],om5.shape[1]))
-# for i in range(om5.shape[0]):
-#     for j in range(om5.shape[1]):
-#         ome5[i,j] = more.decrypt(om5[i,j])
-# ome6 = np.zeros((om6.shape[0],om6.shape[1]))
-# for i in range(om6.shape[0]):
-#     for j in range(om6.shape[1]):
-#         ome6[i,j] = more.decrypt(om6[i,j])
+
+ome1 = np.zeros((om1.shape[0],om1.shape[1]))
+for i in range(om1.shape[0]):
+    for j in range(om1.shape[1]):
+        ome1[i,j] = more.decrypt(om1[i,j])
+ome2 = np.zeros((om2.shape[0],om2.shape[1]))
+for i in range(om2.shape[0]):
+    for j in range(om2.shape[1]):
+        ome2[i,j] = more.decrypt(om2[i,j])
+ome3 = np.zeros((om3.shape[0],om3.shape[1]))
+for i in range(om3.shape[0]):
+    for j in range(om3.shape[1]):
+        ome3[i,j] = more.decrypt(om3[i,j])
+ome4 = np.zeros((om4.shape[0],om4.shape[1]))
+for i in range(om4.shape[0]):
+    for j in range(om4.shape[1]):
+        ome4[i,j] = more.decrypt(om4[i,j])
+ome5 = np.zeros((om5.shape[0],om5.shape[1]))
+for i in range(om5.shape[0]):
+    for j in range(om5.shape[1]):
+        ome5[i,j] = more.decrypt(om5[i,j])
+ome6 = np.zeros((om6.shape[0],om6.shape[1]))
+for i in range(om6.shape[0]):
+    for j in range(om6.shape[1]):
+        ome6[i,j] = more.decrypt(om6[i,j])
         
 
-# print(o1[0][0:10])
-# print(ome1[0][0:10])
-# print(o2[0][0:10])
-# print(ome2[0][0:10])
-# print(o3[0][0:10])
-# print(ome3[0][0:10])
-# print(o4[0][0:10])
-# print(ome4[0][0:10])
-# print(o5[0][0:10])
-# print(ome5[0][0:10])
-# print(o6[0][0:10])
-# print(ome6[0][0:10])
+print(o1[0][0:10])
+print(ome1[0][0:10])
+print(o2[0][0:10])
+print(ome2[0][0:10])
+print(o3[0][0:10])
+print(ome3[0][0:10])
+print(o4[0][0:10])
+print(ome4[0][0:10])
+print(o5[0][0:10])
+print(ome5[0][0:10])
+print(o6[0][0:10])
+print(ome6[0][0:10])
 
 # accuracy = 0
 # correct = 0
