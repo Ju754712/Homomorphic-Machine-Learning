@@ -35,8 +35,8 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 
-# x_test = x_test[8000:-1]
-# y_test = y_test[8000:-1]
+x_test = x_test[0:2]
+y_test = y_test[0:2]
 
 
 
@@ -69,19 +69,19 @@ for i in range(3):
 
 # Encrypt Input Data
 
-# print("Encrypting Input")
-# x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
-# for i in range(x_test.shape[0]):
-#     for j in range(x_test.shape[1]):
-#         for k in range(x_test.shape[2]):
-#             x_test_enc[i,j,k] = more.encrypt(x_test[i,j,k])
-# time2 = time.time()
+print("Encrypting Input")
+x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
+for i in range(x_test.shape[0]):
+    for j in range(x_test.shape[1]):
+        for k in range(x_test.shape[2]):
+            x_test_enc[i,j,k] = more.encrypt(x_test[i,j,k])
+time2 = time.time()
 
 # Predict on Sigmoid Network
 
-time1 = time.time()
-output = net_sigmoid.predict(x_test)
-time2 = time.time()
+# time1 = time.time()
+# output = net_sigmoid.predict(x_test)
+# time2 = time.time()
 # output_enc = net_sigmoid_more.predict_more(x_test_enc)
 # time3 = time.time()
 # print("Plain Sigmoid Processing:", time2-time1)
@@ -98,63 +98,63 @@ time2 = time.time()
 #             dec[j,k] = more.decrypt(output_enc[i][j,k])
 #     output_more.append(dec)
 
-accuracy = 0
-correct = 0
-incorrect = 0
-for i in range(len(output)):
-    true_value = np.argmax(y_test[i])
-    pred_value = np.argmax(output[i][0])
-    accuracy += mse(y_test[i], output[i][0])
-    if true_value == pred_value:
-        correct +=1
-    else: 
-        incorrect +=1
-
-print("Sigmoid Plain: ")
-print("accuracy: ", accuracy/len(output))
-print("Correct: ", correct, ", incorrect: ", incorrect)
 # accuracy = 0
 # correct = 0
 # incorrect = 0
-# for i in range(len(output_more)):
+# for i in range(len(output)):
 #     true_value = np.argmax(y_test[i])
-#     pred_value = np.argmax(output_more[i][0])
-#     accuracy += mse(y_test[i], output_more[i][0])
+#     pred_value = np.argmax(output[i][0])
+#     accuracy += mse(y_test[i], output[i][0])
 #     if true_value == pred_value:
 #         correct +=1
 #     else: 
 #         incorrect +=1
-# print("Sigmoid More")
-# print("accuracy: ", accuracy/len(output_more))
+
+# print("Sigmoid Plain: ")
+# print("accuracy: ", accuracy/len(output))
 # print("Correct: ", correct, ", incorrect: ", incorrect)
+# # accuracy = 0
+# # correct = 0
+# # incorrect = 0
+# # for i in range(len(output_more)):
+# #     true_value = np.argmax(y_test[i])
+# #     pred_value = np.argmax(output_more[i][0])
+# #     accuracy += mse(y_test[i], output_more[i][0])
+# #     if true_value == pred_value:
+# #         correct +=1
+# #     else: 
+# #         incorrect +=1
+# # print("Sigmoid More")
+# # print("accuracy: ", accuracy/len(output_more))
+# # print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
-# Predict Approx
+# # Predict Approx
 
-time1 = time.time()
-output = net_sigmoid_approx.predict(x_test)
-time2 = time.time()
-# output_enc = net_sigmoid_approx_more.predict_more(x_test_enc)
-time3 = time.time()
-print("Plain Approx Processing:", time2-time1)
-print("More Approx Processing:", time3-time2)
+# time1 = time.time()
+# output = net_sigmoid_approx.predict(x_test)
+# time2 = time.time()
+# # output_enc = net_sigmoid_approx_more.predict_more(x_test_enc)
+# time3 = time.time()
+# print("Plain Approx Processing:", time2-time1)
+# print("More Approx Processing:", time3-time2)
         
 
 
-accuracy = 0
-correct = 0
-incorrect = 0
-for i in range(len(output)):
-    true_value = np.argmax(y_test[i])
-    pred_value = np.argmax(output[i][0])
-    accuracy += mse(y_test[i], output[i][0])
-    if true_value == pred_value:
-        correct +=1
-    else: 
-        incorrect +=1
-print("Approx Plain")
-print("accuracy: ", accuracy/len(output))
-print("Correct: ", correct, ", incorrect: ", incorrect)
+# accuracy = 0
+# correct = 0
+# incorrect = 0
+# for i in range(len(output)):
+#     true_value = np.argmax(y_test[i])
+#     pred_value = np.argmax(output[i][0])
+#     accuracy += mse(y_test[i], output[i][0])
+#     if true_value == pred_value:
+#         correct +=1
+#     else: 
+#         incorrect +=1
+# print("Approx Plain")
+# print("accuracy: ", accuracy/len(output))
+# print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
 # print("Decrypting Output")
