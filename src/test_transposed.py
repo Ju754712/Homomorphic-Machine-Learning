@@ -19,7 +19,8 @@ x_enc = np.array([[more.encrypt(1)]])
 sigmoidLayer = ActivationLayer(sigmoid_approx, sigmoid_approx_prime)
 sigmoidMoreLayer = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
 output = sigmoidLayer.forward_propagation(x)
-output_enc = sigmoidLayer.forward_propagation_more(x_enc)
+output_enc = sigmoidMoreLayer.forward_propagation_more(x_enc)
+print(output_enc.shape)
 output_more = np.zeros((output_enc.shape[0],output_enc.shape[1]))
 for i in range(output_enc.shape[0]):
     for j in range(output_enc.shape[1]):
