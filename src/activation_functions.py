@@ -235,7 +235,7 @@ def square_more(x):
     i = 0
     while i < len(ind):
         index = ind[i][0]
-        r[(index[0],index[1])] = matmul(x[index(index[0],index[1])],x[(index[0],index[1])])+x[(index[0],index[1])]
+        r[(index[0],index[1])] = matmul(x[(index[0],index[1])],x[(index[0],index[1])])+x[(index[0],index[1])]
         i+=1
     return r
 
