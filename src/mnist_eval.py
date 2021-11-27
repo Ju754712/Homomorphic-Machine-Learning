@@ -148,6 +148,9 @@ om4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(om3)
 om5 = net_sigmoid_approx_more.layers[4].forward_propagation_more(om4)
 om6 = net_sigmoid_approx_more.layers[5].forward_propagation_more(om5)
 
+print(net_sigmoid_approx.layers[5].activation)
+print(net_sigmoid_approx_more.layers[5].activation)
+
 ome1 = np.zeros((om1.shape[0],om1.shape[1]))
 for i in range(om1.shape[0]):
     for j in range(om1.shape[1]):
