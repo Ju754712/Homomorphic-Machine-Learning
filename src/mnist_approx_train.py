@@ -44,9 +44,9 @@ def get_model(inputshape, lr=0.0001):
     model = keras.Sequential(
         [
             layers.Input(shape=(1,inputshape)),
-            layers.Dense(100, activation = 'sigmoid_approx_activation'),
-            layers.Dense(50, activation='sigmoid_approx_activation'),
-            layers.Dense(10, activation='sigmoid_approx_activation')
+            layers.Dense(100, activation = 'square_activation'),
+            layers.Dense(50, activation='square_activation'),
+            layers.Dense(10, activation='square_activation')
         ])
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=lr), loss="mse")
 
@@ -56,9 +56,9 @@ def get_trained_model(inputshape):
     model = keras.Sequential(
         [
             layers.Input(shape=(1,inputshape)),
-            layers.Dense(100, activation = 'sigmoid_approx_activation'),
-            layers.Dense(50, activation='sigmoid_approx_activation'),
-            layers.Dense(10, activation='sigmoid_approx_activation')
+            layers.Dense(100, activation = 'square_activation'),
+            layers.Dense(50, activation='square_activation'),
+            layers.Dense(10, activation='square_activation')
         ])
     return model
 
