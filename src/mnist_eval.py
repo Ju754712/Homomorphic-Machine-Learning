@@ -162,43 +162,43 @@ for i in range(om4.shape[0]):
 print(o1[0][0])
 print(om1[0][0])
 
-accuracy = 0
-correct = 0
-incorrect = 0
-for i in range(len(output)):
-    true_value = np.argmax(y_test[i])
-    pred_value = np.argmax(output[i][0])
-    accuracy += mse(y_test[i], output[i][0])
-    if true_value == pred_value:
-        correct +=1
-    else: 
-        incorrect +=1
+# accuracy = 0
+# correct = 0
+# incorrect = 0
+# for i in range(len(output)):
+#     true_value = np.argmax(y_test[i])
+#     pred_value = np.argmax(output[i][0])
+#     accuracy += mse(y_test[i], output[i][0])
+#     if true_value == pred_value:
+#         correct +=1
+#     else: 
+#         incorrect +=1
 
-print("accuracy: ", accuracy/len(output))
-print("Correct: ", correct, ", incorrect: ", incorrect)
-
-
-print("Decrypting Output")
-output_more= []
-for i in range(len(output_enc)):
-    dec = np.zeros((output_enc[i].shape[0], output_enc[i].shape[1]))
-    for j in range(output_enc[i].shape[0]):
-        for k in range(output_enc[i].shape[1]):
-            dec[j,k] = more.decrypt(output_enc[i][j,k])
-    output_more.append(dec)
+# print("accuracy: ", accuracy/len(output))
+# print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
-accuracy = 0
-correct = 0
-incorrect = 0
-for i in range(len(output_more)):
-    true_value = np.argmax(y_test[i])
-    pred_value = np.argmax(output_more[i][0])
-    accuracy += mse(y_test[i], output_more[i][0])
-    if true_value == pred_value:
-        correct +=1
-    else: 
-        incorrect +=1
+# print("Decrypting Output")
+# output_more= []
+# for i in range(len(output_enc)):
+#     dec = np.zeros((output_enc[i].shape[0], output_enc[i].shape[1]))
+#     for j in range(output_enc[i].shape[0]):
+#         for k in range(output_enc[i].shape[1]):
+#             dec[j,k] = more.decrypt(output_enc[i][j,k])
+#     output_more.append(dec)
 
-print("accuracy: ", accuracy/len(output_more))
-print("Correct: ", correct, ", incorrect: ", incorrect)
+
+# accuracy = 0
+# correct = 0
+# incorrect = 0
+# for i in range(len(output_more)):
+#     true_value = np.argmax(y_test[i])
+#     pred_value = np.argmax(output_more[i][0])
+#     accuracy += mse(y_test[i], output_more[i][0])
+#     if true_value == pred_value:
+#         correct +=1
+#     else: 
+#         incorrect +=1
+
+# print("accuracy: ", accuracy/len(output_more))
+# print("Correct: ", correct, ", incorrect: ", incorrect)
