@@ -162,7 +162,9 @@ accuracy = 0
 correct = 0
 incorrect = 0
 for i in range(len(output_more)):
+    print(output[i])
     print(output_more[i][0])
+
     print(y_test[i])
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output_more[i][0])
