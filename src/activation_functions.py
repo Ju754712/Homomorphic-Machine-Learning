@@ -133,7 +133,7 @@ def sigmoid_approx_more(x):
     while i < len(ind):
         index = ind[i][0]
         x_square = matmul(x[(index[0], index[1])],x[(index[0], index[1])])
-        r[(index[0], index[1])] = -0.004 * matmul(x_square, x[(index[0], index[1])]) + 0.197 *x_square+0.5*idn
+        r[(index[0], index[1])] = -0.004 * matmul(x_square, x[(index[0], index[1])]) + 0.197 *x[(index[0], index[1])]+0.5*idn
         i+=1
     return r
 
