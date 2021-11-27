@@ -124,13 +124,22 @@ time3 = time.time()
 # print("accuracy: ", accuracy/len(output_more))
 # print("Correct: ", correct, ", incorrect: ", incorrect)
 
-time1 = time.time()
-output = net_sigmoid_approx.predict(x_test)
-time2 = time.time()
-output_enc = net_sigmoid_approx_more.predict_more(x_test_enc)
-time3 = time.time()
-print("Plain Processing:", time2-time1)
-print("More Processing:", time3-time2)
+# time1 = time.time()
+# output = net_sigmoid_approx.predict(x_test)
+# time2 = time.time()
+# output_enc = net_sigmoid_approx_more.predict_more(x_test_enc)
+# time3 = time.time()
+# print("Plain Processing:", time2-time1)
+# print("More Processing:", time3-time2)
+o1 = net_sigmoid_approx.layers[0].forward_propagation(x_test[0])
+o2 = net_sigmoid_approx.layers[1].forward_propagation(o1)
+o3 = net_sigmoid_approx.layers[2].forward_propagation(o2)
+o4 = net_sigmoid_approx.layers[3].forward_propagation(o3)
+
+o1 = net_sigmoid_approx_more.layers[0].forward_propagation_more(x_test_enc[0])
+o2 = net_sigmoid_approx_more.layers[1].forward_propagation_more(o1)
+o3 = net_sigmoid_approx_more.layers[2].forward_propagation_more(o2)
+o4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(o3)
 
 accuracy = 0
 correct = 0
@@ -162,10 +171,6 @@ accuracy = 0
 correct = 0
 incorrect = 0
 for i in range(len(output_more)):
-    print(output[i])
-    print(output_more[i][0])
-
-    print(y_test[i])
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output_more[i][0])
     accuracy += mse(y_test[i], output_more[i][0])
