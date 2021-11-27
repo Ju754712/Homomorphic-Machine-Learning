@@ -148,6 +148,10 @@ om4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(om3)
 om5 = net_sigmoid_approx_more.layers[4].forward_propagation_more(om4)
 om6 = net_sigmoid_approx_more.layers[5].forward_propagation_more(om5)
 
+
+print(net_sigmoid_approx.layers[3].activation)
+print(net_sigmoid_approx_more.layers[3].activation)
+
 print(net_sigmoid_approx.layers[5].activation)
 print(net_sigmoid_approx_more.layers[5].activation)
 
