@@ -61,10 +61,11 @@ net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx")
 
 for i in range(3):
     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
+    net_sigmoid_more.layers[2*i].encrypt_params_more(more)
     net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
 
 print("Encrypting Input")
-x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2), dtype=np.float128)
+x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
 for i in range(x_test.shape[0]):
     for j in range(x_test.shape[1]):
         for k in range(x_test.shape[2]):
@@ -141,60 +142,60 @@ o4 = net_sigmoid.layers[3].forward_propagation(o3)
 o5 = net_sigmoid.layers[4].forward_propagation(o4)
 o6 = net_sigmoid.layers[5].forward_propagation(o5)
 
-om1 = net_sigmoid_more.layers[0].forward_propagation_more(x_test_enc[0])
-om2 = net_sigmoid_more.layers[1].forward_propagation_more(om1)
-om3 = net_sigmoid_more.layers[2].forward_propagation_more(om2)
-om4 = net_sigmoid_more.layers[3].forward_propagation_more(om3)
-om5 = net_sigmoid_more.layers[4].forward_propagation_more(om4)
-om6 = net_sigmoid_more.layers[4].forward_propagation_more(om5)
+om1 = net_sigmoid_more.layers[0].forward_propagation_more_encrypted(x_test_enc[0])
+om2 = net_sigmoid_more.layers[1].forward_propagation_more_encrypted(om1)
+om3 = net_sigmoid_more.layers[2].forward_propagation_more_encrypted(om2)
+om4 = net_sigmoid_more.layers[3].forward_propagation_more_encrypted(om3)
+om5 = net_sigmoid_more.layers[4].forward_propagation_more_encrypted(om4)
+om6 = net_sigmoid_more.layers[4].forward_propagation_more_encrypted(om5)
 
-# print(om1[0,0])
-# print(om2[0,0])
-# print(om3[0,0])
-# print(om4[0,0])
-# print(om5[0,0])
-# print(om6[0,0])
+print(om1[0,0])
+print(om2[0,0])
+print(om3[0,0])
+print(om4[0,0])
+print(om5[0,0])
+print(om6[0,0])
 
 
 
-ome1 = np.zeros((om1.shape[0],om1.shape[1]))
-for i in range(om1.shape[0]):
-    for j in range(om1.shape[1]):
-        ome1[i,j] = more.decrypt(om1[i,j])
-ome2 = np.zeros((om2.shape[0],om2.shape[1]))
-for i in range(om2.shape[0]):
-    for j in range(om2.shape[1]):
-        ome2[i,j] = more.decrypt(om2[i,j])
-ome3 = np.zeros((om3.shape[0],om3.shape[1]))
-for i in range(om3.shape[0]):
-    for j in range(om3.shape[1]):
-        ome3[i,j] = more.decrypt(om3[i,j])
-ome4 = np.zeros((om4.shape[0],om4.shape[1]))
-for i in range(om4.shape[0]):
-    for j in range(om4.shape[1]):
-        ome4[i,j] = more.decrypt(om4[i,j])
-ome5 = np.zeros((om5.shape[0],om5.shape[1]))
-for i in range(om5.shape[0]):
-    for j in range(om5.shape[1]):
-        ome5[i,j] = more.decrypt(om5[i,j])
-ome6 = np.zeros((om6.shape[0],om6.shape[1]))
-for i in range(om6.shape[0]):
-    for j in range(om6.shape[1]):
-        ome6[i,j] = more.decrypt(om6[i,j])
+# ome1 = np.zeros((om1.shape[0],om1.shape[1]))
+# for i in range(om1.shape[0]):
+#     for j in range(om1.shape[1]):
+#         ome1[i,j] = more.decrypt(om1[i,j])
+# ome2 = np.zeros((om2.shape[0],om2.shape[1]))
+# for i in range(om2.shape[0]):
+#     for j in range(om2.shape[1]):
+#         ome2[i,j] = more.decrypt(om2[i,j])
+# ome3 = np.zeros((om3.shape[0],om3.shape[1]))
+# for i in range(om3.shape[0]):
+#     for j in range(om3.shape[1]):
+#         ome3[i,j] = more.decrypt(om3[i,j])
+# ome4 = np.zeros((om4.shape[0],om4.shape[1]))
+# for i in range(om4.shape[0]):
+#     for j in range(om4.shape[1]):
+#         ome4[i,j] = more.decrypt(om4[i,j])
+# ome5 = np.zeros((om5.shape[0],om5.shape[1]))
+# for i in range(om5.shape[0]):
+#     for j in range(om5.shape[1]):
+#         ome5[i,j] = more.decrypt(om5[i,j])
+# ome6 = np.zeros((om6.shape[0],om6.shape[1]))
+# for i in range(om6.shape[0]):
+#     for j in range(om6.shape[1]):
+#         ome6[i,j] = more.decrypt(om6[i,j])
         
 
-print(o1[0][0:10])
-print(ome1[0][0:10])
-print(o2[0][0:10])
-print(ome2[0][0:10])
-print(o3[0][0:10])
-print(ome3[0][0:10])
-print(o4[0][0:10])
-print(ome4[0][0:10])
-print(o5[0][0:10])
-print(ome5[0][0:10])
-print(o6[0][0:10])
-print(ome6[0][0:10])
+# print(o1[0][0:10])
+# print(ome1[0][0:10])
+# print(o2[0][0:10])
+# print(ome2[0][0:10])
+# print(o3[0][0:10])
+# print(ome3[0][0:10])
+# print(o4[0][0:10])
+# print(ome4[0][0:10])
+# print(o5[0][0:10])
+# print(ome5[0][0:10])
+# print(o6[0][0:10])
+# print(ome6[0][0:10])
 
 # accuracy = 0
 # correct = 0
