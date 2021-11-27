@@ -170,7 +170,7 @@ ome5 = np.zeros((om5.shape[0],om5.shape[1]))
 for i in range(om5.shape[0]):
     for j in range(om5.shape[1]):
         ome5[i,j] = more.decrypt(om5[i,j])
-ome6 = np.zeros((om4.shape[0],om4.shape[1]))
+ome6 = np.zeros((om6.shape[0],om6.shape[1]))
 for i in range(om6.shape[0]):
     for j in range(om6.shape[1]):
         ome6[i,j] = more.decrypt(om6[i,j])
