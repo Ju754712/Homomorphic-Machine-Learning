@@ -159,8 +159,8 @@ for i in range(om1.shape[0]):
 #         ome4[i,j] = more.decrypt(om4[i,j])
         
 
-print(o1[0][0])
-print(ome1[0][0])
+print(o1[0][0:10])
+print(ome1[0][0:10])
 
 # accuracy = 0
 # correct = 0
