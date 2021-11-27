@@ -35,8 +35,8 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 
-x_test = x_test[2000:4000]
-y_test = y_test[2000:4000]
+x_test = x_test[4000:6000]
+y_test = y_test[4000:6000]
 
 
 
