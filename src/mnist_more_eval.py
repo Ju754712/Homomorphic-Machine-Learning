@@ -69,13 +69,13 @@ for i in range(3):
 
 # Encrypt Input Data
 
-print("Encrypting Input")
-x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
-for i in range(x_test.shape[0]):
-    for j in range(x_test.shape[1]):
-        for k in range(x_test.shape[2]):
-            x_test_enc[i,j,k] = more.encrypt(x_test[i,j,k])
-time2 = time.time()
+# print("Encrypting Input")
+# x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
+# for i in range(x_test.shape[0]):
+#     for j in range(x_test.shape[1]):
+#         for k in range(x_test.shape[2]):
+#             x_test_enc[i,j,k] = more.encrypt(x_test[i,j,k])
+# time2 = time.time()
 
 # Predict on Sigmoid Network
 
