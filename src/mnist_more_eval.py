@@ -35,8 +35,8 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 
-x_test = x_test[4000:6000]
-y_test = y_test[4000:6000]
+x_test = x_test[6000:8000]
+y_test = y_test[6000:8000]
 
 
 
@@ -86,6 +86,7 @@ time2 = time.time()
 # time3 = time.time()
 # print("Plain Sigmoid Processing:", time2-time1)
 # print("More Sigmoid Processing:", time3-time2)
+
 
 
 # print("Decrypting Output")
@@ -180,3 +181,31 @@ for i in range(len(output_more)):
 print("Approx More")
 print("accuracy: ", accuracy/len(output_more))
 print("Correct: ", correct, ", incorrect: ", incorrect)
+
+o1 = net_sigmoid.layers[0].forward_propagation(x_test[0])
+o2 = net_sigmoid.layers[1].forward_propagation(o1)
+o3 = net_sigmoid.layers[1].forward_propagation(o2)
+o4 = net_sigmoid.layers[1].forward_propagation(o3)
+o5 = net_sigmoid.layers[1].forward_propagation(o4)
+o6 = net_sigmoid.layers[1].forward_propagation(o5)
+
+oe1 = net_sigmoid_more.layers[0].forward_propagation_more(x_test_enc[0])
+oe2 = net_sigmoid_more.layers[1].forward_propagation_more(oe1)
+oe3 = net_sigmoid_more.layers[1].forward_propagation_more(oe2)
+oe4 = net_sigmoid_more.layers[1].forward_propagation_more(oe3)
+oe5 = net_sigmoid_more.layers[1].forward_propagation_more(oe4)
+oe6 = net_sigmoid_more.layers[1].forward_propagation_more(oe5)
+
+om1 = more.decrypt(oe1[0,0])
+om2 = more.decrypt(oe2[0,0])
+om3 = more.decrypt(oe3[0,0])
+om4 = more.decrypt(oe4[0,0])
+om5 = more.decrypt(oe5[0,0])
+om6 = more.decrypt(oe6[0,0])
+
+print(o1. oe1)
+print(o2. oe2)
+print(o3, oe3)
+print(o4. oe4)
+print(o5. oe5)
+print(o6. oe6)
