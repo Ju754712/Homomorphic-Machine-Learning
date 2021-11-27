@@ -161,7 +161,12 @@ for i in range(om4.shape[0]):
 
 print(o1[0][0:10])
 print(ome1[0][0:10])
-
+print(o2[0][0:10])
+print(ome2[0][0:10])
+print(o3[0][0:10])
+print(ome3[0][0:10])
+print(o4[0][0:10])
+print(ome4[0][0:10])
 # accuracy = 0
 # correct = 0
 # incorrect = 0
