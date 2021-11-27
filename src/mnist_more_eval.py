@@ -94,12 +94,11 @@ for i in range(len(output_enc)):
         for k in range(output_enc[i].shape[1]):
             dec[j,k] = more.decrypt(output_enc[i][j,k])
     output_more.append(dec)
+    
 accuracy = 0
 correct = 0
 incorrect = 0
 for i in range(len(output)):
-    print(output[i])
-    print(y_test[i])
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output[i][0])
     accuracy += mse(y_test[i], output[i][0])
@@ -107,6 +106,7 @@ for i in range(len(output)):
         correct +=1
     else: 
         incorrect +=1
+
 print("Sigmoid Plain: ")
 print("accuracy: ", accuracy/len(output))
 print("Correct: ", correct, ", incorrect: ", incorrect)
