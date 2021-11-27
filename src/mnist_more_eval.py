@@ -35,8 +35,8 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 
-x_test = x_test[6000:8000]
-y_test = y_test[6000:8000]
+x_test = x_test[8000:-1]
+y_test = y_test[8000:-1]
 
 
 
@@ -184,17 +184,17 @@ print("Correct: ", correct, ", incorrect: ", incorrect)
 
 o1 = net_sigmoid.layers[0].forward_propagation(x_test[0])
 o2 = net_sigmoid.layers[1].forward_propagation(o1)
-o3 = net_sigmoid.layers[1].forward_propagation(o2)
-o4 = net_sigmoid.layers[1].forward_propagation(o3)
-o5 = net_sigmoid.layers[1].forward_propagation(o4)
-o6 = net_sigmoid.layers[1].forward_propagation(o5)
+o3 = net_sigmoid.layers[2].forward_propagation(o2)
+o4 = net_sigmoid.layers[3].forward_propagation(o3)
+o5 = net_sigmoid.layers[4].forward_propagation(o4)
+o6 = net_sigmoid.layers[5].forward_propagation(o5)
 
 oe1 = net_sigmoid_more.layers[0].forward_propagation_more(x_test_enc[0])
 oe2 = net_sigmoid_more.layers[1].forward_propagation_more(oe1)
-oe3 = net_sigmoid_more.layers[1].forward_propagation_more(oe2)
-oe4 = net_sigmoid_more.layers[1].forward_propagation_more(oe3)
-oe5 = net_sigmoid_more.layers[1].forward_propagation_more(oe4)
-oe6 = net_sigmoid_more.layers[1].forward_propagation_more(oe5)
+oe3 = net_sigmoid_more.layers[2].forward_propagation_more(oe2)
+oe4 = net_sigmoid_more.layers[3].forward_propagation_more(oe3)
+oe5 = net_sigmoid_more.layers[4].forward_propagation_more(oe4)
+oe6 = net_sigmoid_more.layers[5].forward_propagation_more(oe5)
 
 om1 = more.decrypt(oe1[0,0])
 om2 = more.decrypt(oe2[0,0])
