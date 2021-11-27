@@ -137,26 +137,26 @@ o3 = net_sigmoid_approx.layers[2].forward_propagation(o2)
 o4 = net_sigmoid_approx.layers[3].forward_propagation(o3)
 
 om1 = net_sigmoid_approx_more.layers[0].forward_propagation_more(x_test_enc[0])
-# om2 = net_sigmoid_approx_more.layers[1].forward_propagation_more(o1)
-# om3 = net_sigmoid_approx_more.layers[2].forward_propagation_more(o2)
-# om4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(o3)
+om2 = net_sigmoid_approx_more.layers[1].forward_propagation_more(om1)
+om3 = net_sigmoid_approx_more.layers[2].forward_propagation_more(om2)
+om4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(om3)
 
 ome1 = np.zeros((om1.shape[0],om1.shape[1]))
 for i in range(om1.shape[0]):
     for j in range(om1.shape[1]):
         ome1[i,j] = more.decrypt(om1[i,j])
-# ome2 = np.zeros((om2.shape[0],om2.shape[1]))
-# for i in range(om2.shape[0]):
-#     for j in range(om2.shape[1]):
-#         ome2[i,j] = more.decrypt(om2[i,j])
-# ome3 = np.zeros((om3.shape[0],om3.shape[1]))
-# for i in range(om3.shape[0]):
-#     for j in range(om3.shape[1]):
-#         ome3[i,j] = more.decrypt(om3[i,j])
-# ome4 = np.zeros((om4.shape[0],om4.shape[1]))
-# for i in range(om4.shape[0]):
-#     for j in range(om4.shape[1]):
-#         ome4[i,j] = more.decrypt(om4[i,j])
+ome2 = np.zeros((om2.shape[0],om2.shape[1]))
+for i in range(om2.shape[0]):
+    for j in range(om2.shape[1]):
+        ome2[i,j] = more.decrypt(om2[i,j])
+ome3 = np.zeros((om3.shape[0],om3.shape[1]))
+for i in range(om3.shape[0]):
+    for j in range(om3.shape[1]):
+        ome3[i,j] = more.decrypt(om3[i,j])
+ome4 = np.zeros((om4.shape[0],om4.shape[1]))
+for i in range(om4.shape[0]):
+    for j in range(om4.shape[1]):
+        ome4[i,j] = more.decrypt(om4[i,j])
         
 
 print(o1[0][0:10])
