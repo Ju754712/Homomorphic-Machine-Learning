@@ -176,18 +176,19 @@ for i in range(om6.shape[0]):
         ome6[i,j] = more.decrypt(om6[i,j])
         
 
-print(o1[0][0:10])
-print(ome1[0][0:10])
-print(o2[0][0:10])
-print(ome2[0][0:10])
-print(o3[0][0:10])
-print(ome3[0][0:10])
-print(o4[0][0:10])
-print(ome4[0][0:10])
-print(o5[0][0:10])
-print(ome5[0][0:10])
-print(o6[0][0:10])
-print(ome6[0][0:10])
+# print(o1[0][0:10])
+# print(ome1[0][0:10])
+# print(o2[0][0:10])
+# print(ome2[0][0:10])
+# print(o3[0][0:10])
+# print(ome3[0][0:10])
+# print(o4[0][0:10])
+# print(ome4[0][0:10])
+# print(o5[0][0:10])
+# print(ome5[0][0:10])
+# print(o6[0][0:10])
+# print(ome6[0][0:10])
+print(om5[0][0:10])
 # accuracy = 0
 # correct = 0
 # incorrect = 0
