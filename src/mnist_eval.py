@@ -188,7 +188,7 @@ for i in range(om6.shape[0]):
 # print(ome5[0][0:10])
 # print(o6[0][0:10])
 # print(ome6[0][0:10])
-print(om5[0][0:10])
+print(om6[0][0:10])
 # accuracy = 0
 # correct = 0
 # incorrect = 0
