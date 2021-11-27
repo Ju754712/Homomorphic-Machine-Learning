@@ -102,9 +102,9 @@ if __name__ == "__main__":
         epochs=EPOCHS,
         batch_size=BATCH_SIZE,
         validation_split=0.1,
-        callbacks=[
-            keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, mode="min")
-        ],
+        # callbacks=[
+        #     keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, mode="min")
+        # ],
     )     
 
 
