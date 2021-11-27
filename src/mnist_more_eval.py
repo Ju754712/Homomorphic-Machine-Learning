@@ -35,8 +35,8 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 
-x_test = x_test[0:10]
-y_test = y_test[0:10]
+x_test = x_test[0:100]
+y_test = y_test[0:100]
 
 
 
@@ -94,7 +94,7 @@ for i in range(len(output_enc)):
         for k in range(output_enc[i].shape[1]):
             dec[j,k] = more.decrypt(output_enc[i][j,k])
     output_more.append(dec)
-    
+
 accuracy = 0
 correct = 0
 incorrect = 0
