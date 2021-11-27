@@ -144,7 +144,6 @@ def sigmoid_approx_prime_more(x):
     r = np.zeros((x.shape[0],x.shape[1],2,2))
     while i < len(ind):
         index = ind[i][0]
-        matmul(x[(index[0], index[1])],x[(index[0], index[1])])
         r[(index[0], index[1])] = -0.012 * matmul(x[(index[0], index[1])],x[(index[0], index[1])]) + 0.197 *x[(index[0], index[1])]
         i+=1
     return r
