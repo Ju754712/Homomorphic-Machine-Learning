@@ -5,7 +5,7 @@ from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
 from schemes.more import MoreScheme
-from activation_functions import sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime, sigmoid_more, sigmoid_prime_more, sigmoid_approx_more, sigmoid_approx_prime_more
+from activation_functions import sigmoid, sigmoid_prime, sigmoid_approx, sigmoid_approx_prime, sigmoid_more, sigmoid_prime_more, square, square_prime, square_more, square_prime_more
 from loss_functions import mse
 
 from keras.datasets import mnist
@@ -63,7 +63,7 @@ net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx")
 
 for i in range(3):
     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
-    net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
+    net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(square_more, square_more)
 
 # Encrypt Input Data
 
