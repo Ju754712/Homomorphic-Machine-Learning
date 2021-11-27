@@ -205,7 +205,7 @@ def sigmoid_prime_more(x):
 
 ## Square 
 def square(x):
-    return np.power(x,2)
+    return np.power(x,2)+x
 
 def square_prime(x):
     return 2*x
@@ -228,14 +228,14 @@ def square_ckks(x):
 
 def square_prime_bfv(x):
     return 2*x
-
+@njit
 def square_more(x):
-    r = np.zeros(x.shape, dtype=object)
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
     ind = list(np.ndenumerate(x))
     i = 0
     while i < len(ind):
         index = ind[i][0]
-        r[index] = np.matmul(x[index],x[index])
+        r[(index[0],index[1])] = matmul(x[index(index[0],index[1])],x[(index[0],index[1])])+x[(index[0],index[1])]
         i+=1
     return r
 
