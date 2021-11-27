@@ -162,8 +162,8 @@ accuracy = 0
 correct = 0
 incorrect = 0
 for i in range(len(output_more)):
-    print(output_more[i][0].shape)
-    print(y_test[i].shape)
+    print(output_more[i][0])
+    print(y_test[i])
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output_more[i][0])
     accuracy += mse(y_test[i], output_more[i][0])
