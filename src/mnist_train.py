@@ -44,7 +44,7 @@ def get_model(inputshape, lr=0.0001):
     model = keras.Sequential(
         [
             layers.Input(shape=(1,inputshape)),
-            layers.Dense(100, activation = 'sigmoid'),
+            layers.Dense(100, activation='sigmoid'),
             layers.Dense(50, activation='sigmoid'),
             layers.Dense(10, activation='sigmoid')
         ])
