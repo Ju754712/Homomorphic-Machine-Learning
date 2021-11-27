@@ -131,8 +131,7 @@ time3 = time.time()
 # time3 = time.time()
 # print("Plain Processing:", time2-time1)
 # print("More Processing:", time3-time2)
-print(net_sigmoid_approx.layers)
-print(net_sigmoid_approx_more.layers)
+
 
 o1 = net_sigmoid_approx.layers[0].forward_propagation(x_test[0])
 o2 = net_sigmoid_approx.layers[1].forward_propagation(o1)
@@ -148,12 +147,8 @@ om4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(om3)
 om5 = net_sigmoid_approx_more.layers[4].forward_propagation_more(om4)
 om6 = net_sigmoid_approx_more.layers[5].forward_propagation_more(om5)
 
-
-print(net_sigmoid_approx.layers[3].activation)
-print(net_sigmoid_approx_more.layers[3].activation)
-
-print(net_sigmoid_approx.layers[5].activation)
-print(net_sigmoid_approx_more.layers[5].activation)
+print(o6.shape)
+print(om6.shape)
 
 ome1 = np.zeros((om1.shape[0],om1.shape[1]))
 for i in range(om1.shape[0]):
