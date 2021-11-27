@@ -1,5 +1,6 @@
 
 
+from tensorflow.python.keras.backend import dtype
 from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
@@ -63,7 +64,7 @@ for i in range(3):
     net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(sigmoid_approx_more, sigmoid_approx_prime_more)
 
 print("Encrypting Input")
-x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
+x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2), dtype=np.float128)
 for i in range(x_test.shape[0]):
     for j in range(x_test.shape[1]):
         for k in range(x_test.shape[2]):
