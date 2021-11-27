@@ -145,13 +145,13 @@ om2 = net_sigmoid_approx_more.layers[1].forward_propagation_more(om1)
 om3 = net_sigmoid_approx_more.layers[2].forward_propagation_more(om2)
 om4 = net_sigmoid_approx_more.layers[3].forward_propagation_more(om3)
 om5 = net_sigmoid_approx_more.layers[4].forward_propagation_more(om4)
-ome5 = np.zeros((om5.shape[0],om5.shape[1]))
-for i in range(om5.shape[0]):
-    for j in range(om5.shape[1]):
-        ome5[i,j] = more.decrypt(om5[i,j])
-for i in range(om5.shape[0]):
-    for j in range(om5.shape[1]):
-        om5[i,j] = more.encrypt(ome5[i,j])
+# ome5 = np.zeros((om5.shape[0],om5.shape[1]))
+# for i in range(om5.shape[0]):
+#     for j in range(om5.shape[1]):
+#         ome5[i,j] = more.decrypt(om5[i,j])
+# for i in range(om5.shape[0]):
+#     for j in range(om5.shape[1]):
+#         om5[i,j] = more.encrypt(ome5[i,j])
 om6 = net_sigmoid_approx_more.layers[5].forward_propagation_more(om5)
 
 print(om6.shape)
