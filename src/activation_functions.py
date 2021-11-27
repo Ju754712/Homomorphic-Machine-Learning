@@ -124,7 +124,7 @@ def sigmoid_approx_prime(x):
         r = np.zeros(x.shape)
     return r
 
-# @njit
+@njit
 def sigmoid_approx_more(x):
     ind = list(np.ndenumerate(x))
     i = 0

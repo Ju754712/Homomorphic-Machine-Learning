@@ -37,8 +37,8 @@ y_test = np_utils.to_categorical(y_test)
 x_train = x_train[0:1000]
 y_train = y_train[0:1000]
 
-x_test = x_test[0:100]
-y_test = y_test[0:100]
+x_test = x_test[0:2]
+y_test = y_test[0:2]
 
 more = MoreScheme(2)
 
@@ -162,6 +162,8 @@ accuracy = 0
 correct = 0
 incorrect = 0
 for i in range(len(output_more)):
+    print(output_more[i][0].shape)
+    print(y_test[i].shape)
     true_value = np.argmax(y_test[i])
     pred_value = np.argmax(output_more[i][0])
     accuracy += mse(y_test[i], output_more[i][0])
