@@ -12,7 +12,7 @@ import tenseal as ts
 from network import Network
 from activation_layer import ActivationLayer
 from fc_layer import FCLayer
-from activation_functions import sigmoid_approx, sigmoid_approx_prime
+from activation_functions import sigmoid_approx, sigmoid_approx_prime, square
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -113,11 +113,11 @@ if __name__ == "__main__":
         print(weights[i].shape)
     net = Network()
     net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-    net.add(ActivationLayer(sigmoid_approx, sigmoid_approx_prime))
+    net.add(ActivationLayer(square, sigmoid_approx_prime))
     net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-    net.add(ActivationLayer(sigmoid_approx, sigmoid_approx_prime))
+    net.add(ActivationLayer(square, sigmoid_approx_prime))
     net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-    net.add(ActivationLayer(sigmoid_approx, sigmoid_approx_prime))
+    net.add(ActivationLayer(square, sigmoid_approx_prime))
 
     net.layers[0].weights=weights[0]
     net.layers[0].bias[0]=weights[1]

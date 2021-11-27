@@ -62,7 +62,9 @@ net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx")
 
 
 for i in range(3):
+    
     net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
+    net_sigmoid_approx.layers[2*i+1] = ActivationLayer(square, square_more)
     net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(square_more, square_more)
 
 # Encrypt Input Data
