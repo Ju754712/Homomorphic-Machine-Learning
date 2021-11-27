@@ -160,7 +160,7 @@ for i in range(om1.shape[0]):
         
 
 print(o1[0][0])
-print(om1[0][0])
+print(ome1[0][0])
 
 # accuracy = 0
 # correct = 0
