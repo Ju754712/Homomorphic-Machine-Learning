@@ -124,7 +124,7 @@ def sigmoid_approx_prime(x):
         r = np.zeros(x.shape)
     return r
 
-# @njit
+@njit
 def sigmoid_approx_more(x):
     ind = list(np.ndenumerate(x))
     i = 0
@@ -132,10 +132,13 @@ def sigmoid_approx_more(x):
     idn = np.identity(2)
     while i < len(ind):
         index = ind[i][0]
-        x_square = matmul(x[(index[0], index[1])],x[(index[0], index[1])])
-        r[(index[0], index[1])] = -0.004 * matmul(x_square, x[(index[0], index[1])]) + 0.197 *x[(index[0], index[1])]+0.5*idn
+        l,v = np.linalg.eig(x[(index[0],index[1])])
+        l_f = np.diag(np.power(l,3))
+        x_power= matmul(v,matmul(l_f, np.linalg.inv(v)))
+        r[(index[0], index[1])] = -0.004 * x_power+ 0.197 *x[(index[0], index[1])]+0.5*idn
         i+=1
     return r
+
 
 @njit
 def sigmoid_approx_prime_more(x):
