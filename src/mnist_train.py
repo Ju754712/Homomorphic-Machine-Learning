@@ -64,7 +64,7 @@ def get_trained_model(inputshape):
 
 if __name__ == "__main__":
     
-    EPOCHS = 35
+    EPOCHS = 1
     BATCH_SIZE = 1
     LEARNING_RATE = 0.1
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
