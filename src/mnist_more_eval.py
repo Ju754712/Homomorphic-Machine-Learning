@@ -192,7 +192,7 @@ print("hallo")
 oe1 = net_sigmoid_more.layers[0].forward_propagation_more(x_test_enc[0])
 oe2 = net_sigmoid_more.layers[1].forward_propagation_more(oe1)
 
-om2 = np.zeros((oe2.shape[0],oe2.shape[1]))
+om2 = np.zeros((oe2.shape[0],oe2.shape[1],2,2))
 print(om2.shape)
 print(o2.shape)
 print(oe2.shape)
