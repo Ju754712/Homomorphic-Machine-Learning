@@ -215,7 +215,7 @@ print(om1)
 for i in range(om2.shape[0]):
     for j in range(om2.shape[1]):
         print(o2[i,j])
-        print(om2[i,j])
+        # print(om2[i,j])
 print(o3[0,0])
 print(om3)
 print(o4[0,0])
