@@ -191,7 +191,11 @@ o6 = net_sigmoid.layers[5].forward_propagation(o5)
 print("hallo")
 oe1 = net_sigmoid_more.layers[0].forward_propagation_more(x_test_enc[0])
 oe2 = net_sigmoid_more.layers[1].forward_propagation_more(oe1)
+
 om2 = np.zeros((oe2.shape[0],oe2.shape[1]))
+print(om2.shape)
+print(o2.shape)
+print(oe2.shape)
 for i in range(oe2.shape[0]):
     for j in range(o2.shape[1]):
         om2[i,j]=more.encrypt(o2[i,j])
