@@ -114,6 +114,7 @@ class FCLayer(Layer):
         
         # self.bias_more = bias_new
         return input_error
+        
 
 
 
