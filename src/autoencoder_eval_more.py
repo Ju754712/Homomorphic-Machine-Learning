@@ -17,7 +17,7 @@ more = MoreScheme(2)
 
 PATH = "./src/data/train.npy"
 data = np.load(PATH, mmap_mode='r')
-x_test = data[0:2]
+x_test = data[0:100]
 
 
 autoencoder_plain = Network()
