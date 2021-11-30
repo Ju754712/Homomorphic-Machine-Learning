@@ -17,7 +17,7 @@ more = MoreScheme(2)
 
 PATH = "./src/data/train.npy"
 data = np.load(PATH, mmap_mode='r')
-x_test = data[0:100]
+x_test = data[0:2]
 
 
 autoencoder_plain = Network()
@@ -61,7 +61,8 @@ arraylength = x_test.shape[1]
 with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     fieldnames = ['encoding_accuracy', 'decoding_accuracy_plain', 'decoding_accuracy_more', 'decoding_accuracy', 'encoder_input_encryption_time', 'encoder_plain_time', 'encoder_more_time', 'encoder_output_decryption_time', 'decoder_input_encryption_time', 'decoder_plain_time', 'decoder_more_time', 'decoder_output_decryption_time' ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
+    encoding_accuracy = 0
+    decoding_accuracy = 0
     writer.writeheader()
     bar = Bar("Processing...", max = x_test.shape[0])
     for i in range(x_test.shape[0]):
@@ -80,29 +81,30 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         encoding_plain = autoencoder_plain.predict(x_test[i,:,:].reshape((1,arraylength,1)))
         time2 = time.time()
-        encoding_more_enc = autoencoder_more.predict_more(x_test_more)
+        # encoding_more_enc = autoencoder_more.predict_more(x_test_more)
         time3 = time.time()
 
         encoder_plain_time = time2-time1
         encoder_more_time = time3-time2
 
         time1 = time.time()
-        encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
-        for k in range(encoding_more_enc[0].shape[0]):
-            for j in range(encoding_more_enc[0].shape[1]):
-                encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
+        # encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
+        # for k in range(encoding_more_enc[0].shape[0]):
+        #     for j in range(encoding_more_enc[0].shape[1]):
+        #         encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
 
         time2 = time.time()
 
-        encoding_more[0] = np.nan_to_num(encoding_more[0])
-        encoder_output_decryption_time = time2-time1
-        encoding_accuracy = mse(encoding_plain[0], encoding_more[0])
+        # encoding_more[0] = np.nan_to_num(encoding_more[0])
+        # encoder_output_decryption_time = time2-time1
+        encoding_accuracy += mse(encoding_plain[0], 0)
+        # print(np.mean(encoding_plain[0]))
 
         time1 = time.time()
-        encoding_more_enc = np.zeros((encoding_more.shape[0],encoding_more.shape[1], encoding_more.shape[2],2,2))
-        for k in range(encoding_more[0].shape[0]):
-            for j in range(encoding_more[0].shape[1]):
-                encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
+        # encoding_more_enc = np.zeros((encoding_more.shape[0],encoding_more.shape[1], encoding_more.shape[2],2,2))
+        # for k in range(encoding_more[0].shape[0]):
+        #     for j in range(encoding_more[0].shape[1]):
+        #         encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
 
         time2 = time.time()
 
@@ -111,29 +113,34 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time1 = time.time()
         decoding_plain = autodecoder_plain.predict(encoding_plain)
         time2 = time.time()
-        decoding_more_enc = autodecoder_more.predict_more(encoding_more_enc)
+        # decoding_more_enc = autodecoder_more.predict_more(encoding_more_enc)
         time3 = time.time()
-        decoding_more_enc =np.nan_to_num(decoding_more_enc)
+        # decoding_more_enc =np.nan_to_num(decoding_more_enc)
 
         decoder_plain_time = time2-time1
         decoder_more_time = time3-time2
 
         
         time1 = time.time()
-        decoding_more = np.zeros((1,decoding_more_enc[0].shape[0], decoding_more_enc[0].shape[1]))
-        for k in range(decoding_more_enc[0].shape[0]):
-            for j in range(decoding_more_enc[0].shape[1]):
-                decoding_more[0,k,j] = more.decrypt(decoding_more_enc[0][k,j])
+        # decoding_more = np.zeros((1,decoding_more_enc[0].shape[0], decoding_more_enc[0].shape[1]))
+        # for k in range(decoding_more_enc[0].shape[0]):
+        #     for j in range(decoding_more_enc[0].shape[1]):
+        #         decoding_more[0,k,j] = more.decrypt(decoding_more_enc[0][k,j])
 
         time2 = time.time()
 
         decoder_output_decryption_time = time2-time1
-        decoding_accuracy_plain = mse(x_test[i], decoding_plain[0])
+        # decoding_accuracy_plain = mse(x_test[i], decoding_plain[0])
 
-        decoding_accuracy_more = mse(x_test[i], decoding_more[0])
-        decoding_accuracy = mse(decoding_plain[0], decoding_more[0])
-        writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
+        # decoding_accuracy_more = mse(x_test[i], decoding_more[0])
+        decoding_accuracy += mse(decoding_plain[0], 0)
+        # writer.writerow({'encoding_accuracy': encoding_accuracy, 'decoding_accuracy_plain': decoding_accuracy_plain , 'decoding_accuracy_more': decoding_accuracy_more, 'decoding_accuracy': decoding_accuracy, 'encoder_input_encryption_time': encoder_input_encryption_time, 'encoder_plain_time': encoder_plain_time, 'encoder_more_time': encoder_more_time, 'encoder_output_decryption_time': encoder_output_decryption_time, 'decoder_input_encryption_time': decoder_input_encryption_time, 'decoder_plain_time': decoder_plain_time, 'decoder_more_time': decoder_more_time, 'decoder_output_decryption_time': decoder_output_decryption_time })
     bar.finish()
+encoding_accuracy = encoding_accuracy/x_test.shape[0]
+decoding_accuracy = decoding_accuracy/x_test.shape[0]
+
+print(encoding_accuracy)
+print(decoding_accuracy)
 
 # Check if params are transfered correctly (does number fit and so on)
 # make prediction with keras and costum and compare

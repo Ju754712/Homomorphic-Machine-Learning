@@ -26,7 +26,7 @@ from keras.utils import np_utils
 
 
 def square_activation(x):
-    return x*x+x
+    return x*x
 
 def sigmoid_approx_activation(x):
     return -0.004 * x**3 + 0.197*x +0.5
@@ -43,10 +43,11 @@ def embedd_step(data_test, model, clear=True):
 def get_model(inputshape, lr=0.0001):
     model = keras.Sequential(
         [
-            layers.Input(shape=(1,inputshape)),
-            layers.Dense(100, activation = 'square_activation'),
-            layers.Dense(50, activation='square_activation'),
-            layers.Dense(10, activation='square_activation')
+            layers.Input(shape=(28,28,1)),                    
+            layers.Conv2D(filters=4, kernel_size=7, padding='valid', strides=3, activation="square_activation"),
+            layers.Reshape((256,)),
+            layers.Dense(64, activation = 'square_activation'),
+            layers.Dense(10),
         ])
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=lr), loss="mse")
 
@@ -55,10 +56,11 @@ def get_model(inputshape, lr=0.0001):
 def get_trained_model(inputshape):
     model = keras.Sequential(
         [
-            layers.Input(shape=(1,inputshape)),
-            layers.Dense(100, activation = 'square_activation'),
-            layers.Dense(50, activation='square_activation'),
-            layers.Dense(10, activation='square_activation')
+            layers.Input(shape=(28,28,1)),                    
+            layers.Conv2D(filters=4, kernel_size=7, padding='valid', strides=3, activation="square_activation"),
+            layers.Reshape((256,)),
+            layers.Dense(64, activation = 'square_activation'),
+            layers.Dense(10),
         ])
     return model
 
@@ -73,18 +75,20 @@ if __name__ == "__main__":
 
 
     # training data : 60000 samples
-    # reshape and normalize input data
-    x_train = x_train.reshape(x_train.shape[0], 1, 28*28)
+    # # reshape and normalize input data
+    print(x_train.shape)
+    x_train = x_train.reshape(x_train.shape[0],28,28,1)
     x_train = x_train.astype('float32')
-    x_train /= 255
+    print(x_train.shape)
+    # x_train /= 255
     # encode output which is a number in range [0,9] into a vector of size 10
     # e.g. number 3 will become [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
     y_train = np_utils.to_categorical(y_train)
 
     # same for test data : 10000 samples
-    x_test = x_test.reshape(x_test.shape[0], 1, 28*28)
+    # x_test = x_test.reshape(x_test.shape[0], 1, 28*28)
     x_test = x_test.astype('float32')
-    x_test /= 255
+    # x_test /= 255
     y_test = np_utils.to_categorical(y_test)
 
 
@@ -94,7 +98,7 @@ if __name__ == "__main__":
     # x_train = x_train[0:1000]
     # y_train = y_train[0:1000]
 
-    model = get_model(28*28)
+    model = get_model(x_train.shape)
     model.summary() # generate autoencoder model
     history = model.fit( # train autoencoder 
         x_train,
@@ -111,19 +115,20 @@ if __name__ == "__main__":
     weights = model.get_weights()
     for i in range(6):
         print(weights[i].shape)
-    net = Network()
-    net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-    net.add(ActivationLayer(square, sigmoid_approx_prime))
-    net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-    net.add(ActivationLayer(square, sigmoid_approx_prime))
-    net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-    net.add(ActivationLayer(square, sigmoid_approx_prime))
+    # net = Network()
+    # net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+    # net.add(ActivationLayer(square, sigmoid_approx_prime))
+    # net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+    # net.add(ActivationLayer(square, sigmoid_approx_prime))
+    # net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+    # net.add(ActivationLayer(square, sigmoid_approx_prime))
 
-    net.layers[0].weights=weights[0]
-    net.layers[0].bias[0]=weights[1]
-    net.layers[2].weights=weights[2]
-    net.layers[2].bias[0]=weights[3]
-    net.layers[4].weights=weights[4]
-    net.layers[4].bias[0]=weights[5]
+    # net.layers[0].weights=weights[0]
+    # net.layers[0].bias[0]=weights[1]
+    # net.layers[2].weights=weights[2]
+    # net.layers[2].bias[0]=weights[3]
+    # net.layers[4].weights=weights[4]
+    # net.layers[4].bias[0]=weights[5]
 
-    net.save("src/params/mnist_sigmoid_approx")
+    # net.save("src/params/mnist_tenseal")
+    pickle.dump(weights, open("mnist_tenseal.p", "wb" ) )

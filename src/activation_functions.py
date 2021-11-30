@@ -208,7 +208,7 @@ def square(x):
     return np.power(x,2)+x
 
 def square_prime(x):
-    return 2*x
+    return 2*x+1
 
 def square_bfv(x):
     return x * x
@@ -238,9 +238,17 @@ def square_more(x):
         r[(index[0],index[1])] = matmul(x[(index[0],index[1])],x[(index[0],index[1])])+x[(index[0],index[1])]
         i+=1
     return r
-
+@njit
 def square_prime_more(x):
-    return 2*x
+    r = np.zeros((x.shape[0],x.shape[1],2,2))
+    ind = list(np.ndenumerate(x))
+    idn = np.identity(2)
+    i = 0
+    while i < len(ind):
+        index = ind[i][0]
+        r[(index[0],index[1])] = 2*x[(index[0],index[1])]+idn
+        i+=1
+    return r
 
 @njit
 def matmul(x,y):

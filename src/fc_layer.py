@@ -41,8 +41,21 @@ class FCLayer(Layer):
 
     def forward_propagation_ckks(self, input_vector):
         self.input = input_vector
-        output = input_vector.matmul(self.weights) + self.bias[0]
+        output = np.zeros((1, self.weights.shape[1]),dtype=object)
+        i = 0
+        while i < self.weights.shape[1]:
+            print(i)
+            j = 0 
+            dec = [0]
+            while j < self.input.shape[1]:
+                dec += self.input[0,j] * [self.weights[j,i]]
+                j+=1
+            output[0,i] = dec
+            output[0,i] += [self.bias[0,i]]
+            i+=1
         return output
+
+        
     def forward_propagation_more(self, input_data):
         self.input = input_data
         output = np.zeros((1, self.weights.shape[1],2,2))

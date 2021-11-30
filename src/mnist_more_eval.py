@@ -49,84 +49,58 @@ net_sigmoid = Network()
 net_sigmoid.load("src/params/mnist_sigmoid")
 
 
-net_sigmoid_approx = Network()
-net_sigmoid_approx.load("src/params/mnist_sigmoid_approx")
-
 net_sigmoid_more = Network()
-net_sigmoid_more.load("src/params/mnist_sigmoid")
+net_sigmoid_more.load("src/params/mnist_sigmoid_more")
 
-
-net_sigmoid_approx_more = Network()
-net_sigmoid_approx_more.load("src/params/mnist_sigmoid_approx")
 
 
 
 for i in range(3):
-    
-    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid_more, sigmoid_prime_more)
-    net_sigmoid_approx.layers[2*i+1] = ActivationLayer(square, square_more)
-    net_sigmoid_approx_more.layers[2*i+1] = ActivationLayer(square_more, square_more)
+    net_sigmoid_more.layers[2*i+1] = ActivationLayer(sigmoid, sigmoid_prime)
 
 # Encrypt Input Data
 
-print("Encrypting Input")
-x_test_enc = np.zeros((x_test.shape[0],x_test.shape[1], x_test.shape[2],2,2))
-for i in range(x_test.shape[0]):
-    for j in range(x_test.shape[1]):
-        for k in range(x_test.shape[2]):
-            x_test_enc[i,j,k] = more.encrypt(x_test[i,j,k])
-time2 = time.time()
 
 # Predict on Sigmoid Network
 
-# time1 = time.time()
-# output = net_sigmoid.predict(x_test)
-# time2 = time.time()
-# output_enc = net_sigmoid_more.predict_more(x_test_enc)
-# time3 = time.time()
+time1 = time.time()
+output = net_sigmoid.predict(x_test)
+time2 = time.time()
+output_more = net_sigmoid_more.predict(x_test)
+time3 = time.time()
 # print("Plain Sigmoid Processing:", time2-time1)
 # print("More Sigmoid Processing:", time3-time2)
 
 
+accuracy = 0
+correct = 0
+incorrect = 0
+for i in range(len(output)):
+    true_value = np.argmax(y_test[i])
+    pred_value = np.argmax(output[i][0])
+    accuracy += mse(y_test[i], output[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
 
-# print("Decrypting Output")
-# output_more= []
-# for i in range(len(output_enc)):
-#     dec = np.zeros((output_enc[i].shape[0], output_enc[i].shape[1]))
-#     for j in range(output_enc[i].shape[0]):
-#         for k in range(output_enc[i].shape[1]):
-#             dec[j,k] = more.decrypt(output_enc[i][j,k])
-#     output_more.append(dec)
-
-# accuracy = 0
-# correct = 0
-# incorrect = 0
-# for i in range(len(output)):
-#     true_value = np.argmax(y_test[i])
-#     pred_value = np.argmax(output[i][0])
-#     accuracy += mse(y_test[i], output[i][0])
-#     if true_value == pred_value:
-#         correct +=1
-#     else: 
-#         incorrect +=1
-
-# print("Sigmoid Plain: ")
-# print("accuracy: ", accuracy/len(output))
-# print("Correct: ", correct, ", incorrect: ", incorrect)
-# # accuracy = 0
-# # correct = 0
-# # incorrect = 0
-# # for i in range(len(output_more)):
-# #     true_value = np.argmax(y_test[i])
-# #     pred_value = np.argmax(output_more[i][0])
-# #     accuracy += mse(y_test[i], output_more[i][0])
-# #     if true_value == pred_value:
-# #         correct +=1
-# #     else: 
-# #         incorrect +=1
-# # print("Sigmoid More")
-# # print("accuracy: ", accuracy/len(output_more))
-# # print("Correct: ", correct, ", incorrect: ", incorrect)
+print("Sigmoid Plain: ")
+print("accuracy: ", accuracy/len(output))
+print("Correct: ", correct, ", incorrect: ", incorrect)
+accuracy = 0
+correct = 0
+incorrect = 0
+for i in range(len(output_more)):
+    true_value = np.argmax(y_test[i])
+    pred_value = np.argmax(output_more[i][0])
+    accuracy += mse(y_test[i], output_more[i][0])
+    if true_value == pred_value:
+        correct +=1
+    else: 
+        incorrect +=1
+print("Sigmoid More")
+print("accuracy: ", accuracy/len(output_more))
+print("Correct: ", correct, ", incorrect: ", incorrect)
 
 
 # # Predict Approx
@@ -181,55 +155,3 @@ time2 = time.time()
 # print("Approx More")
 # print("accuracy: ", accuracy/len(output_more))
 # print("Correct: ", correct, ", incorrect: ", incorrect)
-print("hallo")
-o1 = net_sigmoid.layers[0].forward_propagation(x_test[0])
-o2 = net_sigmoid.layers[1].forward_propagation(o1)
-o3 = net_sigmoid.layers[2].forward_propagation(o2)
-o4 = net_sigmoid.layers[3].forward_propagation(o3)
-o5 = net_sigmoid.layers[4].forward_propagation(o4)
-o6 = net_sigmoid.layers[5].forward_propagation(o5)
-print("hallo")
-oe1 = net_sigmoid_more.layers[0].forward_propagation_more(x_test_enc[0])
-oe2 = net_sigmoid_more.layers[1].forward_propagation_more(oe1)
-
-om2 = np.zeros((oe2.shape[0],oe2.shape[1],2,2))
-print(om2.shape)
-print(o2.shape)
-print(oe2.shape)
-for i in range(oe2.shape[0]):
-    for j in range(o2.shape[1]):
-        om2[i,j]=more.encrypt(o2[i,j])
-
-oe3 = net_sigmoid_more.layers[2].forward_propagation_more(om2)
-oe4 = net_sigmoid_more.layers[3].forward_propagation_more(oe3)
-oe5 = net_sigmoid_more.layers[4].forward_propagation_more(oe4)
-oe6 = net_sigmoid_more.layers[5].forward_propagation_more(oe5)
-print("hallo")
-
-om1 = more.decrypt(oe1[0,0])
-om2 = more.decrypt(oe2[0,0])
-
-om3 = more.decrypt(oe3[0,0])
-om4 = more.decrypt(oe4[0,0])
-om5 = more.decrypt(oe5[0,0])
-om6 = more.decrypt(oe6[0,0])
-print("hallo")
-
-print(o1[0,0])
-print(om1)
-print(o2[0,0])
-print(om2)
-print(o3[0,0])
-print(om3)
-print(o4[0,0])
-print(om4)
-print(o5[0,0])
-print(om5)
-print(o6[0,0]) 
-print(om6)
-
-print("Test")
-# print(net_sigmoid.layers[2].weights)
-# print(net_sigmoid_more.layers[2].weights)
-# print(net_sigmoid.layers[2].bias)
-# print(net_sigmoid_more.layers[2].bias)
