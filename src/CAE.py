@@ -145,7 +145,9 @@ if __name__ == "__main__":
     # pred = [] # predictions array  
     pred = []
     err_data = []
+    print(data.shape)
     for a in range(TRAINON):
+        print(a)
         tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
         pred.append(tmp[0])
         err_data.append(tmp[1])
