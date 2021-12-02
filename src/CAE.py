@@ -143,11 +143,12 @@ if __name__ == "__main__":
 
     # err_data = [] # error array
     # pred = [] # predictions array  
-
+    pred = []
+    err_data = []
     for a in range(1):
         tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
-        pred = tmp[0]
-        err_data = tmp[2]
+        pred.append(tmp[0])
+        err_data.append(tmp[1])
 
     plt.plot(err_data)
     plt.savefig(f'mse.png')
