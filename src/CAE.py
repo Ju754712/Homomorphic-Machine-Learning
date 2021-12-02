@@ -46,7 +46,7 @@ def get_model(arraylen, lr=0.0001):
 
     return model
 
-def get_trained_model():
+def get_trained_model(arraylen):
     model = keras.Sequential(
     [
         layers.Input(shape=(arraylen,1)),
