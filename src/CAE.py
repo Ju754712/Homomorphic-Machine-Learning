@@ -133,24 +133,24 @@ if __name__ == "__main__":
     if SAVE == True:
         model.save('./src/keras_model/Autoencoder')
         print('Saved')
-    model = keras.models.load_model('./src/keras_model/Autoencoder')
+    # model = keras.models.load_model('./src/keras_model/Autoencoder')
 
-    err_data = [] # error array
-    pred = [] # predictions array  
+    # err_data = [] # error array
+    # pred = [] # predictions array  
 
-    for a in range(1):
-        tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
-        pred = tmp[0]
-        err_data = tmp[2]
+    # for a in range(1):
+    #     tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
+    #     pred = tmp[0]
+    #     err_data = tmp[2]
 
-    plt.plot(err_data)
-    plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
-    plt.close()
-    plt.plot(np.cumsum(err_data))
-    plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_cumsum.png')
-    plt.close()
-    pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
-    pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
+    # plt.plot(err_data)
+    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
+    # plt.close()
+    # plt.plot(np.cumsum(err_data))
+    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_cumsum.png')
+    # plt.close()
+    # pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
+    # pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
 
 
 
