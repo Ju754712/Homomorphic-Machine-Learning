@@ -85,23 +85,29 @@ if __name__ == "__main__":
     if TRAINON == 'all':
         TRAINON = data.shape[0] 
     arraylen = data.shape[1]   
-    model = get_model(arraylen)
+    model = get_trained_model(arraylen)
     model.summary() # generate autoencoder model
-    history = model.fit( # train autoencoder 
-    data[0:TRAINON, :, :],
-    data[0:TRAINON, :, :],
-    epochs=EPOCHS2TRAIN,
-    batch_size=BATCHSIZE,
-    validation_split=0.1,
-    callbacks=[
-        keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, mode="min")
-        ],
-    )     
+    # history = model.fit( # train autoencoder 
+    # data[0:TRAINON, :, :],
+    # data[0:TRAINON, :, :],
+    # epochs=EPOCHS2TRAIN,
+    # batch_size=BATCHSIZE,
+    # validation_split=0.1,
+    # callbacks=[
+    #     keras.callbacks.EarlyStopping(monitor="val_loss", patience=5, mode="min")
+    #     ],
+    # )     
 
 
     # weights = model.get_weights()
 
-    # net = Network()
+    net = Network()
+    net.load('.src/params/autoencoder')
+    model.layers[0].set_weights([net.layers[0].weights, net.layers[0].bias])
+    model.layers[1].set_weights([net.layers[2].weights, net.layers[2].bias])
+    model.layers[2].set_weights([np.flip(net.layers[4].weights.transpose(0,2,1),0), net.layers[4].bias])
+    model.layers[3].set_weights([np.flip(net.layers[6].weights.transpose(0,2,1),0), net.layers[6].bias])
+    model.layers[4].set_weights([np.flip(net.layers[8].weights.transpose(0,2,1),0), net.layers[8].bias])
     # net.add(Conv1DLayer(input_shape = data[0].shape, kernel=7, layer_depth = 32, strides = 2, padding ='same'))
     # net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
     # net.add(Conv1DLayer(input_shape = (75000,32), kernel = 7, layer_depth = 16, strides = 2, padding = 'same'))
@@ -130,24 +136,24 @@ if __name__ == "__main__":
     # net.layers[8].weights = np.flip(weights[8].transpose(0,2,1),0)
     # net.layers[8].bias = weights[9]
 
-    if SAVE == True:
-        model.save('./src/keras_model/Autoencoder')
-        print('Saved')
+    # if SAVE == True:
+    #     model.save('./src/keras_model/Autoencoder')
+    #     print('Saved')
     # model = keras.models.load_model('./src/keras_model/Autoencoder')
 
     # err_data = [] # error array
     # pred = [] # predictions array  
 
-    # for a in range(1):
-    #     tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
-    #     pred = tmp[0]
-    #     err_data = tmp[2]
+    for a in range(1):
+        tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
+        pred = tmp[0]
+        err_data = tmp[2]
 
-    # plt.plot(err_data)
-    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
-    # plt.close()
-    # plt.plot(np.cumsum(err_data))
-    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_cumsum.png')
+    plt.plot(err_data)
+    plt.savefig(f'mse.png')
+    plt.close()
+    plt.plot(np.cumsum(err_data))
+    plt.savefig(f'mse_cumsum.png')
     # plt.close()
     # pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
     # pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
