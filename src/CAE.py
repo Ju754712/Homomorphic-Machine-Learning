@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # weights = model.get_weights()
 
     net = Network()
-    net.load('.src/params/autoencoder')
+    net.load('./src/params/autoencoder')
     model.layers[0].set_weights([net.layers[0].weights, net.layers[0].bias])
     model.layers[1].set_weights([net.layers[2].weights, net.layers[2].bias])
     model.layers[2].set_weights([np.flip(net.layers[4].weights.transpose(0,2,1),0), net.layers[4].bias])
