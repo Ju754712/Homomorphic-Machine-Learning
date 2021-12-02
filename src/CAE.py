@@ -14,13 +14,13 @@ from dropout_layer import DropoutLayer
 from activation_functions import tanh, tanh_prime, relu, relu_prime
 
 
-def embedd_step(data_test, model, clear=True):
+def embedd_step(data_test, model, err_function, clear=True):
     embedding = model.predict(data_test)
-    # reconstruction_err = err_function(data_test, embedding).numpy()
+    reconstruction_err = err_function(data_test, embedding).numpy()
 
-    return embedding
+    return embedding, reconstruction_err
 
-def get_model(inputshape, lr=0.0001):
+def get_model(arraylen, lr=0.0001):
     model = keras.Sequential(
         [
             layers.Input(shape=(arraylen,1)),
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     BATCHSIZE = 4
     ERR_FNCT = tf.keras.losses.MeanSquaredError()
     FEATURE = "combined"
-    TRAINON = 'all' # or 'all'
+    TRAINON = 10000 # or 'all'
     MODE = 'splits'# 'splits' or 'trainon'
     SAVE = True
 
@@ -99,61 +99,58 @@ if __name__ == "__main__":
     )     
 
 
-    weights = model.get_weights()
+    # weights = model.get_weights()
 
-    net = Network()
-    net.add(Conv1DLayer(input_shape = data[0].shape, kernel=7, layer_depth = 32, strides = 2, padding ='same'))
-    net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
-    net.add(Conv1DLayer(input_shape = (75000,32), kernel = 7, layer_depth = 16, strides = 2, padding = 'same'))
-    net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
-    net.add(Conv1DTransposedLayer(input_shape = (37500,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
-    net.add(ActivationLayer(activation=relu, activation_prime=relu_prime))
-    net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
-    net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
-    net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
+    # net = Network()
+    # net.add(Conv1DLayer(input_shape = data[0].shape, kernel=7, layer_depth = 32, strides = 2, padding ='same'))
+    # net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
+    # net.add(Conv1DLayer(input_shape = (75000,32), kernel = 7, layer_depth = 16, strides = 2, padding = 'same'))
+    # net.add(ActivationLayer(activation = relu, activation_prime = relu_prime))
+    # net.add(Conv1DTransposedLayer(input_shape = (37500,16) , kernel = 7, layer_depth = 16, strides=2, padding = 'same', a=1))
+    # net.add(ActivationLayer(activation=relu, activation_prime=relu_prime))
+    # net.add(Conv1DTransposedLayer(input_shape=(75000,16), kernel = 7, layer_depth=32, strides=2, padding='same', a=1))
+    # net.add(ActivationLayer(activation=tanh, activation_prime=tanh_prime))
+    # net.add(Conv1DTransposedLayer(input_shape=(150000,32), kernel=7, layer_depth=1,  strides=1, padding='same', a=0))
 
-    trained_model = get_trained_model()
-    trained_model.layers[0].set_weights([weights[0], weights[1]])
-    trained_model.layers[1].set_weights([weights[2], weights[3]])
-    trained_model.layers[2].set_weights([weights[4], weights[5]])
-    trained_model.layers[3].set_weights([weights[6], weights[7]])
-    trained_model.layers[4].set_weights([weights[8], weights[9]])
+    # trained_model = get_trained_model()
+    # trained_model.layers[0].set_weights([weights[0], weights[1]])
+    # trained_model.layers[1].set_weights([weights[2], weights[3]])
+    # trained_model.layers[2].set_weights([weights[4], weights[5]])
+    # trained_model.layers[3].set_weights([weights[6], weights[7]])
+    # trained_model.layers[4].set_weights([weights[8], weights[9]])
 
-    net.layers[0].weights = weights[0]
-    net.layers[0].bias = weights[1]
-    net.layers[2].weights = weights[2]
-    net.layers[2].bias = weights[3]
-    net.layers[4].weights = np.flip(weights[4].transpose(0,2,1),0)
-    net.layers[4].bias = weights[5]
-    net.layers[6].weights = np.flip(weights[6].transpose(0,2,1),0)
-    net.layers[6].bias = weights[7]
-    net.layers[8].weights = np.flip(weights[8].transpose(0,2,1),0)
-    net.layers[8].bias = weights[9]
+    # net.layers[0].weights = weights[0]
+    # net.layers[0].bias = weights[1]
+    # net.layers[2].weights = weights[2]
+    # net.layers[2].bias = weights[3]
+    # net.layers[4].weights = np.flip(weights[4].transpose(0,2,1),0)
+    # net.layers[4].bias = weights[5]
+    # net.layers[6].weights = np.flip(weights[6].transpose(0,2,1),0)
+    # net.layers[6].bias = weights[7]
+    # net.layers[8].weights = np.flip(weights[8].transpose(0,2,1),0)
+    # net.layers[8].bias = weights[9]
 
     if SAVE == True:
         model.save('./src/keras_model/Autoencoder')
-        net.save("./src/params/autoencoder")
         print('Saved')
-    # model = keras.models.load_model('/hpcwork/mu637455/Code/Autoencoder/')
+    model = keras.models.load_model('./src/keras_model/Autoencoder')
 
-    # err_data = [] # error array
-    # pred = [] # predictions array  
+    err_data = [] # error array
+    pred = [] # predictions array  
 
-    # for a in range(1):
-    #     tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), trained_model) 
-    #     cos = net.predict(data[a, :, :].reshape((1,arraylen,1)))
+    for a in range(1):
+        tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
+        pred = tmp[0]
+        err_data = tmp[2]
 
-    #     print(tmp[0].shape)
-    #     print(cos[0].shape)
-
-    # plt.plot(err_data)
-    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
-    # plt.close()
-    # plt.plot(np.cumsum(err_data))
-    # plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_cumsum.png')
-    # plt.close()
-    # pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
-    # pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
+    plt.plot(err_data)
+    plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}.png')
+    plt.close()
+    plt.plot(np.cumsum(err_data))
+    plt.savefig(f'{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_cumsum.png')
+    plt.close()
+    pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
+    pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
 
 
 

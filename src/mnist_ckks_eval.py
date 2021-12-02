@@ -39,8 +39,8 @@ x_test /= 255
 y_test = np_utils.to_categorical(y_test)
 
 
-x_test = x_test[300:400]
-y_test = y_test[300:400]
+x_test = x_test[900:1000]
+y_test = y_test[900:1000]
 
 
 # Build Networks
@@ -185,10 +185,7 @@ for i in range(len(output)):
     y_pred_ckks_packed = np.argmax(output_ckks_packed[i])
     accuracy += mse(output[i],y_test[i])
     # accuracy_ckks += mse(output_ckks_dec[i],y_test[i])
-    print(output[i])
-    # print(output_ckks_dec[i])
-    print(output_ckks_packed[i])
-    print(y_test[i])
+
     accuracy_ckks_packed += mse(output_ckks_packed[i], y_test[i][0])
 
     if y_pred == y_true:
@@ -200,7 +197,7 @@ for i in range(len(output)):
     if y_pred_ckks_packed == y_true:
         correct_ckks_packed += 1
     else:
-        print("Plain predicted ",y_pred_ckks_packed, ", but real value was ",y_true)
+        print("CKKS predicted ",y_pred_ckks_packed, ", but real value was ",y_true)
 accuracy = accuracy/len(output)
 accuracy_ckks = accuracy_ckks/len(output)
 accuracy_ckks_packed = accuracy_ckks_packed/len(output)
