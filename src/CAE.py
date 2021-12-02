@@ -81,7 +81,6 @@ if __name__ == "__main__":
     SAVE = True
 
     data = np.load(PATH, mmap_mode='r') # load data
-    print(data.shape)
     if TRAINON == 'all':
         TRAINON = data.shape[0] 
     arraylen = data.shape[1]   
