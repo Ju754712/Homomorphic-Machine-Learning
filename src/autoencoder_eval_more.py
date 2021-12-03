@@ -65,7 +65,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
     decoding_accuracy = 0
     writer.writeheader()
     bar = Bar("Processing...", max = x_test.shape[0])
-    for i in range(x_test.shape[0]):
+    for i in range(1):
         bar.next()
         #Encryption
         x_test_more = np.zeros((1,x_test.shape[1], x_test.shape[2],2,2))
