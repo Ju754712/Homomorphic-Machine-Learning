@@ -87,15 +87,15 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
             o = autoencoder_more.layers[i].forward_propagation_more(o)
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
-        encoding_more = o
+        encoding_more_enc = o
         encoder_plain_time = time2-time1
         encoder_more_time = time3-time2
 
         time1 = time.time()
-        # encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
-        # for k in range(encoding_more_enc[0].shape[0]):
-        #     for j in range(encoding_more_enc[0].shape[1]):
-        #         encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
+        encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
+        for k in range(encoding_more_enc[0].shape[0]):
+            for j in range(encoding_more_enc[0].shape[1]):
+                encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
 
         time2 = time.time()
 
@@ -107,9 +107,9 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time1 = time.time()
         print(encoding_more.shape)
         encoding_more_enc = np.zeros((1,encoding_more.shape[0], encoding_more.shape[1],2,2))
-        for k in range(encoding_more.shape[0]):
-            for j in range(encoding_more.shape[1]):
-                encoding_more_enc[0,k,j] = more.encrypt(encoding_more[k,j])
+        for k in range(encoding_more[0].shape[0]):
+            for j in range(encoding_more[0].shape[1]):
+                encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
 
         time2 = time.time()
 
