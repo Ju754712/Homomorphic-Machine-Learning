@@ -44,11 +44,11 @@ def encrypt_array_par(plaintext_array, key, N):
     print(type(0))
     inv_k = np.linalg.inv(key)
     i = 0
-    # while i in range(len(ind)):
-    #     index = ind[i][0]
-    #     m = np.array([[plaintext_array[index],0],[0,y[i]]])
-    #     enc[index] = matmul(key, matmul(m, inv_k))
-    #     i+=1
+    while i in range(len(ind)):
+        index = ind[i][0]
+        m = np.array([[plaintext_array[index],0.0],[0.0,1.0]])
+        enc[index] = matmul(key, matmul(m, inv_k))
+        i+=1
     return enc
 @njit
 def decrypt_array_par(cryptotext, key):
