@@ -44,8 +44,8 @@ def encrypt_array_par(plaintext_array, key, N):
     while i in range(len(ind)):
         index = ind[i][0]
         print(index)
-        # m = np.array([[plaintext_array[index],0],[0,y[index]]])
-        # enc[index] = matmul(key, matmul(m, inv_k))
+        m = np.array([[plaintext_array[index],0],[0,y[i]]])
+        enc[index] = matmul(key, matmul(m, inv_k))
         i+=1
     return enc
 @njit
