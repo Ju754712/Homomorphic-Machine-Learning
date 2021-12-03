@@ -81,6 +81,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         encoding_plain = autoencoder_plain.predict(x_test[i,:,:].reshape((1,arraylength,1)))
         o = x_test_more
+        print(o.shape)
         for i in range(4):
             time2 = time.time()
             o = autoencoder_more.layers[i].forward_propagation(o[0])
