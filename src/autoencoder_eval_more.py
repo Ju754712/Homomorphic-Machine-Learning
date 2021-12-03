@@ -80,10 +80,13 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time1 = time.time()
 
         encoding_plain = autoencoder_plain.predict(x_test[i,:,:].reshape((1,arraylength,1)))
-        time2 = time.time()
-        # encoding_more_enc = autoencoder_more.predict_more(x_test_more)
-        time3 = time.time()
-
+        o = x_test_more
+        for i in range(4):
+            time2 = time.time()
+            o = autoencoder_more.layers[i].forward_propagation(o)
+            time3 = time.time()
+            print("Took ", time3-time2, " seconds for layer ", i)
+        encoding_more = o
         encoder_plain_time = time2-time1
         encoder_more_time = time3-time2
 
@@ -101,10 +104,10 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         # print(np.mean(encoding_plain[0]))
 
         time1 = time.time()
-        # encoding_more_enc = np.zeros((encoding_more.shape[0],encoding_more.shape[1], encoding_more.shape[2],2,2))
-        # for k in range(encoding_more[0].shape[0]):
-        #     for j in range(encoding_more[0].shape[1]):
-        #         encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
+        encoding_more_enc = np.zeros((encoding_more.shape[0],encoding_more.shape[1], encoding_more.shape[2],2,2))
+        for k in range(encoding_more[0].shape[0]):
+            for j in range(encoding_more[0].shape[1]):
+                encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
 
         time2 = time.time()
 
@@ -112,9 +115,12 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         time1 = time.time()
         decoding_plain = autodecoder_plain.predict(encoding_plain)
-        time2 = time.time()
-        # decoding_more_enc = autodecoder_more.predict_more(encoding_more_enc)
-        time3 = time.time()
+        o = encoding_more_enc
+        for i in range(4,9):
+            time2 = time.time()
+            o = autoencoder_more.layers[i].forward_propagation(o)
+            time3 = time.time()
+            print("Took ", time3-time2, " seconds for layer ", i)
         # decoding_more_enc =np.nan_to_num(decoding_more_enc)
 
         decoder_plain_time = time2-time1

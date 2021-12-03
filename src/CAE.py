@@ -5,7 +5,7 @@ from tensorflow.keras import layers
 from matplotlib import pyplot as plt
 import pickle
 import tensorflow as tf
-
+import json
 
 from network import Network
 from activation_layer import ActivationLayer
@@ -18,7 +18,7 @@ def embedd_step(data_test, model, err_function, clear=True):
     embedding = model.predict(data_test)
     reconstruction_err = err_function(data_test, embedding).numpy()
 
-    return embedding, reconstruction_err
+    return reconstruction_err
 
 def get_model(arraylen, lr=0.0001):
     model = keras.Sequential(
@@ -69,7 +69,7 @@ def get_trained_model(arraylen):
 
 if __name__ == "__main__":
 
-    PATH = "./src/data/train.npy"
+    PATH = "./src/data/finova.npy"
     ERROR_SAVE_NAME = "../CAE/sr"
     EXP = 'Finova2'
     EPOCHS2TRAIN = 50
@@ -143,19 +143,24 @@ if __name__ == "__main__":
     # err_data = [] # error array
     # pred = [] # predictions array  
     pred = []
-    err_data = []
-    print(data.shape)
-    for a in range(4000):
-        print(a)
-        tmp = embedd_step(data[a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
-        pred.append(tmp[0])
-        err_data.append(tmp[1])
+    err_data = []   #Pickling
+    for a in range(1600):
+        print(a)            
+        tmp = embedd_step(data[10*a, :, :].reshape((1,arraylen,1)), model, ERR_FNCT) 
+        # pred.append(tmp[0])
+        err_data.append(tmp)
+    with open("./src/err_data", "wb") as fp:
+        pickle.dump(err_data, fp)
 
     plt.plot(err_data)
-    plt.savefig(f'mse.png')
+    plt.xlabel("Sample")
+    plt.ylabel("Reconstruction Error [MSE]")
+    plt.savefig(f'mse_small.png')
     plt.close()
     plt.plot(np.cumsum(err_data))
-    plt.savefig(f'mse_cumsum.png')
+    plt.xlabel("Sample")
+    plt.ylabel("Cumulative Reconstruction Error [MSE]")
+    plt.savefig(f'mse_small_cumsum.png')
     # plt.close()
     # pickle.dump(err_data, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_err", "wb"))
     # pickle.dump(pred, open(f"{ERROR_SAVE_NAME}{EXP}{FEATURE}{TRAINON}_pred", "wb"))
