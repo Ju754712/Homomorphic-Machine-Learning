@@ -80,24 +80,23 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         time1 = time.time()
 
         encoding_plain = autoencoder_plain.predict(x_test[i,:,:].reshape((1,arraylength,1)))
-        o = x_test_more[0]
+        o = x_test[0]
         print(o.shape)
         for i in range(4):
             time2 = time.time()
-            o = autoencoder_more.layers[i].forward_propagation_more(o)
+            o = autoencoder_plain.layers[i].forward_propagation(o)
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
-        encoding_more_enc = [o]
         encoder_plain_time = time2-time1
         encoder_more_time = time3-time2
 
-        time1 = time.time()
-        encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
-        for k in range(encoding_more_enc[0].shape[0]):
-            for j in range(encoding_more_enc[0].shape[1]):
-                encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
+        # time1 = time.time()
+        # encoding_more = np.zeros((1,encoding_more_enc[0].shape[0], encoding_more_enc[0].shape[1]))
+        # for k in range(encoding_more_enc[0].shape[0]):
+        #     for j in range(encoding_more_enc[0].shape[1]):
+        #         encoding_more[0,k,j] = more.decrypt(encoding_more_enc[0][k,j])
 
-        time2 = time.time()
+        # time2 = time.time()
 
         # encoding_more[0] = np.nan_to_num(encoding_more[0])
         # encoder_output_decryption_time = time2-time1
@@ -105,11 +104,11 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         # print(np.mean(encoding_plain[0]))
 
         time1 = time.time()
-        print(encoding_more.shape)
-        encoding_more_enc = np.zeros((encoding_more.shape[0], encoding_more.shape[1], encoding_more.shape[2],2,2))
-        for k in range(encoding_more[0].shape[0]):
-            for j in range(encoding_more[0].shape[1]):
-                encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
+        # print(encoding_more.shape)
+        # encoding_more_enc = np.zeros((encoding_more.shape[0], encoding_more.shape[1], encoding_more.shape[2],2,2))
+        # for k in range(encoding_more[0].shape[0]):
+        #     for j in range(encoding_more[0].shape[1]):
+        #         encoding_more_enc[0,k,j] = more.encrypt(encoding_more[0,k,j])
 
         time2 = time.time()
 
@@ -117,10 +116,10 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         time1 = time.time()
         decoding_plain = autodecoder_plain.predict(encoding_plain)
-        o = encoding_more_enc[0]
+        o = encoding_plain[0]
         for i in range(5):
             time2 = time.time()
-            o = autodecoder_more.layers[i].forward_propagation_more(o)
+            o = autodecoder_plain.layers[i].forward_propagation(o)
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
         # decoding_more_enc =np.nan_to_num(decoding_more_enc)
