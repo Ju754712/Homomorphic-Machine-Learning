@@ -84,7 +84,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         print(o.shape)
         for i in range(4):
             time2 = time.time()
-            o = autoencoder_more.layers[i].forward_propagation(o[0])
+            o = autoencoder_more.layers[i].forward_propagation_more(o[0])
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
         encoding_more = o
@@ -116,10 +116,10 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
 
         time1 = time.time()
         decoding_plain = autodecoder_plain.predict(encoding_plain)
-        o = encoding_more_enc
-        for i in range(4,9):
+        o = encoding_more_enc[0]
+        for i in range(5):
             time2 = time.time()
-            o = autoencoder_more.layers[i].forward_propagation(o)
+            o = autodecoder_more.layers[i].forward_propagation_more(o)
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
         # decoding_more_enc =np.nan_to_num(decoding_more_enc)
