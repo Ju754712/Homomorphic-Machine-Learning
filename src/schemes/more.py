@@ -26,12 +26,14 @@ class MoreScheme:
 
 
     def encrypt_array(self, plaintext_array):
-        encrypt_array_par(plaintext_array, self.key, self.N)
+        enc = encrypt_array_par(plaintext_array, self.key, self.N)
+        return enc
     def decrypt_array(self, cryptotext):
-        decrypt_array_par(cryptotext, self.key)
+        dec = decrypt_array_par(cryptotext, self.key)
+        return dec
 @njit
 def encrypt_array_par(plaintext_array, key, N):
-    enc = np.zeros((plaintext_array.shape[0],plaintext_array.shape[1],plaintext_array[2], 2,2))
+    enc = np.zeros((plaintext_array.shape[0],plaintext_array.shape[1],plaintext_array.shape[2], 2,2))
     ind = list(np.ndenumerate(plaintext_array))
     y = random.int(floor(N/2), N, len(list))
     inv_k = np.linalg.inv(key)
