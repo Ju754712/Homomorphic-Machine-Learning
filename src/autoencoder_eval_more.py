@@ -87,7 +87,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
             o = autoencoder_more.layers[i].forward_propagation_more(o)
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
-        encoding_more_enc = o
+        encoding_more_enc = [o]
         encoder_plain_time = time2-time1
         encoder_more_time = time3-time2
 
