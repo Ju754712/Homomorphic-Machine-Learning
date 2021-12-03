@@ -25,3 +25,7 @@ enc = more.encrypt_array(x_test)
 time2 = time.time()
 
 print(time2-time1)
+time1 = time.time()
+dec = more.decrypt_array(enc)
+time2 = time.time()
+print(time2-time1)
