@@ -39,9 +39,7 @@ def encrypt_array_par(plaintext_array, key, N):
     enc = np.zeros((plaintext_array.shape[0],plaintext_array.shape[1],plaintext_array.shape[2], 2,2))
     ind = list(np.ndenumerate(plaintext_array))
     y = np.random.randint(floor(N/2), N, len(ind))
-    print(type(y))
-    print(type(plaintext_array))
-    print(type(0))
+
     inv_k = np.linalg.inv(key)
     i = 0
     while i in range(len(ind)):
