@@ -83,7 +83,7 @@ with open('./src/csv/autoencoder_more.csv', 'w', newline='') as csvfile:
         o = x_test_more
         for i in range(4):
             time2 = time.time()
-            o = autoencoder_more.layers[i].forward_propagation(o)
+            o = autoencoder_more.layers[i].forward_propagation(o[0])
             time3 = time.time()
             print("Took ", time3-time2, " seconds for layer ", i)
         encoding_more = o
