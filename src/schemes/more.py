@@ -50,7 +50,7 @@ def encrypt_array_par(plaintext_array, key, N):
     return enc
 @njit
 def decrypt_array_par(cryptotext, key):
-    dec = np.zeros(cryptotext.shape[0], cryptotext.shape[1], cryptotext.shape[2])
+    dec = np.zeros((cryptotext.shape[0], cryptotext.shape[1], cryptotext.shape[2]))
     ind = list(np.ndenumerate(dec))
     inv_k = np.linalg.inv(key)
     i = 0
